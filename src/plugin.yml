@@ -1,0 +1,7 @@
+name: MobRider
+main: com.edwardhand.mobrider.MobRider
+version: 0.32
+commands:
+  mob:
+    description:
+    usage:
