@@ -48,26 +48,26 @@ public class MobHandler
 
   public static boolean isFood(Material _mat)
   {
-    switch ($SWITCH_TABLE$org$bukkit$Material()[_mat.ordinal()])
+    switch (_mat)
     {
-    case 29:
-    case 30:
-    case 31:
-    case 32:
-    case 78:
-    case 92:
-    case 114:
-    case 127:
-    case 128:
-    case 129:
-    case 151:
-    case 152:
-    case 167:
-    case 176:
-    case 181:
-    case 182:
-    case 185:
-    case 186:
+    case YELLOW_FLOWER: //ordinal 29
+    case RED_ROSE: //ordinal 30
+    case BROWN_MUSHROOM: //ordinal 31
+    case RED_MUSHROOM: //ordinal 32
+    case PUMPKIN: //ordinal 78
+    case APPLE: //ordinal 92
+    case MUSHROOM_SOUP: //ordinal 114
+    case SEEDS: //ordinal 127
+    case WHEAT: //ordinal 128
+    case BREAD: //ordinal 129
+    case PORK: //ordinal 151
+    case GRILLED_PORK: //ordinal 152
+    case MILK_BUCKET: //ordinal 167
+    case EGG: //ordinal 176
+    case RAW_FISH: //ordinal 181
+    case COOKED_FISH: //ordinal 182
+    case SUGAR: //ordinal 185
+    case CAKE: //ordinal 186
       return true;
     }
     return false;
