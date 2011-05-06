@@ -36,12 +36,12 @@ public class RiderEntityListener extends EntityListener
     Entity vehicle = ((CraftEntity)e.getEntity()).getHandle().vehicle;
     if ((vehicle != null) && ((vehicle instanceof EntityCreature)))
     {
-      switch ($SWITCH_TABLE$org$bukkit$event$entity$EntityDamageEvent$DamageCause()[e.getCause().ordinal()])
+      switch (e.getCause())
       {
-      case 3:
+      case SUFFOCATION: //ordinal 3
         e.setCancelled(true);
         break;
-      case 2:
+      case ENTITY_ATTACK: //ordinal 2
         if (!(((EntityDamageByEntityEvent)e).getDamager() instanceof LivingEntity))
           return;
         LivingEntity damager = (LivingEntity)((EntityDamageByEntityEvent)e).getDamager();
@@ -51,13 +51,14 @@ public class RiderEntityListener extends EntityListener
         MobHandler.speak((Player)(CraftEntity)e.getEntity(), vehicle.getBukkitEntity(), "!");
 
         break;
-      case 8:
+      case DROWNING: //ordinal 8
         if (!(vehicle instanceof EntitySquid)) break;
         e.setCancelled(true);
-      case 4:
-      case 5:
-      case 6:
-      case 7: } return;
+      case FALL: //ordinal 4
+      case FIRE: //ordinal 5
+      case FIRE_TICK: //ordinal 6
+      case LAVA: //ordinal 7
+      } return;
     }
     if (e.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK))
     {
@@ -69,7 +70,7 @@ public class RiderEntityListener extends EntityListener
       {
         Creature e1 = (Creature)vehicle.getBukkitEntity();
         LivingEntity e2 = (LivingEntity)e.getEntity();
-        if ((!e1.equals(e2)) && (!e1.getTarget().equals(e2)))
+        if (e1 != null && (!e1.equals(e2)) && (!e1.getTarget().equals(e2)))
         {
           e1.setTarget(e2);
           MobHandler.speak((Player)(CraftEntity)((EntityDamageByEntityEvent)e).getDamager(), vehicle.getBukkitEntity(), "!");

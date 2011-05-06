@@ -28,8 +28,7 @@ import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Spider;
 import org.bukkit.entity.Squid;
 import org.bukkit.entity.Zombie;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.Event.Type;
+import org.bukkit.event.Event;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -197,7 +196,7 @@ public class MobRider extends JavaPlugin
   {
     org.bukkit.entity.Entity r = null;
     try {
-      net.minecraft.server.Entity ent = ((CraftWorld)_w).getHandle().a(Integer.parseInt(_s));
+      net.minecraft.server.Entity ent = ((CraftWorld)_w).getHandle().getEntity(Integer.parseInt(_s));
       if ((ent != null) && ((ent instanceof EntityLiving)))
         r = ent.getBukkitEntity();
     }

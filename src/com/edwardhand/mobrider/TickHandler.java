@@ -40,12 +40,12 @@ public class TickHandler
 
         if ((target.getType() == TargetType.ENTITY) && (vehicle.getBukkitEntity().getLocation().toVector().subtract(loc.toVector()).lengthSquared() < 25.0D))
         {
-          switch ($SWITCH_TABLE$com$edwardhand$mobrider$MobIntent()[target.getIntent().ordinal()])
+          switch (target.getIntent())
           {
-          case 3:
+          case ATTACK: //ordinal 3
             ((Creature)vehicle.getBukkitEntity()).setTarget((LivingEntity)target.getTarget());
             break;
-          case 4:
+          case MOUNT: //ordinal 4
             vehicle.setPassengerOf(((CraftEntity)target.getTarget()).getHandle());
           }
 
@@ -54,7 +54,7 @@ public class TickHandler
           }
         }
         PathPoint[] pp = { new PathPoint(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()) };
-        ((EntityCreature)vehicle).a = new PathEntity(pp);
+        ((EntityCreature)vehicle).pathEntity = new PathEntity(pp);
 
         if (((EntityLiving)vehicle).health <= 20)
           continue;
