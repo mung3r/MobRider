@@ -1,7 +1,25 @@
 name: MobRider
 main: com.edwardhand.mobrider.MobRider
-version: 0.32
+version: 0.33
 commands:
-  mob:
-    description:
-    usage:
+  mob go:
+    description: Instructs the mob you are riding to start moving in the given direction. If a distance is supplied, it will walk that far and then stop (maximum distance is 250 blocks).
+    usage: /<command> <north/south/northeast etc> <(optional) distance>
+  mob goto:
+    description: Instructs your mob to go to the specified player (no matter how far away they are) or to the specified coordinates.
+    usage: /<command> <playername>|<X> <Z>
+  mob attack:
+    description: Commands your mob to move to and attack the given player/entity. If the mob is a friendly animal, this will make it follow you around (forever). (You can find out the entity ID of an entity by pressing f3 and noting the number above the entity's head.)
+    usage: /<command> <playername/entityID>
+  mob follow:
+    description: Commands your mob to follow the player/entity around (until you unmount)
+    usage: /<command> <playername/entityID>
+  mob mount:
+    description: mob will mount the player/entity. You wont be able to control mounted mobs. (Slightly glitchy).
+    usage: /<command> <playername/entityID>
+  mob unmount:
+    description: Mob will unmount.
+    usage: /<command>
+  mob stop:
+    description: Commands your mob to stop everything it's doing.
+    usage: /<command>
