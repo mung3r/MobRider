@@ -4,6 +4,9 @@ import com.nijiko.permissions.PermissionHandler;
 import com.nijikokun.bukkit.Permissions.Permissions;
 import java.io.PrintStream;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import net.minecraft.server.EntityCreature;
 import net.minecraft.server.EntityLiving;
 import net.minecraft.server.EntityPlayer;
@@ -30,6 +33,7 @@ import org.bukkit.entity.Squid;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -37,6 +41,7 @@ import org.bukkit.util.Vector;
 
 public class MobRider extends JavaPlugin
 {
+  public static final Logger logger = Logger.getLogger("Minecraft");
   public static HashMap<Player, MobTarget> targets = initTargets();
   public static HashMap<String, Vector> directions = initDirections();
   public static HashMap<String, Float> topSpeeds = initSpeeds();
@@ -212,6 +217,7 @@ public class MobRider extends JavaPlugin
 
   public void onDisable()
   {
+    logger.log(Level.INFO, "[MobRider] MobRider disabled.");
   }
 
   public void onEnable()
@@ -229,15 +235,16 @@ public class MobRider extends JavaPlugin
     getServer().getScheduler().scheduleSyncRepeatingTask(this, tickHandler, 5L, 1L);
 
     this.permissionsEnabled = setupPermissions();
-
-    System.out.println("MobRider enabled");
+    
+    PluginDescriptionFile description = getDescription();
+    logger.log(Level.INFO, "[MobRider] MobRider " + description.getVersion() + " enabled");
     if (this.permissionsEnabled)
     {
-      System.out.println("MobRider - Permissions Plugin Detected");
+    	logger.log(Level.INFO, "[MobRider] Permissions Plugin Detected");
     }
     else
     {
-      System.out.println("MobRider - Permissions Plugin Not Detected (enabling for all users)");
+    	logger.log(Level.INFO, "[MobRider] Permissions Plugin Not Detected (enabling for all users)");
     }
   }
 
