@@ -80,7 +80,6 @@ public class RiderListener extends PlayerListener
       {
         ItemStack stack = e.getPlayer().getInventory().getItemInHand();
         stack.setAmount(stack.getAmount() - 1);
-        e.getPlayer().getInventory().setItem(e.getPlayer().getInventory().getHeldItemSlot(), stack);
         ((EntityCreature)vehicle).health += 5;
         ((EntityCreature)vehicle).health = Math.min(((EntityCreature)vehicle).health, MobHandler.getMaxHealth());
         MobHandler.speak(e.getPlayer(), vehicle.getBukkitEntity(), " :D");
