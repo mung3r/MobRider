@@ -1,25 +1,48 @@
 name: MobRider
 main: com.edwardhand.mobrider.MobRider
-version: 0.33
+version: 0.4dev-b3
+depend: [Vault]
 commands:
-  mob go:
-    description: Instructs the mob you are riding to start moving in the given direction. If a distance is supplied, it will walk that far and then stop (maximum distance is 250 blocks).
-    usage: /<command> <north/south/northeast etc> <(optional) distance>
-  mob goto:
-    description: Instructs your mob to go to the specified player (no matter how far away they are) or to the specified coordinates.
-    usage: /<command> <playername>|<X> <Z>
-  mob attack:
-    description: Commands your mob to move to and attack the given player/entity. If the mob is a friendly animal, this will make it follow you around (forever). (You can find out the entity ID of an entity by pressing f3 and noting the number above the entity's head.)
-    usage: /<command> <playername/entityID>
-  mob follow:
-    description: Commands your mob to follow the player/entity around (until you unmount)
-    usage: /<command> <playername/entityID>
-  mob mount:
-    description: mob will mount the player/entity. You wont be able to control mounted mobs. (Slightly glitchy).
-    usage: /<command> <playername/entityID>
-  mob unmount:
-    description: Mob will unmount.
-    usage: /<command>
-  mob stop:
-    description: Commands your mob to stop everything it's doing.
-    usage: /<command>
+  mob:
+    description: MobRider commands
+    usage: |
+           Usage:
+           /<command> go <direction> - go n, north, northeast, etc.
+           /<command> goto <player|mob> - go to nearby player or mob
+           /<command> goto <x> <z> - go to specific x, z coordinates
+           /<command> follow <player|mob> - follow nearby player or mob
+           /<command> stop - stop
+           /<command> attack <player|mob> - attack nearby player or mob
+permissions:
+    mobRider.command.*:
+        description: Player can use all /mob commands
+        children:
+            mobRider.command.goto: true
+            mobRider.command.attack: true
+            mobRider.command.go: true
+            mobRider.command.stop: true
+            mobRider.command.follow: true
+    mobRider.command.goto:
+        description: Player can use /mob goto
+        default: op
+    mobRider.command.attack:
+        description: Player can use /mob attack
+        default: op
+    mobRider.command.go:
+        description: Player can use /mob go
+        default: op
+    mobRider.command.stop:
+        description: Player can use /mob stop
+        default: op
+    mobRider.command.follow:
+        description: Player can use /mob follow
+        default: op
+    mobRider.players:
+        description: Player can mount other players
+        default: op
+    mobRider.animals:
+        description: Player can mount animals
+        default: op
+    mobRider.monsters:
+        description: Player can mount monster
+        default: op
