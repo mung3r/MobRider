@@ -18,11 +18,11 @@
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
-        <groupId>net.milkbowl.vault</groupId>
-        <artifactId>Vault</artifactId>
-        <version>1.0.0dev-b44</version>
-        <type>jar</type>
-        <scope>compile</scope>
+      <groupId>net.milkbowl.vault</groupId>
+      <artifactId>Vault</artifactId>
+      <version>1.0.0dev-b45</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/Vault-1.0.0dev-b45.jar</systemPath>
     </dependency>
   </dependencies>
 </project>
