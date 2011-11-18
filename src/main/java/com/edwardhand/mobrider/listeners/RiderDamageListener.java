@@ -30,7 +30,7 @@ public class RiderDamageListener extends EntityListener
 
             Entity entity = event.getEntity();
             Entity damager = ((EntityDamageByEntityEvent) event).getDamager();
-            
+
             if (damager instanceof Projectile) {
                 damager = ((Projectile) damager).getShooter();
             }
@@ -41,7 +41,10 @@ public class RiderDamageListener extends EntityListener
                 Ride ride = plugin.getRideHandler().getRide(entity);
 
                 if (ride.hasRider()) {
-                    if (!damager.equals(ride.getBukkitEntity()) && !damager.equals(ride.getTarget())) {
+                    if (damager.equals(ride.getBukkitEntity())) {
+                        event.setCancelled(true); // riders get in the way of skeleton arrows
+                    }
+                    else if (!damager.equals(ride.getBukkitEntity()) && !damager.equals(ride.getTarget())) {
                         ride.attack((LivingEntity) damager);
                         return;
                     }
@@ -78,7 +81,7 @@ public class RiderDamageListener extends EntityListener
             Entity rider = event.getEntity();
             Ride ride = plugin.getRideHandler().getRide(rider);
 
-            if (rider instanceof Player && ride.getBukkitEntity() instanceof LivingEntity) {
+            if (rider instanceof Player && ride.hasRider()) {
                 switch (event.getCause()) {
                     case SUFFOCATION:
                         event.setCancelled(true);
