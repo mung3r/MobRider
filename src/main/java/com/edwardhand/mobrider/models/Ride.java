@@ -73,6 +73,9 @@ public class Ride
 
     public LivingEntity getTarget()
     {
+        if (!isCreature())
+            return null;
+
         return ((Creature) vehicle.getBukkitEntity()).getTarget();
     }
 
