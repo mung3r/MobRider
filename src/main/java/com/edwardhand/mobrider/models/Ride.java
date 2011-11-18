@@ -239,6 +239,7 @@ public class Ride
 
         goal = new LocationGoal(location);
         intent = IntentType.PASSIVE;
+        speak(MRConfig.GoConfirmedMessage);
     }
 
     public void setDirection(Vector direction, int distance)
