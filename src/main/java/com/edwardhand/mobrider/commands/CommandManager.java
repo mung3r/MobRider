@@ -30,11 +30,11 @@ public class CommandManager
         Entity vehicle = ((CraftPlayer) player).getHandle().vehicle;
 
         if (vehicle == null) {
-            player.sendMessage("You must be mounted on a mob to use a /mob command.");
+            player.sendMessage("You must be riding a mob to use a /mob command.");
             return true;
         }
         else if (!(vehicle instanceof EntityCreature)) {
-            player.sendMessage("You can't control this mount.");
+            player.sendMessage("You can't control this mob.");
             return true;
         }
 
