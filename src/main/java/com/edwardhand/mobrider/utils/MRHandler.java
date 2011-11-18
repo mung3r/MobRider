@@ -41,7 +41,6 @@ public class MRHandler implements Runnable
                 ride = new Ride(((CraftEntity) player).getHandle().vehicle);
                 if (ride.isValid()) {
                     rides.put(playerName, ride);
-                    plugin.getLogger().info("DEBUG: added " + playerName);
                 }
             }
         }
@@ -58,7 +57,6 @@ public class MRHandler implements Runnable
 
             if (plugin.getServer().getPlayer(playerName) == null) {
                 rides.remove(playerName);
-                plugin.getLogger().info("DEBUG: removed " + playerName);
             }
             else {
                 Ride ride = rides.get(playerName);
@@ -68,7 +66,6 @@ public class MRHandler implements Runnable
                 else {
                     ride.setTarget(null);
                     rides.remove(playerName);
-                    plugin.getLogger().info("DEBUG: removed " + playerName);
                 }
             }
         }

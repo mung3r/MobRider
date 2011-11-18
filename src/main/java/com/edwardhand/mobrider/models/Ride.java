@@ -59,7 +59,6 @@ public class Ride
             speed = 0.05F;
 
         this.speed = speed;
-        System.out.println("DEBUG: speed set to " + speed);
     }
 
     public Entity getRider()
@@ -319,7 +318,6 @@ public class Ride
             }
         }
 
-        System.out.println("DEBUG: distance is " + vehicle.getBukkitEntity().getLocation().distance(foundEntity.getLocation()));
         return (LivingEntity) foundEntity;
     }
 
@@ -357,7 +355,6 @@ public class Ride
         float m = speed / getCurrentSpeed();
         vehicle.motX *= m;
         vehicle.motZ *= m;
-        System.out.println("DEBUG: speed set to " + m);
     }
 
     private String getHealthString(org.bukkit.entity.Entity entity)
