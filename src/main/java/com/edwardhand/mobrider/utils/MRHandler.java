@@ -63,14 +63,10 @@ public class MRHandler implements Runnable
             else {
                 Ride ride = rides.get(playerName);
                 if (ride.hasRider()) {
-                    if (ride.isCreature()) {
-                        ride.updateGoal();
-                    }
+                    ride.updateGoal();
                 }
                 else {
-                    if (ride.isCreature()) {
-                        ride.setTarget(null);
-                    }
+                    ride.setTarget(null);
                     rides.remove(playerName);
                     plugin.getLogger().info("DEBUG: removed " + playerName);
                 }

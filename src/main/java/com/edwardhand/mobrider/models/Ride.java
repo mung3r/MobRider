@@ -40,7 +40,9 @@ public class Ride
         if (vehicle != null) {
             goal = new LocationGoal(getBukkitEntity().getLocation());
             intent = IntentType.STOP;
-            speed = RideType.fromType(MRUtil.getCreatureType(vehicle.getBukkitEntity())).getSpeed();
+            if (isCreature()) {
+                speed = RideType.fromType(MRUtil.getCreatureType(vehicle.getBukkitEntity())).getSpeed();
+            }
         }
     }
 
@@ -77,6 +79,9 @@ public class Ride
 
     public void setTarget(LivingEntity target)
     {
+        if (!isCreature())
+            return;
+
         ((Creature) vehicle.getBukkitEntity()).setTarget(target);
     }
 
@@ -117,9 +122,11 @@ public class Ride
 
     public void updateGoal()
     {
+        if (!isCreature())
+            return;
+
         if (hasGoal()) {
-            switch (intent)
-            {
+            switch (intent) {
                 case ATTACK:
                     LivingEntity goalEntity = ((EntityGoal) goal).getEntity();
                     if (vehicle.getBukkitEntity().getLocation().distanceSquared(goalEntity.getLocation()) > ATTACK_RANGE) {
@@ -156,6 +163,9 @@ public class Ride
 
     public void attack(LivingEntity entity)
     {
+        if (!isCreature())
+            return;
+
         if (entity != null) {
             goal = new EntityGoal(entity);
             intent = IntentType.ATTACK;
@@ -173,6 +183,9 @@ public class Ride
 
     public void follow(LivingEntity entity)
     {
+        if (!isCreature())
+            return;
+
         if (entity != null) {
             goal = new EntityGoal(entity);
             intent = IntentType.FOLLOW;
@@ -185,6 +198,9 @@ public class Ride
 
     public void feed()
     {
+        if (!isCreature())
+            return;
+
         setHealth(getHealth() + 5);
         setHealth(Math.min(getHealth(), MAX_HEALTH));
         speak(MRConfig.CreatureFedMessage);
@@ -192,6 +208,9 @@ public class Ride
 
     public void stop()
     {
+        if (!isCreature())
+            return;
+
         goal = new LocationGoal(getBukkitEntity().getLocation());
         intent = IntentType.STOP;
         speak(MRConfig.StopConfirmedMessage);
@@ -199,14 +218,11 @@ public class Ride
 
     public void speak(String suffix)
     {
+        if (!isCreature())
+            return;
+
         Player player = (Player) getRider().getBukkitEntity();
         player.sendMessage("<" + getHealthString(getBukkitEntity()) + "§e" + getCreatureType().getName() + "§f>" + getVehicleType().getNoise() + suffix);
-    }
-
-    public void setDestination(Location location)
-    {
-        goal = new LocationGoal(location);
-        intent = IntentType.PASSIVE;
     }
 
     public void setDirection(Vector direction)
@@ -214,8 +230,20 @@ public class Ride
         setDirection(direction, MRConfig.MAX_DISTANCE);
     }
 
+    public void setDestination(Location location)
+    {
+        if (!isCreature())
+            return;
+
+        goal = new LocationGoal(location);
+        intent = IntentType.PASSIVE;
+    }
+
     public void setDirection(Vector direction, int distance)
     {
+        if (!isCreature())
+            return;
+
         if (direction != null) {
             goal = new LocationGoal(convertDirectionToLocation(direction.multiply(Math.min(2.5D, distance / MRConfig.MAX_DISTANCE))));
             intent = IntentType.PASSIVE;
@@ -237,9 +265,10 @@ public class Ride
 
     private void setHealth(int health)
     {
-        if (isCreature()) {
-            ((LivingEntity) vehicle.getBukkitEntity()).setHealth(health);
-        }
+        if (!isCreature())
+            return;
+
+        ((LivingEntity) vehicle.getBukkitEntity()).setHealth(health);
     }
 
     private RideType getVehicleType()
@@ -296,7 +325,7 @@ public class Ride
 
     private void updateSpeed()
     {
-        //if (!isCreature() || getHealth() <= 20) {
+        // if (!isCreature() || getHealth() <= 20) {
         if (!isCreature()) {
             return;
         }
@@ -310,7 +339,7 @@ public class Ride
         float topSpeed = RideType.fromType(type).getSpeed();
         float newSpeed = ((((EntityLiving) vehicle).health / MAX_HEALTH) * 0.5F + 0.5F) * topSpeed * speed;
 
-        //if (getCurrentSpeed() >= topSpeed || getCurrentSpeed() <= topSpeed / 4.0F) {
+        // if (getCurrentSpeed() >= topSpeed || getCurrentSpeed() <= topSpeed / 4.0F) {
         if (getCurrentSpeed() >= newSpeed) {
             return;
         }

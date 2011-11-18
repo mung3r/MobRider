@@ -3,6 +3,7 @@ package com.edwardhand.mobrider.listeners;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -27,28 +28,46 @@ public class RiderDamageListener extends EntityListener
 
         if (event instanceof EntityDamageByEntityEvent) {
 
-            Entity rider = event.getEntity();
+            Entity entity = event.getEntity();
             Entity damager = ((EntityDamageByEntityEvent) event).getDamager();
+            
+            if (damager instanceof Projectile) {
+                damager = ((Projectile) damager).getShooter();
+            }
 
             // rider damaged by entity
-            if (rider instanceof Player && damager instanceof LivingEntity) {
+            if (entity instanceof Player) {
 
-                Ride mount = plugin.getRideHandler().getRide(rider);
-                if (mount.isCreature()) {
+                Ride ride = plugin.getRideHandler().getRide(entity);
 
-                    if (!damager.equals(mount.getBukkitEntity()) && !damager.equals(mount.getTarget())) {
-                        mount.attack((LivingEntity) damager);
+                if (ride.hasRider()) {
+                    if (!damager.equals(ride.getBukkitEntity()) && !damager.equals(ride.getTarget())) {
+                        ride.attack((LivingEntity) damager);
+                        return;
                     }
                 }
             }
-            // rider damaged by player
-            else if (rider instanceof LivingEntity && damager instanceof Player) {
 
-                Ride mount = plugin.getRideHandler().getRide(damager);
-                if (mount.isCreature()) {
+            // entity damaged by rider
+            if (damager instanceof Player) {
 
-                    if (!rider.equals(mount.getBukkitEntity()) && !rider.equals(mount.getTarget())) {
-                        mount.attack((LivingEntity) rider);
+                Ride ride = plugin.getRideHandler().getRide(damager);
+
+                if (ride.hasRider()) {
+                    if (!entity.equals(ride.getBukkitEntity()) && !entity.equals(ride.getTarget())) {
+                        ride.attack((LivingEntity) entity);
+                        return;
+                    }
+                }
+            }
+
+            // ride damaged by entity
+            if (damager instanceof LivingEntity) {
+                Ride ride = plugin.getRideHandler().getRide(entity.getPassenger());
+
+                if (ride.hasRider()) {
+                    if (!damager.equals(ride.getRider().getBukkitEntity())) {
+                        ride.attack((LivingEntity) damager);
                     }
                 }
             }
@@ -57,15 +76,15 @@ public class RiderDamageListener extends EntityListener
         else if (event instanceof EntityDamageByBlockEvent) {
 
             Entity rider = event.getEntity();
-            Ride vehicle = plugin.getRideHandler().getRide(rider);
+            Ride ride = plugin.getRideHandler().getRide(rider);
 
-            if (rider instanceof Player && vehicle.isCreature()) {
+            if (rider instanceof Player && ride.getBukkitEntity() instanceof LivingEntity) {
                 switch (event.getCause()) {
                     case SUFFOCATION:
                         event.setCancelled(true);
                         break;
                     case DROWNING:
-                        if (vehicle.isWaterCreature())
+                        if (ride.isWaterCreature())
                             event.setCancelled(true);
                 }
             }

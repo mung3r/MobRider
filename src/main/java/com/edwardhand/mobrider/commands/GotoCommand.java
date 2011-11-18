@@ -31,16 +31,14 @@ public class GotoCommand extends BaseCommand
         Player player = (Player) commandSender;
         Ride ride = plugin.getRideHandler().getRide(player);
 
-        if (ride.isCreature()) {
-            if (args.length == 1) {
-                ride.follow(args[0]);
-            }
-            else if (args.length == 2 && MRUtil.isNumber(args[0]) && MRUtil.isNumber(args[1])) {
-                ride.setDestination(new Location(ride.getWorld(), Integer.parseInt(args[0]), 64.0D, Integer.parseInt(args[1])));
-            }
-            else {
-                ride.speak(MRConfig.GoConfusedMessage);
-            }
+        if (args.length == 1) {
+            ride.follow(args[0]);
+        }
+        else if (args.length == 2 && MRUtil.isNumber(args[0]) && MRUtil.isNumber(args[1])) {
+            ride.setDestination(new Location(ride.getWorld(), Integer.parseInt(args[0]), 64.0D, Integer.parseInt(args[1])));
+        }
+        else {
+            ride.speak(MRConfig.GoConfusedMessage);
         }
     }
 }

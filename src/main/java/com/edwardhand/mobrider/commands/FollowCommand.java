@@ -28,8 +28,6 @@ public class FollowCommand extends BaseCommand
         Player player = (Player) commandSender;
         Ride ride = plugin.getRideHandler().getRide(player);
 
-        if (ride.isCreature()) {
-            ride.follow(args[0]);
-        }
+        ride.follow(args[0]);
     }
 }

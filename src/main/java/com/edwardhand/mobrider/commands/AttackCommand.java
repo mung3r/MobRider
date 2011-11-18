@@ -28,8 +28,6 @@ public class AttackCommand extends BaseCommand
         Player player = (Player) commandSender;
         Ride ride = plugin.getRideHandler().getRide(player);
 
-        if (ride.isCreature()) {
-            ride.attack(args[0]);
-        }
+        ride.attack(args[0]);
     }
 }

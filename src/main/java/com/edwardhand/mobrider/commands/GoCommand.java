@@ -31,16 +31,14 @@ public class GoCommand extends BaseCommand
         Player player = (Player) commandSender;
         Ride ride = plugin.getRideHandler().getRide(player);
 
-        if (ride.isCreature()) {
-            if (args.length == 1) {
-                ride.setDirection(DirectionType.fromName(args[0]).getDirection());
-            }
-            else if (args.length == 2 && DirectionType.fromName(args[0]) != null && MRUtil.isNumber(args[1])) {
-                ride.setDirection(DirectionType.fromName(args[0]).getDirection(), Integer.parseInt(args[1]));
-            }
-            else {
-                ride.speak(MRConfig.GoConfusedMessage);
-            }
+        if (args.length == 1) {
+            ride.setDirection(DirectionType.fromName(args[0]).getDirection());
+        }
+        else if (args.length == 2 && DirectionType.fromName(args[0]) != null && MRUtil.isNumber(args[1])) {
+            ride.setDirection(DirectionType.fromName(args[0]).getDirection(), Integer.parseInt(args[1]));
+        }
+        else {
+            ride.speak(MRConfig.GoConfusedMessage);
         }
     }
 }

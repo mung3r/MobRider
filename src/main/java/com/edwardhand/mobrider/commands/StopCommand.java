@@ -28,8 +28,6 @@ public class StopCommand extends BaseCommand
         Player player = (Player) commandSender;
         Ride ride = plugin.getRideHandler().getRide(player);
 
-        if (ride.isCreature()) {
-            ride.stop();
-        }
+        ride.stop();
     }
 }

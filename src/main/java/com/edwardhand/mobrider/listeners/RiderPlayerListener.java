@@ -106,9 +106,7 @@ public class RiderPlayerListener extends PlayerListener
 
             Ride vehicle = plugin.getRideHandler().getRide(player);
 
-            if (vehicle.isCreature()) {
-                vehicle.setDestination(player.getTargetBlock(null, MRConfig.MAX_DISTANCE).getLocation());
-            }
+            vehicle.setDestination(player.getTargetBlock(null, MRConfig.MAX_DISTANCE).getLocation());
         }
     }
 
