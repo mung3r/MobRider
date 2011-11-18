@@ -74,6 +74,10 @@ public class RiderPlayerListener extends PlayerListener
                 if (!MRUtil.canRide(player, target.getBukkitEntity()))
                     return;
 
+                while (target.passenger != null) {
+                    target = target.passenger;
+                }
+                
                 minecraftPlayer.setPassengerOf(target);
                 plugin.getRideHandler().getRide(player).stop();
             }
