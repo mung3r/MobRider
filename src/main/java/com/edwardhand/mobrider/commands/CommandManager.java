@@ -58,7 +58,9 @@ public class CommandManager
                     sender.sendMessage("You do not have the necessary permissions.");
                 }
             }
-            sender.sendMessage("§cUsage: " + match.getUsage());
+            else {
+                sender.sendMessage("§cUsage: " + match.getUsage());
+            }
             return true;
         }
 
