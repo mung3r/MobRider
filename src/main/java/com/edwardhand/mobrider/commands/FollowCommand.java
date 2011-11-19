@@ -17,6 +17,7 @@ public class FollowCommand extends BaseCommand
         this.minArgs = 1;
         this.maxArgs = 1;
         this.identifiers.add("mob follow");
+        this.permission = "mobRider.command.follow";
     }
 
     @Override

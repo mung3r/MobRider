@@ -23,26 +23,10 @@ public class CommandManager
 
     public boolean dispatch(CommandSender sender, Command command, String label, String[] args)
     {
-        if (!(sender instanceof Player))
+        if (args.length < 1) {
             return false;
-
-        Player player = (Player) sender;
-        Entity vehicle = ((CraftPlayer) player).getHandle().vehicle;
-
-        if (vehicle == null) {
-            player.sendMessage("You must be riding a mob to use a /mob command.");
-            return true;
         }
-        else if (!(vehicle instanceof EntityCreature)) {
-            player.sendMessage("You can't control this mob.");
-            return true;
-        }
-
-        if (args.length < 1)
-            return false;
-
-        if (!MobRider.permission.playerHas(player, "mobRider.command." + args[0].toLowerCase())) {
-            player.sendMessage("You do not have the necessary permissions.");
+        else if (!isRider(sender)) {
             return true;
         }
 
@@ -67,13 +51,39 @@ public class CommandManager
 
         if (match != null) {
             if (trimmedArgs != null) {
-                match.execute(sender, trimmedArgs);
-                return true;
+                if (hasPermission(sender, match.getPermission())) {
+                    match.execute(sender, trimmedArgs);
+                }
+                else {
+                    sender.sendMessage("You do not have the necessary permissions.");
+                }
             }
             sender.sendMessage("§cUsage: " + match.getUsage());
+            return true;
         }
 
-        return true;
+        return false;
+    }
+
+    public Boolean isRider(CommandSender sender)
+    {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            Entity vehicle = ((CraftPlayer) player).getHandle().vehicle;
+
+            if (vehicle == null) {
+                player.sendMessage("You must be riding a mob to use a /mob command.");
+                return false;
+            }
+            else if (!(vehicle instanceof EntityCreature)) {
+                player.sendMessage("You can't control this mob.");
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void addCommand(BaseCommand command)
@@ -89,5 +99,14 @@ public class CommandManager
     public List<BaseCommand> getCommands()
     {
         return this.commands;
+    }
+
+    public static boolean hasPermission(CommandSender sender, String permission)
+    {
+        if (!(sender instanceof Player) || permission == null || permission.isEmpty()) {
+            return true;
+        }
+
+        return MobRider.hasPermission((Player) sender, permission);
     }
 }

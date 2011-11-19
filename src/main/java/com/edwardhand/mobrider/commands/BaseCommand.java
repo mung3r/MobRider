@@ -1,14 +1,22 @@
-package com.edwardhand.mobrider.commands;
 /*
  * BaseCommand from RightLegRed
  */
 
+package com.edwardhand.mobrider.commands;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import net.minecraft.server.Entity;
+import net.minecraft.server.EntityCreature;
+
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 
 public abstract class BaseCommand
 {
+    protected String permission;
 	protected String usage;
 	protected int minArgs;
 	protected int maxArgs;
@@ -63,5 +71,9 @@ public abstract class BaseCommand
 
 	public String getUsage() {
 		return this.usage;
+	}
+
+	public String getPermission() {
+	    return this.permission;
 	}
 }
