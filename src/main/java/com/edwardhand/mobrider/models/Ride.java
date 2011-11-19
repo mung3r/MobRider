@@ -1,5 +1,6 @@
 package com.edwardhand.mobrider.models;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftEntity;
@@ -28,6 +29,7 @@ public class Ride
     private static final int MAX_HEALTH = 25;
     private static final double ATTACK_RANGE = Math.pow(MRConfig.ATTACK_RANGE, 2.0D);
     private static final double MOUNT_RANGE = Math.pow(MRConfig.MOUNT_RANGE, 2.0D);
+    private static final int HEALTH_BARS = 6;
 
     private Entity vehicle;
     private BaseGoal goal;
@@ -154,7 +156,7 @@ public class Ride
                     break;
             }
             // TODO: fix speed update algorithm
-            //updateSpeed();
+            // updateSpeed();
         }
     }
 
@@ -203,8 +205,7 @@ public class Ride
         if (!isCreature())
             return;
 
-        setHealth(getHealth() + 5);
-        setHealth(Math.min(getHealth(), MAX_HEALTH));
+        setHealth(Math.min(getHealth() + 5, MAX_HEALTH));
         speak(MRConfig.CreatureFedMessage);
     }
 
@@ -224,7 +225,7 @@ public class Ride
             return;
 
         Player player = (Player) getRider().getBukkitEntity();
-        player.sendMessage("<" + getHealthString(getBukkitEntity()) + "§e" + getCreatureType().getName() + "§f>" + getVehicleType().getNoise() + suffix);
+        player.sendMessage("<" + getHealthString(getBukkitEntity()) + "§e" + getCreatureType().getName() + "§f> " + getVehicleType().getNoise() + suffix);
     }
 
     public void setDirection(Vector direction)
@@ -363,19 +364,26 @@ public class Ride
 
     private String getHealthString(org.bukkit.entity.Entity entity)
     {
-        int col = 2;
+        double percentHealth = (getHealth() * 100) / MAX_HEALTH;
+
+        ChatColor barColor;
+
+        if (percentHealth > 50) {
+            barColor = ChatColor.GREEN;
+        }
+        else if (percentHealth > 25) {
+            barColor = ChatColor.GOLD;
+        }
+        else {
+            barColor = ChatColor.RED;
+        }
+
         StringBuilder healthString = new StringBuilder();
+        double colorSwitch = Math.ceil((percentHealth / 100D) * HEALTH_BARS);
 
-        if (getHealth() <= 6) {
-            col = 6;
-        }
-        else if (getHealth() <= 12) {
-            col = 4;
-        }
-
-        for (int i = 0; i < 5; i++) {
-            int col2 = i < 5 * getHealth() / MAX_HEALTH ? col : 8;
-            healthString.append("§").append(col2).append("|");
+        for (int i = 0; i < HEALTH_BARS; i++) {
+            ChatColor color = i < colorSwitch ? barColor : ChatColor.GRAY;
+            healthString.append(color).append("|");
         }
 
         return healthString.toString();
