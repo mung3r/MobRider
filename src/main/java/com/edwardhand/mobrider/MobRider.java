@@ -17,6 +17,7 @@ import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -80,7 +81,7 @@ public class MobRider extends JavaPlugin
         registerCommands();
         registerEvents();
 
-        //if (getServer().getScheduler().scheduleSyncRepeatingTask(this, new MobTask(this), 5L, 1L) < 0) {
+        // if (getServer().getScheduler().scheduleSyncRepeatingTask(this, new MobTask(this), 5L, 1L) < 0) {
         if (getServer().getScheduler().scheduleSyncRepeatingTask(this, rideHandler, 5L, 1L) < 0) {
             getServer().getPluginManager().disablePlugin(this);
             log.severe("Failed to schedule task.");
@@ -116,5 +117,13 @@ public class MobRider extends JavaPlugin
     public MRHandler getRideHandler()
     {
         return rideHandler;
+    }
+
+    public static boolean hasPermission(Player player, String name)
+    {
+        if (permission != null) {
+            return permission.has(player, name);
+        }
+        return player.hasPermission(name);
     }
 }
