@@ -116,6 +116,11 @@ public class MRUtil
 
     public static boolean canRide(Player player, Entity entity)
     {
+        if (entity.getPassenger() != null) {
+            player.sendMessage("That creature already has a rider.");
+            return false;
+        }
+
         if (MobRider.permission == null) {
             return true;
         }
