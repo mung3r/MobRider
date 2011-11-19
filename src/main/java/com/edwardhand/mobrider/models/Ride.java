@@ -368,10 +368,10 @@ public class Ride
 
         ChatColor barColor;
 
-        if (percentHealth > 50) {
+        if (percentHealth > 66) {
             barColor = ChatColor.GREEN;
         }
-        else if (percentHealth > 25) {
+        else if (percentHealth > 33) {
             barColor = ChatColor.GOLD;
         }
         else {
