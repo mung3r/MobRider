@@ -340,7 +340,7 @@ public class Ride
         }
 
         float topSpeed = RideType.fromType(type).getSpeed();
-        float newSpeed = ((((EntityLiving) vehicle).health / MAX_HEALTH) * 0.5F + 0.5F) * topSpeed * speed;
+        float newSpeed = ((((EntityLiving) vehicle).getHealth() / MAX_HEALTH) * 0.5F + 0.5F) * topSpeed * speed;
 
         // if (getCurrentSpeed() >= topSpeed || getCurrentSpeed() <= topSpeed / 4.0F) {
         if (getCurrentSpeed() >= newSpeed) {

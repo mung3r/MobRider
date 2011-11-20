@@ -7,11 +7,13 @@ import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Cow;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Creeper;
+import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Giant;
 import org.bukkit.entity.Monster;
+import org.bukkit.entity.NPC;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
@@ -19,6 +21,7 @@ import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Silverfish;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Slime;
+import org.bukkit.entity.Snowman;
 import org.bukkit.entity.Spider;
 import org.bukkit.entity.Squid;
 import org.bukkit.entity.Wolf;
@@ -125,7 +128,7 @@ public class MRUtil
             return true;
         }
 
-        if (entity instanceof Animals || entity instanceof Squid) {
+        if (entity instanceof Animals || entity instanceof Squid || entity instanceof Snowman) {
             if (MobRider.permission.playerHas(player, "mobRider.animals") || MobRider.permission.playerHas(player, "mobRider.animals." + MRUtil.getCreatureName(entity).toLowerCase()))
                 return true;
             else {
@@ -134,7 +137,7 @@ public class MRUtil
             }
         }
 
-        if (entity instanceof Monster) {
+        if (entity instanceof Monster || entity instanceof EnderDragon) {
             if (MobRider.permission.playerHas(player, "mobRider.monsters") || MobRider.permission.playerHas(player, "mobRider.monsters." + MRUtil.getCreatureName(entity).toLowerCase()))
                 return true;
             else {
@@ -143,7 +146,7 @@ public class MRUtil
             }
         }
 
-        if (entity instanceof Player) {
+        if (entity instanceof Player || entity instanceof NPC) {
             if (MobRider.permission.playerHas(player, "mobRider.players") || MobRider.permission.playerHas(player, "mobRider.players." + ((Player) entity).getName().toLowerCase()))
                 return true;
             else {
