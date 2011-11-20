@@ -2,6 +2,7 @@ package com.edwardhand.mobrider.utils;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Animals;
+import org.bukkit.entity.Blaze;
 import org.bukkit.entity.CaveSpider;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Cow;
@@ -13,7 +14,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Giant;
 import org.bukkit.entity.Monster;
-import org.bukkit.entity.NPC;
+import org.bukkit.entity.MushroomCow;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
@@ -24,6 +25,7 @@ import org.bukkit.entity.Slime;
 import org.bukkit.entity.Snowman;
 import org.bukkit.entity.Spider;
 import org.bukkit.entity.Squid;
+import org.bukkit.entity.Villager;
 import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
 
@@ -45,6 +47,8 @@ public class MRUtil
 
     public static CreatureType getCreatureType(Entity entity)
     {
+        if (entity instanceof Blaze)
+            return CreatureType.BLAZE;
         if (entity instanceof CaveSpider)
             return CreatureType.CAVE_SPIDER;
         if (entity instanceof Chicken)
@@ -55,10 +59,14 @@ public class MRUtil
             return CreatureType.CREEPER;
         if (entity instanceof Enderman)
             return CreatureType.ENDERMAN;
+        if (entity instanceof EnderDragon)
+            return CreatureType.ENDER_DRAGON;
         if (entity instanceof Ghast)
             return CreatureType.GHAST;
         if (entity instanceof Giant)
             return CreatureType.GIANT;
+        if (entity instanceof MushroomCow)
+            return CreatureType.MUSHROOM_COW;
         if (entity instanceof Pig)
             return CreatureType.PIG;
         if (entity instanceof PigZombie)
@@ -77,6 +85,8 @@ public class MRUtil
             return CreatureType.SQUID;
         if (entity instanceof Zombie)
             return CreatureType.ZOMBIE;
+        if (entity instanceof Villager)
+            return CreatureType.VILLAGER;
         if (entity instanceof Wolf)
             return CreatureType.WOLF;
 
@@ -146,7 +156,7 @@ public class MRUtil
             }
         }
 
-        if (entity instanceof Player || entity instanceof NPC) {
+        if (entity instanceof Player || entity instanceof Villager) {
             if (MobRider.permission.playerHas(player, "mobRider.players") || MobRider.permission.playerHas(player, "mobRider.players." + ((Player) entity).getName().toLowerCase()))
                 return true;
             else {
