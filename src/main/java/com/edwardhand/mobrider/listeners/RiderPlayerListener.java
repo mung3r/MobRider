@@ -81,7 +81,7 @@ public class RiderPlayerListener extends PlayerListener
         else if (MRUtil.isFood(itemInHand)) {
             if ((vehicle != null) && (vehicle instanceof EntityCreature)) {
                 EntityCreature creatureVehicle = (EntityCreature) vehicle;
-                if (creatureVehicle.getHealth() < MRHandler.MAX_HEALTH) {
+                if (creatureVehicle.getHealth() < creatureVehicle.getMaxHealth()) {
                     PlayerInventory inv = player.getInventory();
                     ItemStack stack = inv.getItemInHand();
                     if (stack.getAmount() > 1) {
