@@ -25,7 +25,6 @@ import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.models.Ride;
 import com.edwardhand.mobrider.utils.MRConfig;
 import com.edwardhand.mobrider.utils.MRUtil;
-import com.edwardhand.mobrider.utils.MRHandler;
 
 public class RiderPlayerListener extends PlayerListener
 {
