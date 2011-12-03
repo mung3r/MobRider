@@ -74,8 +74,12 @@ public class MobRider extends JavaPlugin
         config = new MRConfig(this);
         rideHandler = new MRHandler(this);
 
-        if (!setupDependencies()) {
-            log.warning("Missing permissions - everything is allowed!");
+        try {
+            if (!setupDependencies())
+                log.warning("Missing permissions - everything is allowed!");
+        }
+        catch (NoClassDefFoundError e) {
+            log.warning("Vault not found - everything is allowed!");
         }
 
         registerCommands();
