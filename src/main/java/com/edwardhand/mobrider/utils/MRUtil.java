@@ -139,7 +139,7 @@ public class MRUtil
         }
 
         if (entity instanceof Animals || entity instanceof Squid || entity instanceof Snowman) {
-            if (MobRider.permission.playerHas(player, "mobRider.animals") || MobRider.permission.playerHas(player, "mobRider.animals." + MRUtil.getCreatureName(entity).toLowerCase()))
+            if (MobRider.permission.playerHas(player, "mobrider.animals") || MobRider.permission.playerHas(player, "mobrider.animals." + MRUtil.getCreatureName(entity).toLowerCase()))
                 return true;
             else {
                 player.sendMessage("You do not have permission to ride animals.");
@@ -148,7 +148,7 @@ public class MRUtil
         }
 
         if (entity instanceof Monster || entity instanceof EnderDragon) {
-            if (MobRider.permission.playerHas(player, "mobRider.monsters") || MobRider.permission.playerHas(player, "mobRider.monsters." + MRUtil.getCreatureName(entity).toLowerCase()))
+            if (MobRider.permission.playerHas(player, "mobrider.monsters") || MobRider.permission.playerHas(player, "mobrider.monsters." + MRUtil.getCreatureName(entity).toLowerCase()))
                 return true;
             else {
                 player.sendMessage("You do not have permission to ride monsters.");
@@ -157,7 +157,7 @@ public class MRUtil
         }
 
         if (entity instanceof Player || entity instanceof Villager) {
-            if (MobRider.permission.playerHas(player, "mobRider.players") || MobRider.permission.playerHas(player, "mobRider.players." + ((Player) entity).getName().toLowerCase()))
+            if (MobRider.permission.playerHas(player, "mobrider.players") || MobRider.permission.playerHas(player, "mobrider.players." + ((Player) entity).getName().toLowerCase()))
                 return true;
             else {
                 player.sendMessage("You do not have permission to ride players.");
