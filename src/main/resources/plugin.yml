@@ -14,35 +14,35 @@ commands:
            /<command> stop - stop
            /<command> attack <player|mob> - attack nearby player or mob
 permissions:
-    mobRider.command.*:
+    mobrider.command.*:
         description: Player can use all /mob commands
         children:
-            mobRider.command.goto: true
-            mobRider.command.attack: true
-            mobRider.command.go: true
-            mobRider.command.stop: true
-            mobRider.command.follow: true
-    mobRider.command.goto:
+            mobrider.command.goto: true
+            mobrider.command.attack: true
+            mobrider.command.go: true
+            mobrider.command.stop: true
+            mobrider.command.follow: true
+    mobrider.command.goto:
         description: Player can use /mob goto
         default: op
-    mobRider.command.attack:
+    mobrider.command.attack:
         description: Player can use /mob attack
         default: op
-    mobRider.command.go:
+    mobrider.command.go:
         description: Player can use /mob go
         default: op
-    mobRider.command.stop:
+    mobrider.command.stop:
         description: Player can use /mob stop
         default: op
-    mobRider.command.follow:
+    mobrider.command.follow:
         description: Player can use /mob follow
         default: op
-    mobRider.players:
+    mobrider.players:
         description: Player can mount other players
         default: op
-    mobRider.animals:
+    mobrider.animals:
         description: Player can mount animals
         default: op
-    mobRider.monsters:
+    mobrider.monsters:
         description: Player can mount monster
         default: op
