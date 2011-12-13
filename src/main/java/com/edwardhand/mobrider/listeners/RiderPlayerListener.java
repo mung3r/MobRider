@@ -25,7 +25,6 @@ import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.models.Ride;
 import com.edwardhand.mobrider.utils.MRConfig;
 import com.edwardhand.mobrider.utils.MRUtil;
-import com.edwardhand.mobrider.utils.MRHandler;
 
 public class RiderPlayerListener extends PlayerListener
 {
@@ -81,7 +80,7 @@ public class RiderPlayerListener extends PlayerListener
         else if (MRUtil.isFood(itemInHand)) {
             if ((vehicle != null) && (vehicle instanceof EntityCreature)) {
                 EntityCreature creatureVehicle = (EntityCreature) vehicle;
-                if (creatureVehicle.health < MRHandler.MAX_HEALTH) {
+                if (creatureVehicle.getHealth() < creatureVehicle.getMaxHealth()) {
                     PlayerInventory inv = player.getInventory();
                     ItemStack stack = inv.getItemInHand();
                     if (stack.getAmount() > 1) {

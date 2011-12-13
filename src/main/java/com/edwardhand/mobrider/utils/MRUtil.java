@@ -2,16 +2,19 @@ package com.edwardhand.mobrider.utils;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Animals;
+import org.bukkit.entity.Blaze;
 import org.bukkit.entity.CaveSpider;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Cow;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Creeper;
+import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Giant;
 import org.bukkit.entity.Monster;
+import org.bukkit.entity.MushroomCow;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
@@ -19,8 +22,10 @@ import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Silverfish;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Slime;
+import org.bukkit.entity.Snowman;
 import org.bukkit.entity.Spider;
 import org.bukkit.entity.Squid;
+import org.bukkit.entity.Villager;
 import org.bukkit.entity.Wolf;
 import org.bukkit.entity.Zombie;
 
@@ -42,6 +47,8 @@ public class MRUtil
 
     public static CreatureType getCreatureType(Entity entity)
     {
+        if (entity instanceof Blaze)
+            return CreatureType.BLAZE;
         if (entity instanceof CaveSpider)
             return CreatureType.CAVE_SPIDER;
         if (entity instanceof Chicken)
@@ -52,10 +59,14 @@ public class MRUtil
             return CreatureType.CREEPER;
         if (entity instanceof Enderman)
             return CreatureType.ENDERMAN;
+        if (entity instanceof EnderDragon)
+            return CreatureType.ENDER_DRAGON;
         if (entity instanceof Ghast)
             return CreatureType.GHAST;
         if (entity instanceof Giant)
             return CreatureType.GIANT;
+        if (entity instanceof MushroomCow)
+            return CreatureType.MUSHROOM_COW;
         if (entity instanceof Pig)
             return CreatureType.PIG;
         if (entity instanceof PigZombie)
@@ -74,6 +85,8 @@ public class MRUtil
             return CreatureType.SQUID;
         if (entity instanceof Zombie)
             return CreatureType.ZOMBIE;
+        if (entity instanceof Villager)
+            return CreatureType.VILLAGER;
         if (entity instanceof Wolf)
             return CreatureType.WOLF;
 
@@ -125,7 +138,7 @@ public class MRUtil
             return true;
         }
 
-        if (entity instanceof Animals || entity instanceof Squid) {
+        if (entity instanceof Animals || entity instanceof Squid || entity instanceof Snowman) {
             if (MobRider.permission.playerHas(player, "mobrider.animals") || MobRider.permission.playerHas(player, "mobrider.animals." + MRUtil.getCreatureName(entity).toLowerCase()))
                 return true;
             else {
@@ -134,7 +147,7 @@ public class MRUtil
             }
         }
 
-        if (entity instanceof Monster) {
+        if (entity instanceof Monster || entity instanceof EnderDragon) {
             if (MobRider.permission.playerHas(player, "mobrider.monsters") || MobRider.permission.playerHas(player, "mobrider.monsters." + MRUtil.getCreatureName(entity).toLowerCase()))
                 return true;
             else {
@@ -143,7 +156,7 @@ public class MRUtil
             }
         }
 
-        if (entity instanceof Player) {
+        if (entity instanceof Player || entity instanceof Villager) {
             if (MobRider.permission.playerHas(player, "mobrider.players") || MobRider.permission.playerHas(player, "mobrider.players." + ((Player) entity).getName().toLowerCase()))
                 return true;
             else {

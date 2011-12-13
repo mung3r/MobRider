@@ -10,8 +10,6 @@ import com.edwardhand.mobrider.models.Ride;
 
 public class MRHandler implements Runnable
 {
-    public static int MAX_HEALTH = 25;
-
     private MobRider plugin;
     private ConcurrentHashMap<String, Ride> rides;
 

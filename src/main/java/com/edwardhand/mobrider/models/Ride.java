@@ -26,7 +26,6 @@ public class Ride
         PASSIVE, FOLLOW, ATTACK, MOUNT, STOP;
     }
 
-    private static final int MAX_HEALTH = 25;
     private static final double ATTACK_RANGE = Math.pow(MRConfig.ATTACK_RANGE, 2.0D);
     private static final double MOUNT_RANGE = Math.pow(MRConfig.MOUNT_RANGE, 2.0D);
     private static final int HEALTH_BARS = 6;
@@ -205,7 +204,7 @@ public class Ride
         if (!isCreature())
             return;
 
-        setHealth(Math.min(getHealth() + 5, MAX_HEALTH));
+        setHealth(Math.min(getHealth() + 5, getMaxHealth()));
         speak(MRConfig.CreatureFedMessage);
     }
 
@@ -265,6 +264,15 @@ public class Ride
             health = ((LivingEntity) vehicle.getBukkitEntity()).getHealth();
         }
         return health;
+    }
+
+    private int getMaxHealth()
+    {
+        int maxHealth = 0;
+        if (isCreature()) {
+            maxHealth = ((LivingEntity) vehicle.getBukkitEntity()).getMaxHealth();
+        }
+        return maxHealth;
     }
 
     private void setHealth(int health)
@@ -340,7 +348,7 @@ public class Ride
         }
 
         float topSpeed = RideType.fromType(type).getSpeed();
-        float newSpeed = ((((EntityLiving) vehicle).health / MAX_HEALTH) * 0.5F + 0.5F) * topSpeed * speed;
+        float newSpeed = ((((EntityLiving) vehicle).getHealth() / getMaxHealth()) * 0.5F + 0.5F) * topSpeed * speed;
 
         // if (getCurrentSpeed() >= topSpeed || getCurrentSpeed() <= topSpeed / 4.0F) {
         if (getCurrentSpeed() >= newSpeed) {
@@ -364,7 +372,7 @@ public class Ride
 
     private String getHealthString(org.bukkit.entity.Entity entity)
     {
-        double percentHealth = (getHealth() * 100) / MAX_HEALTH;
+        double percentHealth = (getHealth() * 100) / getMaxHealth();
 
         ChatColor barColor;
 
