@@ -10,11 +10,11 @@ public enum RideType {
     CAVE_SPIDER(CreatureType.CAVE_SPIDER, 0.4F, "Cheeuuuk"),
     CHICKEN(CreatureType.CHICKEN, 0.2F, "Cluck"),
     COW(CreatureType.COW, 0.3F, "Mooooo"),
-    CREEPER(CreatureType.CREEPER, 0.6F, "Hisssss"),
-    ENDER_DRAGON(CreatureType.ENDER_DRAGON, 0.9F, "Rawwwwwwr"),
+    CREEPER(CreatureType.CREEPER, 0.5F, "Hisssss"),
+    ENDER_DRAGON(CreatureType.ENDER_DRAGON, 0.7F, "Rawwwwwwr"),
     ENDERMAN(CreatureType.ENDERMAN, 0.2F, "Mooooaaan"),
-    GHAST(CreatureType.GHAST, 0.6F, "Hooooo"),
-    GIANT(CreatureType.GIANT, 0.6F, "MOOOOAAAN"),
+    GHAST(CreatureType.GHAST, 0.5F, "Hooooo"),
+    GIANT(CreatureType.GIANT, 0.5F, "MOOOOAAAN"),
     MONSTER(CreatureType.MONSTER, 0.4F, "Rawr"),
     MUSHROOM_COW(CreatureType.MUSHROOM_COW, 0.3F, "Moo00sh"),
     PIG(CreatureType.PIG, 0.25F, "Oink"),
@@ -24,9 +24,9 @@ public enum RideType {
     SKELETON(CreatureType.SKELETON, 0.2F, "*silence*"),
     SLIME(CreatureType.SLIME, 0.2F, "Blluuurrrp"),
     SPIDER(CreatureType.SPIDER, 0.4F, "Cheeuuuk"),
-    SQUID(CreatureType.SQUID, 0.7F, "Glub"),
+    SQUID(CreatureType.SQUID, 0.6F, "Glub"),
     VILLAGER(CreatureType.VILLAGER, 0.3F, "Mhmm"),
-    WOLF(CreatureType.WOLF, 0.7F, "Woof"),
+    WOLF(CreatureType.WOLF, 0.6F, "Woof"),
     ZOMBIE(CreatureType.ZOMBIE,0.2F, "Mooooaaan");
 
     private CreatureType type;
