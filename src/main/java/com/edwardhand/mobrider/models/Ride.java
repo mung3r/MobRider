@@ -342,7 +342,9 @@ public class Ride
         }
 
         Vector velocity = vehicle.getBukkitEntity().getVelocity();
+        double saveY = velocity.getY();
         velocity.normalize().multiply(getSpeed());
+        velocity.setY(saveY);
         vehicle.getBukkitEntity().setVelocity(velocity);
     }
 
