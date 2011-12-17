@@ -32,7 +32,7 @@ public class GoCommand extends BaseCommand
         Player player = (Player) commandSender;
         Ride ride = plugin.getRideHandler().getRide(player);
 
-        if (args.length == 1) {
+        if (args.length == 1 && DirectionType.fromName(args[0]) != null) {
             ride.setDirection(DirectionType.fromName(args[0]).getDirection());
         }
         else if (args.length == 2 && DirectionType.fromName(args[0]) != null && MRUtil.isNumber(args[1])) {
