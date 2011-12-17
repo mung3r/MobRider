@@ -113,6 +113,8 @@ public class MRUtil
             case ICE:
             case INK_SACK:
             case LEATHER:
+            case LONG_GRASS:
+            case MELON:
             case RED_MUSHROOM:
             case RED_ROSE:
             case YELLOW_FLOWER:
