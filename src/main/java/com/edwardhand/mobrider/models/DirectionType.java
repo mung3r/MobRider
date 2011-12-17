@@ -8,14 +8,14 @@ import java.util.Map;
 import org.bukkit.util.Vector;
 
 public enum DirectionType {
-    NORTH(new Vector(-1, 0, 0), Arrays.asList("north", "n")),
-    SOUTH(new Vector(1, 0, 0), Arrays.asList("south", "s")),
-    EAST(new Vector(0, 0, -1), Arrays.asList("east", "e")),
-    WEST(new Vector(0, 0, 1), Arrays.asList("west", "w")),
-    NORTHEAST(new Vector(-1, 0, -1), Arrays.asList("northeast", "ne")),
-    SOUTHEAST(new Vector(1, 0, -1), Arrays.asList("southeast", "se")),
-    NORTHWEST(new Vector(-1, 0, 1), Arrays.asList("northwest", "nw")),
-    SOUTHWEST(new Vector(1, 0, 1), Arrays.asList("southwest", "sw"));
+    NORTH(new Vector(0, 0, -1), Arrays.asList("north", "n")),
+    SOUTH(new Vector(0, 0, 1), Arrays.asList("south", "s")),
+    EAST(new Vector(1, 0, 0), Arrays.asList("east", "e")),
+    WEST(new Vector(-1, 0, 0), Arrays.asList("west", "w")),
+    NORTHEAST(new Vector(1, 0, -1), Arrays.asList("northeast", "ne")),
+    SOUTHEAST(new Vector(1, 0, 1), Arrays.asList("southeast", "se")),
+    NORTHWEST(new Vector(-1, 0, -1), Arrays.asList("northwest", "nw")),
+    SOUTHWEST(new Vector(-1, 0, 1), Arrays.asList("southwest", "sw"));
 
     private Vector direction;
     private List<String> names;
