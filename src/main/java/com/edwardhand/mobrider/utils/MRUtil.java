@@ -138,7 +138,7 @@ public class MRUtil
             return true;
         }
 
-        if (entity instanceof Animals || entity instanceof Squid || entity instanceof Snowman) {
+        if (entity instanceof Animals || entity instanceof Squid || entity instanceof Snowman || entity instanceof Villager) {
             if (MobRider.permission.playerHas(player, "mobrider.animals") || MobRider.permission.playerHas(player, "mobrider.animals." + MRUtil.getCreatureName(entity).toLowerCase()))
                 return true;
             else {
@@ -156,7 +156,7 @@ public class MRUtil
             }
         }
 
-        if (entity instanceof Player || entity instanceof Villager) {
+        if (entity instanceof Player) {
             if (MobRider.permission.playerHas(player, "mobrider.players") || MobRider.permission.playerHas(player, "mobrider.players." + ((Player) entity).getName().toLowerCase()))
                 return true;
             else {
