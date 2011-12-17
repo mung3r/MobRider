@@ -15,7 +15,6 @@ import com.edwardhand.mobrider.utils.MRUtil;
 
 import net.minecraft.server.Entity;
 import net.minecraft.server.EntityCreature;
-import net.minecraft.server.EntityLiving;
 import net.minecraft.server.EntitySquid;
 import net.minecraft.server.PathEntity;
 import net.minecraft.server.PathPoint;
@@ -33,6 +32,7 @@ public class Ride
     private Entity vehicle;
     private BaseGoal goal;
     private IntentType intent;
+    private float maxSpeed;
     private float speed;
 
     public Ride(Entity vehicle)
@@ -42,24 +42,20 @@ public class Ride
             goal = new LocationGoal(getBukkitEntity().getLocation());
             intent = IntentType.STOP;
             if (isCreature()) {
-                speed = RideType.fromType(MRUtil.getCreatureType(vehicle.getBukkitEntity())).getSpeed();
+                maxSpeed = RideType.fromType(MRUtil.getCreatureType(vehicle.getBukkitEntity())).getSpeed();
+                speed = maxSpeed;
             }
         }
     }
 
     public float getSpeed()
     {
-        return speed;
+        return Math.max(maxSpeed, speed * getMaxHealth() / getHealth());
     }
 
     public void setSpeed(float speed)
     {
-        if (speed > 1.0F)
-            speed = 1.0F;
-        else if (speed < 0.05F)
-            speed = 0.05F;
-
-        this.speed = speed;
+        this.speed = Math.max(Math.min(speed, maxSpeed), 0.05F);
     }
 
     public Entity getRider()
@@ -154,8 +150,8 @@ public class Ride
                     setPathEntity(((LocationGoal) goal).getLocation());
                     break;
             }
-            // TODO: fix speed update algorithm
-            // updateSpeed();
+
+            updateSpeed();
         }
     }
 
@@ -336,38 +332,18 @@ public class Ride
 
     private void updateSpeed()
     {
-        // if (!isCreature() || getHealth() <= 20) {
-        if (!isCreature()) {
+        if (!isCreature() || intent == IntentType.STOP) {
             return;
         }
 
         CreatureType type = MRUtil.getCreatureType(vehicle.getBukkitEntity());
-
-        if (RideType.fromType(type) != null) {
+        if (RideType.fromType(type) == null) {
             return;
         }
 
-        float topSpeed = RideType.fromType(type).getSpeed();
-        float newSpeed = ((((EntityLiving) vehicle).getHealth() / getMaxHealth()) * 0.5F + 0.5F) * topSpeed * speed;
-
-        // if (getCurrentSpeed() >= topSpeed || getCurrentSpeed() <= topSpeed / 4.0F) {
-        if (getCurrentSpeed() >= newSpeed) {
-            return;
-        }
-
-        setCurrentSpeed(newSpeed);
-    }
-
-    private float getCurrentSpeed()
-    {
-        return (float) Math.sqrt(vehicle.motX * vehicle.motX + vehicle.motZ * vehicle.motZ);
-    }
-
-    private void setCurrentSpeed(float speed)
-    {
-        float m = speed / getCurrentSpeed();
-        vehicle.motX *= m;
-        vehicle.motZ *= m;
+        Vector velocity = vehicle.getBukkitEntity().getVelocity();
+        velocity.normalize().multiply(getSpeed());
+        vehicle.getBukkitEntity().setVelocity(velocity);
     }
 
     private String getHealthString(org.bukkit.entity.Entity entity)
