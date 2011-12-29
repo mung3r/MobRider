@@ -38,7 +38,7 @@ public enum DirectionType {
 
     public Vector getDirection()
     {
-        return direction;
+        return direction.clone();
     }
 
     public static DirectionType fromName(String name)
