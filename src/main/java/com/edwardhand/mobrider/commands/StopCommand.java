@@ -17,7 +17,7 @@ public class StopCommand extends BaseCommand
         this.minArgs = 0;
         this.maxArgs = 0;
         this.identifiers.add("mob stop");
-        this.permission = "mobRider.command.stop";
+        this.permission = "mobrider.command.stop";
     }
 
     @Override

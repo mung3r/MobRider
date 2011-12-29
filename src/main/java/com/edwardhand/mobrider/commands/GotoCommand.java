@@ -20,7 +20,7 @@ public class GotoCommand extends BaseCommand
         this.minArgs = 1;
         this.maxArgs = 2;
         this.identifiers.add("mob goto");
-        this.permission = "mobRider.command.goto";
+        this.permission = "mobrider.command.goto";
     }
 
     @Override

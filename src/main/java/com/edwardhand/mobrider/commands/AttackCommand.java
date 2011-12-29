@@ -17,7 +17,7 @@ public class AttackCommand extends BaseCommand
         this.minArgs = 1;
         this.maxArgs = 1;
         this.identifiers.add("mob attack");
-        this.permission = "mobRider.command.attack";
+        this.permission = "mobrider.command.attack";
     }
 
     @Override
