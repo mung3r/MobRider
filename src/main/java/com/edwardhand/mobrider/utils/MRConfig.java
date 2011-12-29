@@ -18,10 +18,7 @@ public class MRConfig
     public static String StopConfirmedMessage = "";
     public static String CreatureFedMessage = " :D";
 
-    private MobRider plugin;
-
     public MRConfig(MobRider plugin)
     {
-        this.plugin = plugin;
     }
 }

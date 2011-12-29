@@ -5,15 +5,10 @@ import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityListener;
 import org.bukkit.event.entity.EntityTargetEvent;
 
-import com.edwardhand.mobrider.MobRider;
-
 public class RiderTargetListener extends EntityListener
 {
-    private MobRider plugin;
-
-    public RiderTargetListener(MobRider plugin)
+    public RiderTargetListener()
     {
-        this.plugin = plugin;
     }
 
     public void onEntityTarget(EntityTargetEvent event)

@@ -27,10 +27,10 @@ public class MobRider extends JavaPlugin
     public static Permission permission;
 
     private final RiderPlayerListener riderListener = new RiderPlayerListener(this);
-    private final RiderTargetListener riderEntityListener = new RiderTargetListener(this);
+    private final RiderTargetListener riderEntityListener = new RiderTargetListener();
     private final RiderDamageListener riderEntityActionlistener = new RiderDamageListener(this);
 
-    private MRLogger log;
+    private static MRLogger log = new MRLogger();
     private CommandManager commandManager;
     private MRHandler rideHandler;
     private MRConfig config;
@@ -70,7 +70,7 @@ public class MobRider extends JavaPlugin
     @Override
     public void onEnable()
     {
-        log = new MRLogger(this);
+        log.setName(this.getDescription().getName());
         config = new MRConfig(this);
         rideHandler = new MRHandler(this);
 
@@ -98,12 +98,6 @@ public class MobRider extends JavaPlugin
     public void onDisable()
     {
         getServer().getScheduler().cancelTasks(this);
-
-        commandManager = null;
-        permission = null;
-        rideHandler = null;
-        config = null;
-
         log.info(getDescription().getVersion() + " disabled.");
     }
 

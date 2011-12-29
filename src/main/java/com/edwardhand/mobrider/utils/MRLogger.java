@@ -2,17 +2,24 @@ package com.edwardhand.mobrider.utils;
 
 import java.util.logging.Logger;
 
-import com.edwardhand.mobrider.MobRider;
-
 public class MRLogger
 {
-    private MobRider plugin;
+    private String name = "MobRider";
     private Logger logger;
 
-    public MRLogger(MobRider plugin)
+    public MRLogger()
     {
-        this.plugin = plugin;
         logger = Logger.getLogger("Minecraft");
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
     }
 
     public void info(String msg)
@@ -32,6 +39,6 @@ public class MRLogger
 
     public String format(String msg)
     {
-        return String.format("[%s] %s", plugin.getDescription().getName(), msg);
+        return String.format("[%s] %s", name, msg);
     }
 }
