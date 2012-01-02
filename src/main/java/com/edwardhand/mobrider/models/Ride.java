@@ -26,7 +26,7 @@ public class Ride
     }
 
     private static final double ATTACK_RANGE = Math.pow(MRConfig.ATTACK_RANGE, 2.0D);
-    private static final double MOUNT_RANGE = Math.pow(MRConfig.MOUNT_RANGE, 2.0D);
+    private static final double GOAL_RANGE = Math.pow(MRConfig.MOUNT_RANGE, 2.0D);
     private static final int HEALTH_BARS = 6;
 
     private Entity vehicle;
@@ -141,10 +141,10 @@ public class Ride
                     break;
                 case MOUNT:
                     // TODO: do we need this case?
-                    if (vehicle.getBukkitEntity().getLocation().distanceSquared(goal.getLocation()) < MOUNT_RANGE)
-                        vehicle.setPassengerOf(((CraftEntity) ((EntityGoal) goal).getEntity()).getHandle());
                     break;
                 case PASSIVE:
+                    if (vehicle.getBukkitEntity().getLocation().distanceSquared(goal.getLocation()) < GOAL_RANGE)
+                        stop();
                 case STOP:
                     setTarget(null);
                     setPathEntity(((LocationGoal) goal).getLocation());

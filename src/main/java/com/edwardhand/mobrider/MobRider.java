@@ -85,7 +85,6 @@ public class MobRider extends JavaPlugin
         registerCommands();
         registerEvents();
 
-        // if (getServer().getScheduler().scheduleSyncRepeatingTask(this, new MobTask(this), 5L, 1L) < 0) {
         if (getServer().getScheduler().scheduleSyncRepeatingTask(this, rideHandler, 5L, 1L) < 0) {
             getServer().getPluginManager().disablePlugin(this);
             log.severe("Failed to schedule task.");
