@@ -1,6 +1,6 @@
 name: MobRider
 main: com.edwardhand.mobrider.MobRider
-version: 0.43
+version: 0.44
 softdepend: [Vault]
 commands:
   mob:
