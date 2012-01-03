@@ -106,14 +106,14 @@ public class MobRider extends JavaPlugin
         return commandManager.dispatch(sender, cmd, commandLabel, args);
     }
 
-    public MRLogger getLogger()
-    {
-        return log;
-    }
-
     public MRHandler getRideHandler()
     {
         return rideHandler;
+    }
+
+    public static MRLogger getLogger()
+    {
+        return log;
     }
 
     public static boolean hasPermission(Player player, String name)

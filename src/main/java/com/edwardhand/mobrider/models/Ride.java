@@ -3,13 +3,13 @@ package com.edwardhand.mobrider.models;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.CraftWorld;
-import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.utils.MRConfig;
 import com.edwardhand.mobrider.utils.MRUtil;
 
@@ -41,9 +41,12 @@ public class Ride
         if (vehicle != null) {
             goal = new LocationGoal(getBukkitEntity().getLocation());
             intent = IntentType.STOP;
-            if (isCreature()) {
+            if (isCreature() && MRUtil.getCreatureType(vehicle.getBukkitEntity()) != null) {
                 maxSpeed = RideType.fromType(MRUtil.getCreatureType(vehicle.getBukkitEntity())).getSpeed();
                 speed = maxSpeed;
+            }
+            else {
+                MobRider.getLogger().warning("Unknown creature " + vehicle);
             }
         }
     }

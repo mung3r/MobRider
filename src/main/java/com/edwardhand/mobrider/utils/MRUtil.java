@@ -13,6 +13,7 @@ import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Giant;
+import org.bukkit.entity.MagmaCube;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.MushroomCow;
 import org.bukkit.entity.Pig;
@@ -65,6 +66,8 @@ public class MRUtil
             return CreatureType.GHAST;
         if (entity instanceof Giant)
             return CreatureType.GIANT;
+        if (entity instanceof MagmaCube)
+            return CreatureType.MAGMA_CUBE;
         if (entity instanceof MushroomCow)
             return CreatureType.MUSHROOM_COW;
         if (entity instanceof Pig)
@@ -77,6 +80,8 @@ public class MRUtil
             return CreatureType.SKELETON;
         if (entity instanceof Slime)
             return CreatureType.SLIME;
+        if (entity instanceof Snowman)
+            return CreatureType.SNOWMAN;
         if (entity instanceof Silverfish)
             return CreatureType.SILVERFISH;
         if (entity instanceof Spider)
