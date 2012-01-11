@@ -1,6 +1,6 @@
 name: MobRider
 main: com.edwardhand.mobrider.MobRider
-version: 0.44
+version: 0.44-b${BUILD_NUMBER}
 softdepend: [Vault]
 commands:
   mob:
