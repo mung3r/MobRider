@@ -64,7 +64,7 @@ public class RiderPlayerListener extends PlayerListener
             double r = 0.5D;
             while ((entities.size() == 0) && (r < 5.0D)) {
                 AxisAlignedBB bb = AxisAlignedBB.a(x1 - r, y1 - r, z1 - r, x1 + r, y1 + r, z1 + r);
-                entities = craftWorld.getHandle().b(minecraftPlayer, bb);
+                entities = craftWorld.getHandle().getEntities(minecraftPlayer, bb);
                 r += 0.5D;
             }
 
