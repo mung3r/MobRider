@@ -46,7 +46,7 @@ public class Ride
                 speed = maxSpeed;
             }
             else {
-                MobRider.getLogger().warning("Unknown creature " + vehicle);
+                MobRider.getMRLogger().warning("Unknown creature " + vehicle);
             }
         }
     }

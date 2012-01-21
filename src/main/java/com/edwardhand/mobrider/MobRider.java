@@ -111,7 +111,7 @@ public class MobRider extends JavaPlugin
         return rideHandler;
     }
 
-    public static MRLogger getLogger()
+    public static MRLogger getMRLogger()
     {
         return log;
     }
