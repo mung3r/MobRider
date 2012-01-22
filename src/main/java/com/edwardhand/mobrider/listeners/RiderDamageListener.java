@@ -4,15 +4,17 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityListener;
 
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.models.Ride;
 
-public class RiderDamageListener extends EntityListener
+public class RiderDamageListener implements Listener
 {
     private MobRider plugin;
 
@@ -21,6 +23,7 @@ public class RiderDamageListener extends EntityListener
         this.plugin = plugin;
     }
 
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityDamage(EntityDamageEvent event)
     {
         if (event.isCancelled())

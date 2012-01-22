@@ -4,8 +4,8 @@ import com.edwardhand.mobrider.MobRider;
 
 public class MRConfig
 {
-    public static int MAX_DISTANCE = 100;
-    public static double MAX_FIND_RANGE = 100D;
+    public static int MAX_TRAVEL_DISTANCE = 100;
+    public static double MAX_SEARCH_RANGE = 100D;
     public static double ATTACK_RANGE = 10D;
     public static double MOUNT_RANGE = 3.0D;
 

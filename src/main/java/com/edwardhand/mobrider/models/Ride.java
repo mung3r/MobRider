@@ -228,7 +228,7 @@ public class Ride
 
     public void setDirection(Vector direction)
     {
-        setDirection(direction, MRConfig.MAX_DISTANCE);
+        setDirection(direction, MRConfig.MAX_TRAVEL_DISTANCE);
     }
 
     public void setDestination(Location location)
@@ -247,7 +247,7 @@ public class Ride
             return;
 
         if (direction != null) {
-            goal = new LocationGoal(convertDirectionToLocation(direction.multiply(Math.min(2.5D, distance / MRConfig.MAX_DISTANCE))));
+            goal = new LocationGoal(convertDirectionToLocation(direction.multiply(Math.min(2.5D, distance / MRConfig.MAX_TRAVEL_DISTANCE))));
             intent = IntentType.PASSIVE;
             speak(MRConfig.GoConfirmedMessage);
         }
@@ -300,7 +300,7 @@ public class Ride
         if (MRUtil.isNumber(searchTerm)) {
             Entity entity = ((CraftWorld) vehicle.getBukkitEntity().getWorld()).getHandle().getEntity(Integer.valueOf(searchTerm));
             if (entity != null && entity instanceof LivingEntity) {
-                if (((LivingEntity) entity).getLocation().distanceSquared(vehicle.getBukkitEntity().getLocation()) < MRConfig.MAX_FIND_RANGE) {
+                if (((LivingEntity) entity).getLocation().distanceSquared(vehicle.getBukkitEntity().getLocation()) < MRConfig.MAX_SEARCH_RANGE) {
                     foundEntity = (LivingEntity) entity;
                 }
             }
@@ -313,7 +313,7 @@ public class Ride
         else {
             double lastDistance = Double.MAX_VALUE;
 
-            for (org.bukkit.entity.Entity entity : vehicle.getBukkitEntity().getNearbyEntities(2 * MRConfig.MAX_FIND_RANGE, 2 * MRConfig.MAX_FIND_RANGE, 2 * MRConfig.MAX_FIND_RANGE)) {
+            for (org.bukkit.entity.Entity entity : vehicle.getBukkitEntity().getNearbyEntities(2 * MRConfig.MAX_SEARCH_RANGE, 2 * MRConfig.MAX_SEARCH_RANGE, 2 * MRConfig.MAX_SEARCH_RANGE)) {
 
                 if (entity instanceof LivingEntity) {
                     CreatureType creatureType = MRUtil.getCreatureType(entity);

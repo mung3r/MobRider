@@ -15,20 +15,16 @@ import com.edwardhand.mobrider.utils.MRHandler;
 
 import net.milkbowl.vault.permission.Permission;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MobRider extends JavaPlugin
 {
     public static Permission permission;
-
-    private final RiderPlayerListener riderListener = new RiderPlayerListener(this);
-    private final RiderTargetListener riderEntityListener = new RiderTargetListener();
-    private final RiderDamageListener riderEntityActionlistener = new RiderDamageListener(this);
 
     private static MRLogger log = new MRLogger();
     private CommandManager commandManager;
@@ -58,13 +54,9 @@ public class MobRider extends JavaPlugin
 
     private void registerEvents()
     {
-        getServer().getPluginManager().registerEvent(Event.Type.ENTITY_TARGET, riderEntityListener, Event.Priority.Normal, this);
-        getServer().getPluginManager().registerEvent(Event.Type.ENTITY_DAMAGE, riderEntityListener, Event.Priority.Normal, this);
-
-        getServer().getPluginManager().registerEvent(Event.Type.ENTITY_DAMAGE, riderEntityActionlistener, Event.Priority.Monitor, this);
-        getServer().getPluginManager().registerEvent(Event.Type.PLAYER_INTERACT, riderListener, Event.Priority.Monitor, this);
-        getServer().getPluginManager().registerEvent(Event.Type.PLAYER_ANIMATION, riderListener, Event.Priority.Monitor, this);
-        getServer().getPluginManager().registerEvent(Event.Type.PLAYER_ITEM_HELD, riderListener, Event.Priority.Monitor, this);
+        Bukkit.getPluginManager().registerEvents(new RiderPlayerListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new RiderTargetListener(), this);
+        Bukkit.getPluginManager().registerEvents(new RiderDamageListener(this), this);
     }
 
     @Override

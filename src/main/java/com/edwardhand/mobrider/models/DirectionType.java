@@ -34,7 +34,7 @@ public enum DirectionType {
 
     private DirectionType(Vector direction, List<String> names)
     {
-        this.direction = direction.normalize().multiply(MRConfig.MAX_DISTANCE);
+        this.direction = direction.normalize().multiply(MRConfig.MAX_TRAVEL_DISTANCE);
         this.names = names;
     }
 

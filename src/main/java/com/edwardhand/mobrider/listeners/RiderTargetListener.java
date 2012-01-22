@@ -2,15 +2,17 @@ package com.edwardhand.mobrider.listeners;
 
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
-import org.bukkit.event.entity.EntityListener;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetEvent;
 
-public class RiderTargetListener extends EntityListener
+public class RiderTargetListener implements Listener
 {
     public RiderTargetListener()
     {
     }
 
+    @EventHandler
     public void onEntityTarget(EntityTargetEvent event)
     {
         if (event.isCancelled())

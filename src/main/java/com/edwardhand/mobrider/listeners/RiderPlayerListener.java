@@ -13,11 +13,13 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -26,7 +28,7 @@ import com.edwardhand.mobrider.models.Ride;
 import com.edwardhand.mobrider.utils.MRConfig;
 import com.edwardhand.mobrider.utils.MRUtil;
 
-public class RiderPlayerListener extends PlayerListener
+public class RiderPlayerListener implements Listener
 {
     private MobRider plugin;
 
@@ -36,6 +38,7 @@ public class RiderPlayerListener extends PlayerListener
     }
 
     // This method must run even if it was canceled.
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerInteract(PlayerInteractEvent event)
     {
         if ((event.getAction() != Action.RIGHT_CLICK_AIR) && (event.getAction() != Action.RIGHT_CLICK_BLOCK))
@@ -96,6 +99,7 @@ public class RiderPlayerListener extends PlayerListener
         }
     }
 
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerAnimation(PlayerAnimationEvent event)
     {
         Player player = event.getPlayer();
@@ -105,10 +109,11 @@ public class RiderPlayerListener extends PlayerListener
 
             Ride vehicle = plugin.getRideHandler().getRide(player);
 
-            vehicle.setDestination(player.getTargetBlock(null, MRConfig.MAX_DISTANCE).getLocation());
+            vehicle.setDestination(player.getTargetBlock(null, MRConfig.MAX_TRAVEL_DISTANCE).getLocation());
         }
     }
 
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onItemHeldChange(PlayerItemHeldEvent event)
     {
         Player player = event.getPlayer();
