@@ -12,7 +12,7 @@ public class RiderTargetListener implements Listener
     {
     }
 
-    @EventHandler
+    @EventHandler(event = EntityTargetEvent.class)
     public void onEntityTarget(EntityTargetEvent event)
     {
         if (event.isCancelled())

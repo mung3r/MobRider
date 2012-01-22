@@ -38,7 +38,7 @@ public class RiderPlayerListener implements Listener
     }
 
     // This method must run even if it was canceled.
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(event = PlayerInteractEvent.class, priority = EventPriority.MONITOR)
     public void onPlayerInteract(PlayerInteractEvent event)
     {
         if ((event.getAction() != Action.RIGHT_CLICK_AIR) && (event.getAction() != Action.RIGHT_CLICK_BLOCK))
@@ -99,7 +99,7 @@ public class RiderPlayerListener implements Listener
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(event = PlayerAnimationEvent.class, priority = EventPriority.MONITOR)
     public void onPlayerAnimation(PlayerAnimationEvent event)
     {
         Player player = event.getPlayer();
@@ -113,7 +113,7 @@ public class RiderPlayerListener implements Listener
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(event = PlayerItemHeldEvent.class, priority = EventPriority.MONITOR)
     public void onItemHeldChange(PlayerItemHeldEvent event)
     {
         Player player = event.getPlayer();
