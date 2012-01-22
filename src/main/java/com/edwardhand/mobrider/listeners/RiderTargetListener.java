@@ -3,6 +3,7 @@ package com.edwardhand.mobrider.listeners;
 import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetEvent;
 
@@ -12,7 +13,7 @@ public class RiderTargetListener implements Listener
     {
     }
 
-    @EventHandler(event = EntityTargetEvent.class)
+    @EventHandler(event = EntityTargetEvent.class, priority = EventPriority.NORMAL)
     public void onEntityTarget(EntityTargetEvent event)
     {
         if (event.isCancelled())
