@@ -11,6 +11,10 @@
       <id>bukkit-repo</id>
       <url>http://repo.bukkit.org/content/groups/public/</url>
     </repository>
+    <repository>
+      <id>vault-repo</id>
+      <url>http://ci.milkbowl.net/plugin/repository/everything/</url>
+    </repository>
   </repositories>
   <dependencies>
     <dependency>
