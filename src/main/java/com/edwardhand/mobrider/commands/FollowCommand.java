@@ -6,29 +6,34 @@ import org.bukkit.entity.Player;
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.models.Ride;
 
-public class FollowCommand extends BaseCommand
+public class FollowCommand extends BasicCommand
 {
     private MobRider plugin = null;
 
     public FollowCommand(MobRider plugin)
     {
+        super("Follow");
         this.plugin = plugin;
-        this.usage = "/mob follow <player/entity>";
-        this.minArgs = 1;
-        this.maxArgs = 1;
-        this.identifiers.add("mob follow");
-        this.permission = "mobrider.command.follow";
+        setDescription("Follow another player or mob");
+        setUsage("/mob follow §9<player|mob>");
+        setArgumentRange(1, 1);
+        setIdentifiers("follow");
+        setPermission("mobrider.command.follow");
     }
 
     @Override
-    public void execute(CommandSender commandSender, String[] args)
+    public boolean execute(CommandSender sender, String identifier, String[] args)
     {
-        if (!(commandSender instanceof Player))
-            return;
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            Ride ride = plugin.getRideHandler().getRide(player);
 
-        Player player = (Player) commandSender;
-        Ride ride = plugin.getRideHandler().getRide(player);
+            ride.follow(args[0]);
+        }
+        else {
+            sender.sendMessage("Console cannot control mobs!");
+        }
 
-        ride.follow(args[0]);
+        return true;
     }
 }

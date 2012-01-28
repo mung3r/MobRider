@@ -1,10 +1,11 @@
 package com.edwardhand.mobrider;
 
-import com.edwardhand.mobrider.commands.CommandManager;
+import com.edwardhand.mobrider.commands.CommandHandler;
 import com.edwardhand.mobrider.commands.AttackCommand;
 import com.edwardhand.mobrider.commands.FollowCommand;
 import com.edwardhand.mobrider.commands.GoCommand;
 import com.edwardhand.mobrider.commands.GotoCommand;
+import com.edwardhand.mobrider.commands.HelpCommand;
 import com.edwardhand.mobrider.commands.StopCommand;
 import com.edwardhand.mobrider.listeners.RiderDamageListener;
 import com.edwardhand.mobrider.listeners.RiderTargetListener;
@@ -27,7 +28,7 @@ public class MobRider extends JavaPlugin
     public static Permission permission;
 
     private static MRLogger log = new MRLogger();
-    private CommandManager commandManager;
+    private static CommandHandler commandHandler = new CommandHandler();
     private MRHandler rideHandler;
     private MRConfig config;
 
@@ -43,13 +44,14 @@ public class MobRider extends JavaPlugin
 
     private void registerCommands()
     {
-        commandManager = new CommandManager();
+        commandHandler = new CommandHandler();
 
-        commandManager.addCommand(new AttackCommand(this));
-        commandManager.addCommand(new FollowCommand(this));
-        commandManager.addCommand(new GoCommand(this));
-        commandManager.addCommand(new GotoCommand(this));
-        commandManager.addCommand(new StopCommand(this));
+        commandHandler.addCommand(new AttackCommand(this));
+        commandHandler.addCommand(new FollowCommand(this));
+        commandHandler.addCommand(new GoCommand(this));
+        commandHandler.addCommand(new GotoCommand(this));
+        commandHandler.addCommand(new StopCommand(this));
+        commandHandler.addCommand(new HelpCommand(this));
     }
 
     private void registerEvents()
@@ -95,12 +97,22 @@ public class MobRider extends JavaPlugin
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
     {
-        return commandManager.dispatch(sender, cmd, commandLabel, args);
+        return commandHandler.dispatch(sender, cmd, commandLabel, args);
     }
 
     public MRHandler getRideHandler()
     {
         return rideHandler;
+    }
+
+    public MRConfig getMRConfig()
+    {
+        return config;
+    }
+
+    public CommandHandler getCommandHandler()
+    {
+        return commandHandler;
     }
 
     public static MRLogger getMRLogger()

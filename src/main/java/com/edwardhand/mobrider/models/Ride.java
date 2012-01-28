@@ -22,7 +22,7 @@ import net.minecraft.server.PathPoint;
 public class Ride
 {
     public enum IntentType {
-        PASSIVE, FOLLOW, ATTACK, MOUNT, STOP;
+        PASSIVE, FOLLOW, ATTACK, MOUNT, PAUSE, STOP;
     }
 
     private static final double ATTACK_RANGE = Math.pow(MRConfig.ATTACK_RANGE, 2.0D);
@@ -140,8 +140,23 @@ public class Ride
                     break;
                 case FOLLOW:
                     setTarget(null);
-                    setPathEntity(((EntityGoal) goal).getEntity().getLocation());
+                    if (vehicle.getBukkitEntity().getLocation().distanceSquared(goal.getLocation()) < GOAL_RANGE) {
+                        setPathEntity(getBukkitEntity().getLocation());
+                        intent = IntentType.PAUSE;
+                    }
+                    else {
+                        setPathEntity(((EntityGoal) goal).getEntity().getLocation());
+                    }
                     break;
+                case PAUSE:
+                    setTarget(null);
+                    if (vehicle.getBukkitEntity().getLocation().distanceSquared(goal.getLocation()) > GOAL_RANGE) {
+                        setPathEntity(((EntityGoal) goal).getEntity().getLocation());
+                        intent = IntentType.FOLLOW;
+                    }
+                    else {
+                        setPathEntity(getBukkitEntity().getLocation());
+                    }
                 case MOUNT:
                     // TODO: do we need this case?
                     break;
@@ -171,10 +186,10 @@ public class Ride
         if (entity != null) {
             goal = new EntityGoal(entity);
             intent = IntentType.ATTACK;
-            speak(MRConfig.AttackConfirmedMessage);
+            speak(MRConfig.attackConfirmedMessage);
         }
         else {
-            speak(MRConfig.AttackConfusedMessage);
+            speak(MRConfig.attackConfusedMessage);
         }
     }
 
@@ -191,10 +206,10 @@ public class Ride
         if (entity != null) {
             goal = new EntityGoal(entity);
             intent = IntentType.FOLLOW;
-            speak(MRConfig.FollowConfirmedMessage);
+            speak(MRConfig.followConfirmedMessage);
         }
         else {
-            speak(MRConfig.FollowConfusedMessage);
+            speak(MRConfig.followConfusedMessage);
         }
     }
 
@@ -204,7 +219,7 @@ public class Ride
             return;
 
         setHealth(Math.min(getHealth() + 5, getMaxHealth()));
-        speak(MRConfig.CreatureFedMessage);
+        speak(MRConfig.creatureFedMessage);
     }
 
     public void stop()
@@ -214,7 +229,7 @@ public class Ride
 
         goal = new LocationGoal(getBukkitEntity().getLocation());
         intent = IntentType.STOP;
-        speak(MRConfig.StopConfirmedMessage);
+        speak(MRConfig.stopConfirmedMessage);
     }
 
     public void speak(String suffix)
@@ -238,7 +253,7 @@ public class Ride
 
         goal = new LocationGoal(location);
         intent = IntentType.PASSIVE;
-        speak(MRConfig.GoConfirmedMessage);
+        speak(MRConfig.goConfirmedMessage);
     }
 
     public void setDirection(Vector direction, int distance)
@@ -249,10 +264,10 @@ public class Ride
         if (direction != null) {
             goal = new LocationGoal(convertDirectionToLocation(direction.multiply(Math.min(2.5D, distance / MRConfig.MAX_TRAVEL_DISTANCE))));
             intent = IntentType.PASSIVE;
-            speak(MRConfig.GoConfirmedMessage);
+            speak(MRConfig.goConfirmedMessage);
         }
         else {
-            speak(MRConfig.GoConfusedMessage);
+            speak(MRConfig.goConfusedMessage);
         }
     }
 
@@ -335,7 +350,7 @@ public class Ride
 
     private void updateSpeed()
     {
-        if (!isCreature() || intent == IntentType.STOP) {
+        if (!isCreature() || intent == IntentType.STOP || intent == IntentType.PAUSE) {
             return;
         }
 

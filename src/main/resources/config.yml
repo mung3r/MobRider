@@ -1,0 +1,109 @@
+range:
+    max_travel_distance: 100.0
+    max_search_range: 100.0
+    attack_range: 10.0
+    mount_range: 3.0
+
+noise_suffix:
+    attack_confirmed: '!'
+    attack_confused: '?'
+    follow_confirmed: '!'
+    follow_confused: '?'
+    go_confirmed: ''
+    go_confused: '?'
+    stop_confirmed: ''
+    creature_fed: ' :D'
+
+food:
+    - brown_mushroom
+    - cactus
+    - cake
+    - egg
+    - ice
+    - ink_sack
+    - leather
+    - long_grass
+    - melon
+    - red_mushroom
+    - red_rose
+    - yellow_flower
+    - sapling
+    - seeds
+    - slime_ball
+    - wheat
+    - sugar
+    - sugar_cane
+
+mobs:
+    Blaze:
+        speed: 0.4
+        noise: 'Kaboom'
+    CaveSpider:
+        speed: 0.4
+        noise: 'Cheeuuuk'
+    Chicken:
+        speed: 0.2
+        noise: 'Cluck'
+    Cow:
+        speed: 0.3
+        noise: 'Mooooo'
+    Creeper:
+        speed: 0.5F
+        noise: 'Hisssss'
+    EnderDragon:
+        speed: 0.7F
+        noise: 'Rawwwwwwr'
+    Enderman:
+        speed: 0.2
+        noise: 'Mooooaaan'
+    Ghast:
+        speed: 0.5
+        noise: 'Hooooo'
+    Giant:
+        speed: 0.5
+        noise: 'MOOOOAAAN'
+    LavaSlime:
+        speed: 0.2
+        noise: 'Glub'
+    Monster:
+        speed: 0.4
+        noise: 'Rawr'
+    MushroomCow:
+        speed: 0.3
+        noise: 'Moo00sh'
+    Pig:
+        speed: 0.25
+        noise: 'Oink'
+    PigZombie:
+        speed: 0.4
+        noise: 'Mooooiiink'
+    Sheep:
+        speed: 0.25
+        noise: 'Baaaaa'
+    Silverfish:
+        speed: 0.2
+        noise: 'Cheeuuuk'
+    Skeleton:
+        speed: 0.2
+        noise: '*silence*'
+    Slime:
+        speed: 0.2
+        noise: 'Blluuurrrp'
+    SnowMan:
+        speed: 0.3
+        noise: '*silence*'
+    Spider:
+        speed: 0.4
+        noise: 'Cheeuuuk'
+    Squid:
+        speed: 0.6
+        noise: 'Glub'
+    Villager:
+        speed: 0.3
+        noise: 'Mhmm'
+    Wolf:
+        speed: 0.6
+        noise: 'Woof'
+    Zombie:
+        speed: 0.2
+        noise: 'Mooooaaan'

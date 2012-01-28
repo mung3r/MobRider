@@ -1,6 +1,5 @@
 package com.edwardhand.mobrider.utils;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Blaze;
 import org.bukkit.entity.CaveSpider;
@@ -106,32 +105,6 @@ public class MRUtil
         CreatureType type = getCreatureType(entity);
 
         return type == null ? "" : type.name();
-    }
-
-    public static boolean isFood(Material mat)
-    {
-        switch (mat) {
-            case BROWN_MUSHROOM:
-            case CACTUS:
-            case CAKE:
-            case EGG:
-            case ICE:
-            case INK_SACK:
-            case LEATHER:
-            case LONG_GRASS:
-            case MELON:
-            case RED_MUSHROOM:
-            case RED_ROSE:
-            case YELLOW_FLOWER:
-            case SAPLING:
-            case SEEDS:
-            case SLIME_BALL:
-            case WHEAT:
-            case SUGAR:
-            case SUGAR_CANE:
-                return true;
-        }
-        return false;
     }
 
     public static boolean canRide(Player player, Entity entity)

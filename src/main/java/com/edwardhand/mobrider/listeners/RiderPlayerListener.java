@@ -80,7 +80,7 @@ public class RiderPlayerListener implements Listener
                 plugin.getRideHandler().getRide(player).stop();
             }
         }
-        else if (MRUtil.isFood(itemInHand)) {
+        else if (plugin.getMRConfig().isFood(itemInHand)) {
             if ((vehicle != null) && (vehicle instanceof EntityCreature)) {
                 EntityCreature creatureVehicle = (EntityCreature) vehicle;
                 if (creatureVehicle.getHealth() < creatureVehicle.getMaxHealth()) {
