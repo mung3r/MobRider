@@ -157,12 +157,14 @@ public class Ride
                     else {
                         setPathEntity(getBukkitEntity().getLocation());
                     }
+                    break;
                 case MOUNT:
                     // TODO: do we need this case?
                     break;
                 case PASSIVE:
                     if (vehicle.getBukkitEntity().getLocation().distanceSquared(goal.getLocation()) < GOAL_RANGE)
                         stop();
+                    break;
                 case STOP:
                     setTarget(null);
                     setPathEntity(((LocationGoal) goal).getLocation());

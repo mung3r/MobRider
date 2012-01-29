@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.models.Ride;
+import com.edwardhand.mobrider.utils.MRUtil;
 
 public class FollowCommand extends BasicCommand
 {
@@ -26,8 +27,12 @@ public class FollowCommand extends BasicCommand
     {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            Ride ride = plugin.getRideHandler().getRide(player);
+            if (!MRUtil.isRider(player)) {
+                sender.sendMessage("You must be riding a mob to use this command!");
+                return true;
+            }
 
+            Ride ride = plugin.getRideHandler().getRide(player);
             ride.follow(args[0]);
         }
         else {

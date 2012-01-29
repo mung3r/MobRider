@@ -29,6 +29,11 @@ public class GotoCommand extends BasicCommand
     {
         if (sender instanceof Player) {
             Player player = (Player) sender;
+            if (!MRUtil.isRider(player)) {
+                sender.sendMessage("You must be riding a mob to use this command!");
+                return true;
+            }
+
             Ride ride = plugin.getRideHandler().getRide(player);
 
             if (args.length == 1) {

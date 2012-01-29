@@ -1,5 +1,6 @@
 package com.edwardhand.mobrider.utils;
 
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Blaze;
 import org.bukkit.entity.CaveSpider;
@@ -105,6 +106,11 @@ public class MRUtil
         CreatureType type = getCreatureType(entity);
 
         return type == null ? "" : type.name();
+    }
+
+    public static Boolean isRider(Player player)
+    {
+        return ((CraftPlayer) player).getHandle().vehicle != null;
     }
 
     public static boolean canRide(Player player, Entity entity)
