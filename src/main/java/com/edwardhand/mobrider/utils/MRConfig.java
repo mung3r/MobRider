@@ -1,5 +1,8 @@
 package com.edwardhand.mobrider.utils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,22 +31,27 @@ public class MRConfig
     public static String stopConfirmedMessage;
     public static String creatureFedMessage;
 
+    private static final String CONFIG_FILE = "config.yml";
+    private static File configFile;
+
     private FileConfiguration config;
+    private MobRider plugin;
     private Set<Material> food;
 
     public MRConfig(MobRider plugin)
     {
-        config = plugin.getConfig();
-        config.options().copyDefaults(true);
-        plugin.saveConfig();
+        this.plugin = plugin;
 
-        ConfigurationSection range = plugin.getConfig().getConfigurationSection("range");
+        configFile = new File(plugin.getDataFolder(), CONFIG_FILE);
+        config = getConfig(configFile);
+
+        ConfigurationSection range = config.getConfigurationSection("range");
         MAX_TRAVEL_DISTANCE = Double.valueOf(range.getDouble("max_travel_distance", 100)).intValue();
         MAX_SEARCH_RANGE = range.getDouble("max_search_distance", 100);
         ATTACK_RANGE = range.getDouble("attack_range", 10);
         MOUNT_RANGE = range.getDouble("mount_range", 3);
 
-        ConfigurationSection messageSuffix = plugin.getConfig().getConfigurationSection("noise_suffix");
+        ConfigurationSection messageSuffix = config.getConfigurationSection("noise_suffix");
         attackConfirmedMessage = messageSuffix.getString("attack_confirmed", "!");
         attackConfusedMessage = messageSuffix.getString("attack_confused", "?");
         followConfirmedMessage = messageSuffix.getString("follow_confirmed", "!");
@@ -54,12 +62,12 @@ public class MRConfig
         creatureFedMessage = messageSuffix.getString("creature_fed", " :D");
 
         food = new HashSet<Material>();
-        List<String> materials = plugin.getConfig().getStringList("food");
+        List<String> materials = config.getStringList("food");
         for (String material : materials) {
             food.add(Material.matchMaterial(material));
         }
 
-        ConfigurationSection mobs = plugin.getConfig().getConfigurationSection("mobs");
+        ConfigurationSection mobs = config.getConfigurationSection("mobs");
         for (String name : mobs.getKeys(false)) {
             ConfigurationSection mob = mobs.getConfigurationSection(name);
             new RideType(CreatureType.fromName(name), Double.valueOf(mob.getDouble("speed", 0.2)).floatValue(), mob.getString("noise", ""));
@@ -69,5 +77,32 @@ public class MRConfig
     public boolean isFood(Material material)
     {
         return food.contains(material);
+    }
+
+    private FileConfiguration getConfig(File file)
+    {
+        if (!file.exists()) {
+            try {
+                file.getParentFile().mkdir();
+                file.createNewFile();
+                InputStream inputStream = MRConfig.class.getResourceAsStream(File.separator + file.getName());
+                FileOutputStream outputStream = new FileOutputStream(file);
+
+                byte[] buffer = new byte[8192];
+                int length = 0;
+                while ((length = inputStream.read(buffer)) > 0)
+                    outputStream.write(buffer, 0, length);
+
+                inputStream.close();
+                outputStream.close();
+
+                MobRider.getMRLogger().info("Default config created successfully!");
+            }
+            catch (Exception e) {
+                MobRider.getMRLogger().warning("Default config could not be created!");
+            }
+        }
+
+        return plugin.getConfig();
     }
 }
