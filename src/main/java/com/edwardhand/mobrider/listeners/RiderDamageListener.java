@@ -23,7 +23,7 @@ public class RiderDamageListener implements Listener
         this.plugin = plugin;
     }
 
-    @EventHandler(event = EntityDamageEvent.class, priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityDamage(EntityDamageEvent event)
     {
         if (event.isCancelled())
