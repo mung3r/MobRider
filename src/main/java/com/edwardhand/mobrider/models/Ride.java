@@ -162,8 +162,13 @@ public class Ride
                     // TODO: do we need this case?
                     break;
                 case PASSIVE:
-                    if (vehicle.getBukkitEntity().getLocation().distanceSquared(goal.getLocation()) < GOAL_RANGE)
+                    if (vehicle.getBukkitEntity().getLocation().distanceSquared(goal.getLocation()) < GOAL_RANGE) {
                         stop();
+                    }
+                    else {
+                        setTarget(null);
+                        setPathEntity(goal.getLocation());
+                    }
                     break;
                 case STOP:
                     setTarget(null);
