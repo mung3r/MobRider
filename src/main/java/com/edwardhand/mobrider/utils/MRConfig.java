@@ -85,7 +85,7 @@ public class MRConfig
             try {
                 file.getParentFile().mkdir();
                 file.createNewFile();
-                InputStream inputStream = MRConfig.class.getResourceAsStream(File.separator + file.getName());
+                InputStream inputStream = MRConfig.class.getResourceAsStream("/" + file.getName());
                 FileOutputStream outputStream = new FileOutputStream(file);
 
                 byte[] buffer = new byte[8192];
