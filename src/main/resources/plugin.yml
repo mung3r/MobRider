@@ -1,6 +1,6 @@
 name: MobRider
 main: com.edwardhand.mobrider.MobRider
-version: 0.45.1-b${BUILD_NUMBER}
+version: 0.45.2-b${BUILD_NUMBER}
 softdepend: [SpoutPlugin,Vault]
 commands:
   mob:
