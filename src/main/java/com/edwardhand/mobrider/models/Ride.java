@@ -4,7 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Creature;
-import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -41,8 +41,8 @@ public class Ride
         if (vehicle != null) {
             goal = new LocationGoal(getBukkitEntity().getLocation());
             intent = IntentType.STOP;
-            if (isCreature() && MRUtil.getCreatureType(vehicle.getBukkitEntity()) != null) {
-                maxSpeed = RideType.fromType(MRUtil.getCreatureType(vehicle.getBukkitEntity())).getSpeed();
+            if (isCreature() && vehicle.getBukkitEntity().getType() != null) {
+                maxSpeed = RideType.fromType(vehicle.getBukkitEntity().getType()).getSpeed();
                 speed = maxSpeed;
             }
             else {
@@ -306,12 +306,12 @@ public class Ride
 
     private RideType getVehicleType()
     {
-        return RideType.fromType(MRUtil.getCreatureType(vehicle.getBukkitEntity()));
+        return RideType.fromType(vehicle.getBukkitEntity().getType());
     }
 
-    private CreatureType getCreatureType()
+    private EntityType getCreatureType()
     {
-        return MRUtil.getCreatureType(vehicle.getBukkitEntity());
+        return vehicle.getBukkitEntity().getType();
     }
 
     private LivingEntity findGoal(String searchTerm)
@@ -338,7 +338,7 @@ public class Ride
             for (org.bukkit.entity.Entity entity : vehicle.getBukkitEntity().getNearbyEntities(2 * MRConfig.MAX_SEARCH_RANGE, 2 * MRConfig.MAX_SEARCH_RANGE, 2 * MRConfig.MAX_SEARCH_RANGE)) {
 
                 if (entity instanceof LivingEntity) {
-                    CreatureType creatureType = MRUtil.getCreatureType(entity);
+                    EntityType creatureType = entity.getType();
 
                     if (creatureType != null && creatureType.name().equalsIgnoreCase(searchTerm)) {
                         double entityDistance = vehicle.getBukkitEntity().getLocation().distanceSquared(entity.getLocation());
@@ -361,7 +361,7 @@ public class Ride
             return;
         }
 
-        CreatureType type = MRUtil.getCreatureType(vehicle.getBukkitEntity());
+        EntityType type = vehicle.getBukkitEntity().getType();
         if (RideType.fromType(type) == null) {
             return;
         }

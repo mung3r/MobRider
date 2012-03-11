@@ -10,7 +10,7 @@ import java.util.Set;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.EntityType;
 
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.models.RideType;
@@ -70,7 +70,7 @@ public class MRConfig
         ConfigurationSection mobs = config.getConfigurationSection("mobs");
         for (String name : mobs.getKeys(false)) {
             ConfigurationSection mob = mobs.getConfigurationSection(name);
-            new RideType(CreatureType.fromName(name), Double.valueOf(mob.getDouble("speed", 0.2)).floatValue(), mob.getString("noise", ""));
+            new RideType(EntityType.fromName(name), Double.valueOf(mob.getDouble("speed", 0.2)).floatValue(), mob.getString("noise", ""));
         }
     }
 
