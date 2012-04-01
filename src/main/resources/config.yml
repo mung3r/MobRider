@@ -71,6 +71,9 @@ mobs:
     MushroomCow:
         speed: 0.3
         noise: 'Moo00sh'
+    Ozelot:
+        speed: 0.6
+        noise: 'Meow'
     Pig:
         speed: 0.25
         noise: 'Oink'
@@ -101,6 +104,9 @@ mobs:
     Villager:
         speed: 0.3
         noise: 'Mhmm'
+    VillagerGolem:
+        speed: 0.2
+        noise: 'Grrr'
     Wolf:
         speed: 0.6
         noise: 'Woof'
