@@ -31,7 +31,7 @@ public class CommandHandler {
     }
 
     public void removeCommand(Command command) {
-        commands.remove(command);
+        commands.remove(command.getName().toLowerCase());
     }
 
     public Command getCommand(String name) {
@@ -52,12 +52,12 @@ public class CommandHandler {
         }
         
         for (int argsIncluded = arguments.length; argsIncluded >= 0; argsIncluded--) {
-        	String identifier = "";
+        	StringBuilder identifierBuilder = new StringBuilder();
             for (int i = 0; i < argsIncluded; i++) {
-                identifier += " " + arguments[i];
+            	identifierBuilder.append(' ').append(arguments[i]);
             }
             
-            identifier = identifier.trim();            
+            String identifier = identifierBuilder.toString().trim();            
             for (Command cmd : commands.values()) {
                 if (cmd.isIdentifier(sender, identifier)) {
                     String[] realArgs = Arrays.copyOfRange(arguments, argsIncluded, arguments.length);

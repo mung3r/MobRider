@@ -32,7 +32,6 @@ public class MRConfig
     public static String creatureFedMessage;
 
     private static final String CONFIG_FILE = "config.yml";
-    private static File configFile;
 
     private FileConfiguration config;
     private MobRider plugin;
@@ -42,8 +41,7 @@ public class MRConfig
     {
         this.plugin = plugin;
 
-        configFile = new File(plugin.getDataFolder(), CONFIG_FILE);
-        config = getConfig(configFile);
+        config = getConfig(new File(plugin.getDataFolder(), CONFIG_FILE));
 
         ConfigurationSection range = config.getConfigurationSection("range");
         MAX_TRAVEL_DISTANCE = Double.valueOf(range.getDouble("max_travel_distance", 100)).intValue();
