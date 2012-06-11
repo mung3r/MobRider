@@ -12,20 +12,20 @@
       <url>http://repo.bukkit.org/content/groups/public/</url>
     </repository>
     <repository>
-      <id>milkbowl-repo</id>
-      <url>http://ci.milkbowl.net/plugin/repository/everything/</url>
+      <id>vault-repo</id>
+      <url>http://ci.herocraftonline.com/plugin/repository/everything/</url>
     </repository>
   </repositories>
   <dependencies>
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>1.2.5-R1.2</version>
+      <version>1.2.5-R3.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>craftbukkit</artifactId>
-      <version>1.2.5-R1.2</version>
+      <version>1.2.5-R3.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>net.milkbowl.vault</groupId>
@@ -42,12 +42,12 @@
   </scm>
   <description>Finally a proper use for saddles! A mod for riding and controlling mobs.</description>
   <issueManagement>
-  	<url>http://dev.bukkit.org/server-mods/mobrider/tickets/</url>
+  	<url>https://github.com/mung3r/ecoCreature/issues</url>
   	<system>Bukkit Dev</system>
   </issueManagement>
   <ciManagement>
   	<system>jenkins</system>
-  	<url>http://ci.milkbowl.net/job/MobRider/</url>
+  	<url>http://ci.bighatchet.com/job/MobRider/</url>
   </ciManagement>
   <build>
     <resources>
