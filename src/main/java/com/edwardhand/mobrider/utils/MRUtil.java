@@ -9,7 +9,6 @@ import org.bukkit.entity.Golem;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
-import org.bukkit.entity.Snowman;
 import org.bukkit.entity.Squid;
 import org.bukkit.entity.Villager;
 

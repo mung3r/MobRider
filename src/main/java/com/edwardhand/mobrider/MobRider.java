@@ -1,5 +1,7 @@
 package com.edwardhand.mobrider;
 
+import java.io.IOException;
+
 import com.edwardhand.mobrider.commands.CommandHandler;
 import com.edwardhand.mobrider.commands.AttackCommand;
 import com.edwardhand.mobrider.commands.FollowCommand;
@@ -31,6 +33,7 @@ public class MobRider extends JavaPlugin
     private static CommandHandler commandHandler = new CommandHandler();
     private MRHandler rideHandler;
     private MRConfig config;
+    private Metrics metrics;
 
     private Boolean setupDependencies()
     {
@@ -82,6 +85,14 @@ public class MobRider extends JavaPlugin
         if (getServer().getScheduler().scheduleSyncRepeatingTask(this, rideHandler, 5L, 1L) < 0) {
             getServer().getPluginManager().disablePlugin(this);
             log.severe("Failed to schedule task.");
+        }
+
+        try {
+            metrics = new Metrics(this);
+            metrics.start();
+        }
+        catch (IOException e) {
+            log.warning("Metrics failed to load.");
         }
 
         log.info(getDescription().getVersion() + " enabled.");
