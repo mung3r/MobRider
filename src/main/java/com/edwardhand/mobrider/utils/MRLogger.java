@@ -37,6 +37,11 @@ public class MRLogger
         logger.severe(format(msg));
     }
 
+    public void debug(String msg)
+    {
+        logger.info("DEBUG: " + msg);
+    }
+
     public String format(String msg)
     {
         return String.format("[%s] %s", name, msg);

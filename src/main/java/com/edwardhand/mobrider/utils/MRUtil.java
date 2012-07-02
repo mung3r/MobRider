@@ -23,6 +23,7 @@ public class MRUtil
             return true;
         }
         catch (NumberFormatException e) {
+            MobRider.getMRLogger().debug(e.getMessage());
         }
 
         return false;
