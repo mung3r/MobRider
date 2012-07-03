@@ -41,7 +41,7 @@ public class Ride
         if (vehicle != null) {
             goal = new LocationGoal(getBukkitEntity().getLocation());
             intent = IntentType.STOP;
-            if (isCreature() && vehicle.getBukkitEntity().getType() != null) {
+            if (vehicle instanceof EntityCreature && vehicle.getBukkitEntity().getType() != null) {
                 maxSpeed = RideType.fromType(vehicle.getBukkitEntity().getType()).getSpeed();
                 speed = maxSpeed;
             }
@@ -269,7 +269,7 @@ public class Ride
             return;
 
         if (direction != null) {
-            goal = new LocationGoal(convertDirectionToLocation(direction.multiply(Math.min(2.5D, distance / MRConfig.MAX_TRAVEL_DISTANCE))));
+            goal = new LocationGoal(convertDirectionToLocation(direction.multiply(Math.min(2.5D, distance / (double) MRConfig.MAX_TRAVEL_DISTANCE))));
             intent = IntentType.PASSIVE;
             speak(MRConfig.goConfirmedMessage);
         }
@@ -321,7 +321,7 @@ public class Ride
         // find entity by entity ID
         if (MRUtil.isNumber(searchTerm)) {
             Entity entity = ((CraftWorld) vehicle.getBukkitEntity().getWorld()).getHandle().getEntity(Integer.valueOf(searchTerm));
-            if (entity != null && entity instanceof LivingEntity) {
+            if (entity instanceof LivingEntity) {
                 if (((LivingEntity) entity).getLocation().distanceSquared(vehicle.getBukkitEntity().getLocation()) < MRConfig.MAX_SEARCH_RANGE) {
                     foundEntity = (LivingEntity) entity;
                 }
@@ -375,7 +375,7 @@ public class Ride
 
     private String getHealthString(org.bukkit.entity.Entity entity)
     {
-        double percentHealth = (getHealth() * 100) / getMaxHealth();
+        double percentHealth = (getHealth() * 100) / (double) getMaxHealth();
 
         ChatColor barColor;
 

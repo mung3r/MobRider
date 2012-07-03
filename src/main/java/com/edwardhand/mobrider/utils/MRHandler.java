@@ -28,7 +28,7 @@ public class MRHandler implements Runnable
     {
         Ride ride;
 
-        if (player != null && player instanceof Player) {
+        if (player instanceof Player) {
 
             String playerName = ((Player) player).getName();
 
