@@ -7,6 +7,7 @@ import org.bukkit.World;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftCreature;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -163,9 +164,6 @@ public class Rider
                         setPathEntity(ride.getLocation());
                     }
                     break;
-                case MOUNT:
-                    // TODO: do we need this case?
-                    break;
                 case PASSIVE:
                     if (ride.getLocation().distanceSquared(goal.getLocation()) < GOAL_RANGE) {
                         stop();
@@ -187,7 +185,7 @@ public class Rider
 
     public void attack(String entityName)
     {
-        attack(findGoal(entityName));
+        attack(findGoal(entityName, MRConfig.ATTACK_RANGE));
     }
 
     public void attack(LivingEntity entity)
@@ -204,7 +202,7 @@ public class Rider
 
     public void follow(String entityName)
     {
-        follow(findGoal(entityName));
+        follow(findGoal(entityName, MRConfig.MAX_SEARCH_RANGE));
     }
 
     public void follow(LivingEntity entity)
@@ -221,8 +219,13 @@ public class Rider
 
     public void feed()
     {
-        setHealth(Math.min(getHealth() + 5, getMaxHealth()));
-        message(MRConfig.creatureFedMessage);
+        if (isFullHealth()) {
+            message(MRConfig.fedConfusedMessage);
+        }
+        else {
+            setHealth(Math.min(getHealth() + 5, getMaxHealth()));
+            message(MRConfig.fedConfirmedMessage);
+        }
     }
 
     public void stop()
@@ -272,7 +275,7 @@ public class Rider
 
     private boolean hasRide(Player player)
     {
-        return player !=null && player.getVehicle() instanceof LivingEntity;
+        return player != null && player.getVehicle() instanceof LivingEntity;
     }
 
     private int getHealth()
@@ -289,6 +292,7 @@ public class Rider
     {
         int maxHealth = 0;
         LivingEntity ride = getRide();
+
         if (ride != null) {
             maxHealth = ride.getMaxHealth();
         }
@@ -304,6 +308,13 @@ public class Rider
         }
     }
 
+    private boolean isFullHealth()
+    {
+        LivingEntity ride = getRide();
+
+        return ride == null || (ride.getHealth() >= ride.getMaxHealth());
+    }
+
     private RideType getRideType()
     {
         RideType rideType = null;
@@ -316,7 +327,7 @@ public class Rider
         return rideType;
     }
 
-    private LivingEntity findGoal(String searchTerm)
+    private LivingEntity findGoal(String searchTerm, double searchRange)
     {
         LivingEntity foundEntity = null;
         LivingEntity player = getPlayer();
@@ -326,7 +337,7 @@ public class Rider
             if (MRUtil.isNumber(searchTerm)) {
                 net.minecraft.server.Entity entity = ((CraftWorld) player.getWorld()).getHandle().getEntity(Integer.valueOf(searchTerm));
                 if (entity instanceof LivingEntity) {
-                    if (((LivingEntity) entity).getLocation().distanceSquared(player.getLocation()) < MRConfig.MAX_SEARCH_RANGE) {
+                    if (((LivingEntity) entity).getLocation().distanceSquared(player.getLocation()) < searchRange) {
                         foundEntity = (LivingEntity) entity;
                     }
                 }
@@ -338,15 +349,15 @@ public class Rider
             // find mob by name
             else {
                 double lastDistance = Double.MAX_VALUE;
-    
-                for (org.bukkit.entity.Entity entity : player.getNearbyEntities(2 * MRConfig.MAX_SEARCH_RANGE, 2 * MRConfig.MAX_SEARCH_RANGE, 2 * MRConfig.MAX_SEARCH_RANGE)) {
-    
+
+                for (Entity entity : player.getNearbyEntities(2 * searchRange, 2 * searchRange, 2 * searchRange)) {
+
                     if (entity instanceof LivingEntity) {
                         EntityType creatureType = entity.getType();
-    
+
                         if (creatureType != null && creatureType.name().equalsIgnoreCase(searchTerm)) {
                             double entityDistance = player.getLocation().distanceSquared(entity.getLocation());
-    
+
                             if (lastDistance > entityDistance && entity.getEntityId() != getPlayer().getEntityId()) {
                                 lastDistance = entityDistance;
                                 foundEntity = (LivingEntity) entity;

@@ -5,14 +5,17 @@ import java.util.Map;
 
 import org.bukkit.entity.Player;
 
+import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.models.Rider;
 
 public class MRHandler implements Runnable
 {
+    private MRMetrics metrics;
     private Map<String, Rider> riders;
 
-    public MRHandler()
+    public MRHandler(MobRider plugin)
     {
+        metrics = plugin.getMetrics();
         riders = new Hashtable<String, Rider>();
     }
 
@@ -24,6 +27,10 @@ public class MRHandler implements Runnable
             String playerName = player.getName();
             rider = new Rider(playerName);
             riders.put(playerName, rider);
+
+            if (rider.getRide() != null) {
+                metrics.addCount(rider.getRide().getType());
+            }
         }
 
         return rider != null ? rider : new Rider(null);
@@ -32,11 +39,11 @@ public class MRHandler implements Runnable
     public Rider getRider(Player player)
     {
         Rider rider = null;
-    
+
         if (player != null) {
             rider = riders.get(player.getName());
         }
-    
+
         return rider != null ? rider : new Rider(null);
     }
 

@@ -8,6 +8,7 @@ import com.edwardhand.mobrider.commands.FollowCommand;
 import com.edwardhand.mobrider.commands.GoCommand;
 import com.edwardhand.mobrider.commands.GotoCommand;
 import com.edwardhand.mobrider.commands.HelpCommand;
+import com.edwardhand.mobrider.commands.MountCommand;
 import com.edwardhand.mobrider.commands.StopCommand;
 import com.edwardhand.mobrider.listeners.RiderDamageListener;
 import com.edwardhand.mobrider.listeners.RiderTargetListener;
@@ -56,6 +57,7 @@ public class MobRider extends JavaPlugin
         commandHandler.addCommand(new GotoCommand(this));
         commandHandler.addCommand(new StopCommand(this));
         commandHandler.addCommand(new HelpCommand(this));
+        commandHandler.addCommand(new MountCommand(this));
     }
 
     private void registerEvents()
@@ -69,16 +71,6 @@ public class MobRider extends JavaPlugin
     public void onEnable()
     {
         log.setName(this.getDescription().getName());
-        config = new MRConfig(this);
-        riderHandler = new MRHandler();
-
-        try {
-            if (!setupDependencies())
-                log.warning("Missing permissions - everything is allowed!");
-        }
-        catch (NoClassDefFoundError e) {
-            log.warning("Vault not found - everything is allowed!");
-        }
 
         try {
             metrics = new MRMetrics(this);
@@ -87,6 +79,17 @@ public class MobRider extends JavaPlugin
         }
         catch (IOException e) {
             log.warning("Metrics failed to load.");
+        }
+
+        config = new MRConfig(this);
+        riderHandler = new MRHandler(this);
+
+        try {
+            if (!setupDependencies())
+                log.warning("Missing permissions - everything is allowed!");
+        }
+        catch (NoClassDefFoundError e) {
+            log.warning("Vault not found - everything is allowed!");
         }
 
         registerCommands();

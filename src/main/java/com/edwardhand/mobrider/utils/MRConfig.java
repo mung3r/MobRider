@@ -29,7 +29,8 @@ public class MRConfig
     public static String goConfirmedMessage;
     public static String goConfusedMessage;
     public static String stopConfirmedMessage;
-    public static String creatureFedMessage;
+    public static String fedConfirmedMessage;
+    public static String fedConfusedMessage;
 
     private static final String CONFIG_FILE = "config.yml";
 
@@ -57,7 +58,8 @@ public class MRConfig
         goConfirmedMessage = messageSuffix.getString("go_confirmed", "");
         goConfusedMessage = messageSuffix.getString("go_confused", "?");
         stopConfirmedMessage = messageSuffix.getString("stop_confirmed", "");
-        creatureFedMessage = messageSuffix.getString("creature_fed", " :D");
+        fedConfirmedMessage = messageSuffix.getString("fed_confirmed", " :D");
+        fedConfusedMessage = messageSuffix.getString("fed_confused", "?");
 
         food = new HashSet<Material>();
         List<String> materials = config.getStringList("food");
