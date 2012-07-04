@@ -70,7 +70,7 @@ public class MRUtil
             }
         }
 
-        if (entity instanceof Monster || entity instanceof EnderDragon) {
+        if (entity instanceof Monster || entity instanceof Ghast || entity instanceof Slime || entity instanceof EnderDragon) {
             if (MobRider.permission.playerHas(player, "mobrider.monsters") || MobRider.permission.playerHas(player, "mobrider.monsters." + MRUtil.getCreatureName(entity).toLowerCase()))
                 return true;
             else {
@@ -86,11 +86,6 @@ public class MRUtil
                 player.sendMessage("You do not have permission to ride players.");
                 return false;
             }
-        }
-
-        if (entity instanceof Ghast || entity instanceof Slime) {
-            // Silently fail; no support for these two yet.
-            return false;
         }
 
         return false;
