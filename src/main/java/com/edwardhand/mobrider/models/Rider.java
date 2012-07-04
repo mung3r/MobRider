@@ -38,7 +38,6 @@ public class Rider
     public Rider(String playerName)
     {
         this.playerName = playerName;
-        stop();
     }
 
     public float getSpeed()
