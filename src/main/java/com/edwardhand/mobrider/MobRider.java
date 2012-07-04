@@ -15,6 +15,7 @@ import com.edwardhand.mobrider.listeners.RiderPlayerListener;
 import com.edwardhand.mobrider.utils.MRConfig;
 import com.edwardhand.mobrider.utils.MRLogger;
 import com.edwardhand.mobrider.utils.MRHandler;
+import com.edwardhand.mobrider.utils.MRMetrics;
 
 import net.milkbowl.vault.permission.Permission;
 
@@ -31,9 +32,9 @@ public class MobRider extends JavaPlugin
 
     private static MRLogger log = new MRLogger();
     private static CommandHandler commandHandler = new CommandHandler();
-    private MRHandler rideHandler;
+    private MRHandler riderHandler;
     private MRConfig config;
-    private Metrics metrics;
+    private MRMetrics metrics;
 
     private Boolean setupDependencies()
     {
@@ -69,7 +70,7 @@ public class MobRider extends JavaPlugin
     {
         log.setName(this.getDescription().getName());
         config = new MRConfig(this);
-        rideHandler = new MRHandler(this);
+        riderHandler = new MRHandler();
 
         try {
             if (!setupDependencies())
@@ -79,20 +80,21 @@ public class MobRider extends JavaPlugin
             log.warning("Vault not found - everything is allowed!");
         }
 
-        registerCommands();
-        registerEvents();
-
-        if (getServer().getScheduler().scheduleSyncRepeatingTask(this, rideHandler, 5L, 1L) < 0) {
-            getServer().getPluginManager().disablePlugin(this);
-            log.severe("Failed to schedule task.");
-        }
-
         try {
-            metrics = new Metrics(this);
+            metrics = new MRMetrics(this);
+            metrics.setupGraphs();
             metrics.start();
         }
         catch (IOException e) {
             log.warning("Metrics failed to load.");
+        }
+
+        registerCommands();
+        registerEvents();
+
+        if (getServer().getScheduler().scheduleSyncRepeatingTask(this, riderHandler, 5L, 1L) < 0) {
+            getServer().getPluginManager().disablePlugin(this);
+            log.severe("Failed to schedule task.");
         }
 
         log.info(getDescription().getVersion() + " enabled.");
@@ -111,14 +113,19 @@ public class MobRider extends JavaPlugin
         return commandHandler.dispatch(sender, cmd, commandLabel, args);
     }
 
-    public MRHandler getRideHandler()
+    public MRHandler getRiderHandler()
     {
-        return rideHandler;
+        return riderHandler;
     }
 
     public MRConfig getMRConfig()
     {
         return config;
+    }
+
+    public MRMetrics getMetrics()
+    {
+        return metrics;
     }
 
     public CommandHandler getCommandHandler()

@@ -12,15 +12,16 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.models.Ride;
+import com.edwardhand.mobrider.models.Rider;
+import com.edwardhand.mobrider.utils.MRHandler;
 
 public class RiderDamageListener implements Listener
 {
-    private MobRider plugin;
+    private MRHandler riderHandler;
 
     public RiderDamageListener(MobRider plugin)
     {
-        this.plugin = plugin;
+        riderHandler = plugin.getRiderHandler();
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -41,14 +42,16 @@ public class RiderDamageListener implements Listener
             // rider damaged by entity
             if (entity instanceof Player) {
 
-                Ride ride = plugin.getRideHandler().getRide(entity);
+                Rider rider = riderHandler.getRider((Player) entity);
 
-                if (ride.hasRider()) {
-                    if (damager.equals(ride.getBukkitEntity())) {
+                if (rider.isValid()) {
+                    LivingEntity ride = rider.getRide();
+
+                    if (damager.equals(ride)) {
                         event.setCancelled(true); // riders get in the way of skeleton arrows
                     }
-                    else if (!damager.equals(ride.getBukkitEntity()) && !damager.equals(ride.getTarget())) {
-                        ride.attack((LivingEntity) damager);
+                    else if (!damager.equals(ride) && !damager.equals(rider.getTarget())) {
+                        rider.attack((LivingEntity) damager);
                         return;
                     }
                 }
@@ -57,11 +60,13 @@ public class RiderDamageListener implements Listener
             // entity damaged by rider
             if (damager instanceof Player) {
 
-                Ride ride = plugin.getRideHandler().getRide(damager);
+                Rider rider = riderHandler.getRider((Player) damager);
 
-                if (ride.hasRider()) {
-                    if (!entity.equals(ride.getBukkitEntity()) && !entity.equals(ride.getTarget())) {
-                        ride.attack((LivingEntity) entity);
+                if (rider.isValid()) {
+                    LivingEntity ride = rider.getRide();
+
+                    if (!entity.equals(ride) && !entity.equals(rider.getTarget())) {
+                        rider.attack((LivingEntity) entity);
                         return;
                     }
                 }
@@ -69,11 +74,11 @@ public class RiderDamageListener implements Listener
 
             // ride damaged by entity
             if (damager instanceof LivingEntity) {
-                Ride ride = plugin.getRideHandler().getRide(entity.getPassenger());
+                Rider rider = riderHandler.getRider((Player) entity.getPassenger());
 
-                if (ride.hasRider()) {
-                    if (!damager.equals(ride.getRider().getBukkitEntity())) {
-                        ride.attack((LivingEntity) damager);
+                if (rider.isValid()) {
+                    if (!damager.equals(rider.getPlayer())) {
+                        rider.attack((LivingEntity) damager);
                     }
                 }
             }
@@ -81,17 +86,20 @@ public class RiderDamageListener implements Listener
         // rider damaged by drowning or suffocation
         else if (event instanceof EntityDamageByBlockEvent) {
 
-            Entity rider = event.getEntity();
-            Ride ride = plugin.getRideHandler().getRide(rider);
+            Entity entity = event.getEntity();
 
-            if (rider instanceof Player && ride.hasRider()) {
-                switch (event.getCause()) {
-                    case SUFFOCATION:
-                        event.setCancelled(true);
-                        break;
-                    case DROWNING:
-                        if (ride.isWaterCreature())
+            if (entity instanceof Player) {
+                Rider rider = riderHandler.getRider((Player) entity);
+
+                if (rider.isValid()) {
+                    switch (event.getCause()) {
+                        case SUFFOCATION:
                             event.setCancelled(true);
+                            break;
+                        case DROWNING:
+                            if (rider.hasWaterCreature())
+                                event.setCancelled(true);
+                    }
                 }
             }
         }

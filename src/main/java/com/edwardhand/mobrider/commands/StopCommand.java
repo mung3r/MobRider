@@ -4,8 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.models.Ride;
-import com.edwardhand.mobrider.utils.MRUtil;
+import com.edwardhand.mobrider.models.Rider;
 
 public class StopCommand extends BasicCommand
 {
@@ -27,13 +26,14 @@ public class StopCommand extends BasicCommand
     {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (!MRUtil.isRider(player)) {
-                sender.sendMessage("You must be riding a mob to use this command!");
-                return true;
-            }
 
-            Ride ride = plugin.getRideHandler().getRide(player);
-            ride.stop();
+            if (plugin.getRiderHandler().isRider(player)) {
+                Rider rider = plugin.getRiderHandler().getRider(player);
+                rider.stop();
+            }
+            else {
+                sender.sendMessage("You must be riding a mob to use this command!");
+            }
         }
         else {
             sender.sendMessage("Console cannot control mobs!");

@@ -34,11 +34,6 @@ public class MRUtil
         return entity.getType().name() == null ? "" : entity.getType().name();
     }
 
-    public static Boolean isRider(Player player)
-    {
-        return ((CraftPlayer) player).getHandle().vehicle != null;
-    }
-
     public static boolean canRide(Player player, Entity entity)
     {
         if (entity.getPassenger() != null) {

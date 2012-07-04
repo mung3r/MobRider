@@ -1,70 +1,65 @@
 package com.edwardhand.mobrider.utils;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Hashtable;
+import java.util.Map;
 
-import org.bukkit.craftbukkit.entity.CraftEntity;
 import org.bukkit.entity.Player;
 
-import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.models.Ride;
+import com.edwardhand.mobrider.models.Rider;
 
 public class MRHandler implements Runnable
 {
-    private MobRider plugin;
-    private ConcurrentHashMap<String, Ride> rides;
+    private Map<String, Rider> riders;
 
-    public MRHandler(MobRider plugin)
+    public MRHandler()
     {
-        this.plugin = plugin;
-        rides = new ConcurrentHashMap<String, Ride>();
+        riders = new Hashtable<String, Rider>();
     }
 
-    public ConcurrentHashMap<String, Ride> getRides()
+    public Rider addRider(Player player)
     {
-        return rides;
+        Rider rider = null;
+
+        if (player != null) {
+            String playerName = player.getName();
+            rider = new Rider(playerName);
+            riders.put(playerName, rider);
+        }
+
+        return rider != null ? rider : new Rider(null);
     }
 
-    public Ride getRide(org.bukkit.entity.Entity player)
+    public Rider getRider(Player player)
     {
-        Ride ride;
-
-        if (player instanceof Player) {
-
-            String playerName = ((Player) player).getName();
-
-            if (rides.containsKey(playerName)) {
-                ride = rides.get(playerName);
-            }
-            else {
-                ride = new Ride(((CraftEntity) player).getHandle().vehicle);
-                if (ride.isValid()) {
-                    rides.put(playerName, ride);
-                }
-            }
+        Rider rider = null;
+    
+        if (player != null) {
+            rider = riders.get(player.getName());
         }
-        else {
-            ride = new Ride(null);
-        }
+    
+        return rider != null ? rider : new Rider(null);
+    }
 
-        return ride;
+    public Map<String, Rider> getRiders()
+    {
+        return riders;
+    }
+
+    public boolean isRider(Player player)
+    {
+        return player != null && riders.containsKey(player.getName());
     }
 
     public void run()
     {
-        for (String playerName : rides.keySet()) {
-
-            if (plugin.getServer().getPlayer(playerName) == null) {
-                rides.remove(playerName);
+        for (String playerName : riders.keySet()) {
+            Rider rider = riders.get(playerName);
+            if (rider.isValid()) {
+                rider.updateGoal();
             }
             else {
-                Ride ride = rides.get(playerName);
-                if (ride.hasRider()) {
-                    ride.updateGoal();
-                }
-                else {
-                    ride.setTarget(null);
-                    rides.remove(playerName);
-                }
+                rider.setTarget(null);
+                riders.remove(playerName);
             }
         }
     }

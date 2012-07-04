@@ -24,17 +24,23 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.models.Ride;
+import com.edwardhand.mobrider.models.Rider;
 import com.edwardhand.mobrider.utils.MRConfig;
+import com.edwardhand.mobrider.utils.MRHandler;
+import com.edwardhand.mobrider.utils.MRMetrics;
 import com.edwardhand.mobrider.utils.MRUtil;
 
 public class RiderPlayerListener implements Listener
 {
-    private MobRider plugin;
+    private MRConfig config;
+    private MRMetrics metrics;
+    private MRHandler riderHandler;
 
     public RiderPlayerListener(MobRider plugin)
     {
-        this.plugin = plugin;
+        config = plugin.getMRConfig();
+        metrics = plugin.getMetrics();
+        riderHandler = plugin.getRiderHandler();
     }
 
     // This method must run even if it was canceled.
@@ -47,12 +53,12 @@ public class RiderPlayerListener implements Listener
         Material itemInHand = event.getPlayer().getInventory().getItemInHand().getType();
 
         Player player = event.getPlayer();
-        EntityPlayer minecraftPlayer = ((CraftPlayer) player).getHandle();
-        Entity vehicle = minecraftPlayer.vehicle;
+        EntityPlayer mcPlayer = ((CraftPlayer) player).getHandle();
+        Entity vehicle = mcPlayer.vehicle;
 
         if (itemInHand == Material.SADDLE) {
             if (vehicle != null) {
-                minecraftPlayer.setPassengerOf(null);
+                mcPlayer.setPassengerOf(null);
                 return;
             }
 
@@ -67,20 +73,21 @@ public class RiderPlayerListener implements Listener
             double r = 0.5D;
             while ((entities.size() == 0) && (r < 5.0D)) {
                 AxisAlignedBB bb = AxisAlignedBB.a(x1 - r, y1 - r, z1 - r, x1 + r, y1 + r, z1 + r);
-                entities = craftWorld.getHandle().getEntities(minecraftPlayer, bb);
+                entities = craftWorld.getHandle().getEntities(mcPlayer, bb);
                 r += 0.5D;
             }
 
             if ((entities.size() == 1) && ((entities.get(0) instanceof EntityLiving))) {
                 Entity target = (EntityLiving) entities.get(0);
-                if (!MRUtil.canRide(player, target.getBukkitEntity()))
-                    return;
-
-                minecraftPlayer.setPassengerOf(target);
-                plugin.getRideHandler().getRide(player).stop();
+                if (MRUtil.canRide(player, target.getBukkitEntity())) {
+                    mcPlayer.setPassengerOf(target);
+                    Rider rider = riderHandler.addRider(player);
+                    metrics.addCount(rider.getRide().getType());
+                    rider.stop();
+                }
             }
         }
-        else if (plugin.getMRConfig().isFood(itemInHand)) {
+        else if (config.isFood(itemInHand)) {
             if ((vehicle != null) && (vehicle instanceof EntityCreature)) {
                 EntityCreature creatureVehicle = (EntityCreature) vehicle;
                 if (creatureVehicle.getHealth() < creatureVehicle.getMaxHealth()) {
@@ -93,7 +100,7 @@ public class RiderPlayerListener implements Listener
                     else {
                         inv.setItem(inv.getHeldItemSlot(), null);
                     }
-                    plugin.getRideHandler().getRide(player).feed();
+                    riderHandler.getRider(player).feed();
                 }
             }
         }
@@ -107,9 +114,9 @@ public class RiderPlayerListener implements Listener
 
         if (itemInHand != null && itemInHand.getType() == Material.FISHING_ROD) {
 
-            Ride vehicle = plugin.getRideHandler().getRide(player);
+            Rider rider = riderHandler.getRider(player);
 
-            vehicle.setDestination(player.getTargetBlock(null, MRConfig.MAX_TRAVEL_DISTANCE).getLocation());
+            rider.setDestination(player.getTargetBlock(null, MRConfig.MAX_TRAVEL_DISTANCE).getLocation());
         }
     }
 
@@ -117,10 +124,10 @@ public class RiderPlayerListener implements Listener
     public void onItemHeldChange(PlayerItemHeldEvent event)
     {
         Player player = event.getPlayer();
-        Ride ride = plugin.getRideHandler().getRides().get(player.getName());
+        Rider rider = riderHandler.getRiders().get(player.getName());
 
         // Holding down SHIFT(sneak) and mouse scrolling adjusts speed
-        if (ride != null && ride.hasGoal() && player.isSneaking()) {
+        if (rider != null && rider.hasGoal() && player.isSneaking()) {
 
             int newSlot = event.getNewSlot();
             int prevSlot = event.getPreviousSlot();
@@ -129,7 +136,7 @@ public class RiderPlayerListener implements Listener
             if (((prevSlot == 0) && (newSlot == 8)) || ((prevSlot == 8) && (newSlot == 0)))
                 increase = !increase;
 
-            ride.setSpeed(increase ? ride.getSpeed() + 0.05F : ride.getSpeed() - 0.05F);
+            rider.setSpeed(increase ? rider.getSpeed() + 0.05F : rider.getSpeed() - 0.05F);
         }
     }
 }
