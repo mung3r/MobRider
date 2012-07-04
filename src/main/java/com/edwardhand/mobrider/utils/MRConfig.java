@@ -46,7 +46,7 @@ public class MRConfig
 
         ConfigurationSection range = config.getConfigurationSection("range");
         MAX_TRAVEL_DISTANCE = Double.valueOf(range.getDouble("max_travel_distance", 100)).intValue();
-        MAX_SEARCH_RANGE = range.getDouble("max_search_distance", 100);
+        MAX_SEARCH_RANGE = range.getDouble("max_search_distance", 10);
         ATTACK_RANGE = range.getDouble("attack_range", 10);
         MOUNT_RANGE = range.getDouble("mount_range", 3);
 

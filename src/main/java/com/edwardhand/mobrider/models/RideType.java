@@ -27,7 +27,7 @@ public class RideType
         return type;
     }
 
-    public float getSpeed()
+    public float getMaxSpeed()
     {
         return speed;
     }

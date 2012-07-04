@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftCreature;
+import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -23,32 +24,36 @@ import net.minecraft.server.PathPoint;
 public class Rider
 {
     public enum IntentType {
-        PASSIVE, FOLLOW, ATTACK, MOUNT, PAUSE, STOP;
+        PASSIVE, FOLLOW, ATTACK, PAUSE, STOP;
     }
 
     private static final double ATTACK_RANGE = Math.pow(MRConfig.ATTACK_RANGE, 2.0D);
     private static final double GOAL_RANGE = Math.pow(MRConfig.MOUNT_RANGE, 2.0D);
     private static final int HEALTH_BARS = 6;
+    private static final float MIN_SPEED = 0.05F;
 
     private String playerName;
     private BaseGoal goal;
     private IntentType intent;
-    private float maxSpeed;
+    private final float maxSpeed;
     private float speed;
 
     public Rider(String playerName)
     {
         this.playerName = playerName;
+        LivingEntity ride = getRide();
+        maxSpeed = ride != null ? RideType.fromType(ride.getType()).getMaxSpeed() : MIN_SPEED;
+        speed = maxSpeed;
     }
 
     public float getSpeed()
     {
-        return Math.max(maxSpeed, speed * getMaxHealth() / getHealth());
+        return Math.min(maxSpeed, speed * getMaxHealth() / (float) getHealth());
     }
 
     public void setSpeed(float speed)
     {
-        this.speed = Math.max(Math.min(speed, maxSpeed), 0.05F);
+        this.speed = Math.max(Math.min(speed, maxSpeed), MIN_SPEED);
     }
 
     public Player getPlayer()
@@ -331,23 +336,25 @@ public class Rider
     {
         LivingEntity foundEntity = null;
         LivingEntity player = getPlayer();
+        LivingEntity ride = getRide();
+        Player foundPlayer = Bukkit.getPlayer(searchTerm);
 
         if (player != null) {
             // find entity by entity ID
             if (MRUtil.isNumber(searchTerm)) {
                 net.minecraft.server.Entity entity = ((CraftWorld) player.getWorld()).getHandle().getEntity(Integer.valueOf(searchTerm));
                 if (entity instanceof LivingEntity) {
-                    if (((LivingEntity) entity).getLocation().distanceSquared(player.getLocation()) < searchRange) {
+                    if (((LivingEntity) entity).getLocation().distanceSquared(player.getLocation()) < searchRange * searchRange) {
                         foundEntity = (LivingEntity) entity;
                     }
                 }
             }
             // find player by name
-            else if (Bukkit.getPlayer(searchTerm) != null) {
-                foundEntity = Bukkit.getPlayer(searchTerm);
+            else if (foundPlayer != null && !foundPlayer.equals(player) && foundPlayer.getWorld().equals(player.getWorld()) && foundPlayer.getLocation().distanceSquared(player.getLocation()) < searchRange * searchRange) {
+                foundEntity = foundPlayer;
             }
             // find mob by name
-            else {
+            else if (ride != null) {
                 double lastDistance = Double.MAX_VALUE;
 
                 for (Entity entity : player.getNearbyEntities(2 * searchRange, 2 * searchRange, 2 * searchRange)) {
@@ -358,7 +365,7 @@ public class Rider
                         if (creatureType != null && creatureType.name().equalsIgnoreCase(searchTerm)) {
                             double entityDistance = player.getLocation().distanceSquared(entity.getLocation());
 
-                            if (lastDistance > entityDistance && entity.getEntityId() != getPlayer().getEntityId()) {
+                            if (lastDistance > entityDistance && entity.getEntityId() != player.getEntityId() && entity.getEntityId() != ride.getEntityId()) {
                                 lastDistance = entityDistance;
                                 foundEntity = (LivingEntity) entity;
                             }
@@ -417,11 +424,41 @@ public class Rider
         return healthString.toString();
     }
 
+    private boolean hasNewAI()
+    {
+        LivingEntity ride = getRide();
+
+        return ride != null && (ride.getType() == EntityType.CHICKEN
+                || ride.getType() == EntityType.COW
+                || ride.getType() == EntityType.CREEPER
+                || ride.getType() == EntityType.IRON_GOLEM
+                || ride.getType() == EntityType.MUSHROOM_COW
+                || ride.getType() == EntityType.OCELOT
+                || ride.getType() == EntityType.PIG
+                || ride.getType() == EntityType.SHEEP
+                || ride.getType() == EntityType.SKELETON
+                || ride.getType() == EntityType.SNOWMAN
+                || ride.getType() == EntityType.VILLAGER
+                || ride.getType() == EntityType.WOLF
+                || ride.getType() == EntityType.ZOMBIE);
+    }
+
     private void setPathEntity(Location location)
     {
         LivingEntity ride = getRide();
         if (ride != null) {
-            ((CraftCreature) ride).getHandle().setPathEntity(new PathEntity(new PathPoint[] { new PathPoint(location.getBlockX(), location.getBlockY(), location.getBlockZ()) }));
+            if (hasNewAI()) {
+                if (ride.getLocation().distanceSquared(location) > 64.0D) {
+                    Vector distance = new Vector(location.getX() - ride.getLocation().getX(), location.getY() - ride.getLocation().getY(), location.getZ() - ride.getLocation().getZ()).normalize().multiply(8);
+                    ((CraftLivingEntity) ride).getHandle().al().a(ride.getLocation().getX() + distance.getX(), ride.getLocation().getY() + distance.getY(), ride.getLocation().getZ() + distance.getZ(), getSpeed());
+                }
+                else {
+                    ((CraftLivingEntity) ride).getHandle().al().a(location.getX(), location.getY(), location.getZ(), getSpeed());
+                }
+            }
+            else {
+                ((CraftCreature) ride).getHandle().setPathEntity(new PathEntity(new PathPoint[] { new PathPoint(location.getBlockX(), location.getBlockY(), location.getBlockZ()) }));
+            }
         }
     }
 

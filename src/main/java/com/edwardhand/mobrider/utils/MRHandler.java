@@ -3,6 +3,8 @@ package com.edwardhand.mobrider.utils;
 import java.util.Hashtable;
 import java.util.Map;
 
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.edwardhand.mobrider.MobRider;
@@ -54,7 +56,16 @@ public class MRHandler implements Runnable
 
     public boolean isRider(Player player)
     {
-        return player != null && riders.containsKey(player.getName());
+        if (player != null) {
+            Entity vehicle = player.getVehicle();
+            if (vehicle instanceof LivingEntity) {
+                if (!riders.containsKey(player.getName())) {
+                    addRider(player);
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     public void run()

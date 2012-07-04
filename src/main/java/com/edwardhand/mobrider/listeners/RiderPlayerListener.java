@@ -2,6 +2,7 @@ package com.edwardhand.mobrider.listeners;
 
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,7 +40,7 @@ public class RiderPlayerListener implements Listener
         }
 
         Player player = event.getPlayer();
-        org.bukkit.entity.Entity vehicle = player.getVehicle();
+        Entity vehicle = player.getVehicle();
 
         if (player.getItemInHand().getType() == Material.SADDLE) {
             if (vehicle instanceof LivingEntity) {
