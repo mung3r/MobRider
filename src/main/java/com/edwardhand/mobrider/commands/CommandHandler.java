@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,7 +21,7 @@ import com.edwardhand.mobrider.MobRider;
 
 public class CommandHandler {
 
-    protected LinkedHashMap<String, Command> commands;
+    protected Map<String, Command> commands;
 
     public CommandHandler() {
         commands = new LinkedHashMap<String, Command>();
