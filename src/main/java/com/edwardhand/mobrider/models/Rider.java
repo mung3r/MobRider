@@ -8,6 +8,7 @@ import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftCreature;
 import org.bukkit.craftbukkit.entity.CraftEnderDragon;
 import org.bukkit.craftbukkit.entity.CraftGhast;
+import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.entity.CraftSlime;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.EnderDragon;
@@ -103,7 +104,12 @@ public class Rider
 
         if (ride != null) {
             if (ride instanceof Creature) {
-                ((Creature) ride).setTarget(target);
+                if (hasNewAI() && target instanceof CraftLivingEntity) {
+                    ((CraftCreature) ride).getHandle().b(((CraftLivingEntity) target).getHandle());
+                }
+                else {
+                    ((Creature) ride).setTarget(target);
+                }
             }
             else if (ride instanceof Slime) {
                 // TODO: implement setTarget for slime
@@ -158,11 +164,21 @@ public class Rider
             switch (intent) {
                 case ATTACK:
                     LivingEntity goalEntity = ((EntityGoal) goal).getEntity();
-                    if (ride.getLocation().distanceSquared(goalEntity.getLocation()) > ATTACK_RANGE) {
-                        setPathEntity(((EntityGoal) goal).getEntity().getLocation());
+                    if (goalEntity == null) {
+                        stop();
                     }
                     else {
-                        setTarget(((EntityGoal) goal).getEntity());
+                        if (goalEntity.isDead()) {
+                            stop();
+                        }
+                        else {
+                            if (ride.getLocation().distanceSquared(goalEntity.getLocation()) > ATTACK_RANGE) {
+                                message(MRConfig.attackConfusedMessage);
+                            }
+                            else {
+                                setTarget(((EntityGoal) goal).getEntity());
+                            }
+                        }
                     }
                     break;
                 case FOLLOW:
@@ -464,11 +480,11 @@ public class Rider
         LivingEntity ride = getRide();
 
         if (ride instanceof CraftCreature) {
-            CraftCreature livingEntity = (CraftCreature) ride;
+            CraftCreature creature = (CraftCreature) ride;
 
             if (hasNewAI()) {
                 Location interimLocation = getInterimLocation(location);
-                livingEntity.getHandle().al().a(interimLocation.getX(), interimLocation.getY(), interimLocation.getZ(), getSpeed());
+                creature.getHandle().al().a(interimLocation.getX(), interimLocation.getY(), interimLocation.getZ(), getSpeed());
             }
             else {
                 ((CraftCreature) ride).getHandle().setPathEntity(new PathEntity(new PathPoint[] { new PathPoint(location.getBlockX(), location.getBlockY(), location.getBlockZ()) }));
