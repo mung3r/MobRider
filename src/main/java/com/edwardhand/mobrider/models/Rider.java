@@ -173,7 +173,7 @@ public class Rider
                         }
                         else {
                             if (ride.getLocation().distanceSquared(goalEntity.getLocation()) > ATTACK_RANGE) {
-                                message(MRConfig.attackConfusedMessage);
+                                setPathEntity(((EntityGoal) goal).getEntity().getLocation());
                             }
                             else {
                                 setTarget(((EntityGoal) goal).getEntity());
