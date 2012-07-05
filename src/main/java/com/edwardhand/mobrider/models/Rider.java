@@ -6,12 +6,17 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftCreature;
-import org.bukkit.craftbukkit.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.entity.CraftEnderDragon;
+import org.bukkit.craftbukkit.entity.CraftGhast;
+import org.bukkit.craftbukkit.entity.CraftSlime;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Ghast;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Slime;
 import org.bukkit.entity.Squid;
 import org.bukkit.util.Vector;
 
@@ -97,7 +102,18 @@ public class Rider
         LivingEntity ride = getRide();
 
         if (ride != null) {
-            ((Creature) ride).setTarget(target);
+            if (ride instanceof Creature) {
+                ((Creature) ride).setTarget(target);
+            }
+            else if (ride instanceof Slime) {
+                // TODO: implement setTarget for slime
+            }
+            else if (ride instanceof Ghast) {
+                // TODO: implement setTarget for ghast
+            }
+            else if (ride instanceof EnderDragon) {
+                // TODO: implement setTarget for enderdragon
+            }
         }
     }
 
@@ -429,37 +445,62 @@ public class Rider
         LivingEntity ride = getRide();
 
         return ride != null && (ride.getType() == EntityType.CHICKEN
-                || ride.getType() == EntityType.COW
-                || ride.getType() == EntityType.CREEPER
-                || ride.getType() == EntityType.IRON_GOLEM
-                || ride.getType() == EntityType.MUSHROOM_COW
-                || ride.getType() == EntityType.OCELOT
-                || ride.getType() == EntityType.PIG
-                || ride.getType() == EntityType.SHEEP
-                || ride.getType() == EntityType.SKELETON
-                || ride.getType() == EntityType.SNOWMAN
-                || ride.getType() == EntityType.VILLAGER
-                || ride.getType() == EntityType.WOLF
-                || ride.getType() == EntityType.ZOMBIE);
+          || ride.getType() == EntityType.COW
+          || ride.getType() == EntityType.CREEPER
+          || ride.getType() == EntityType.IRON_GOLEM
+          || ride.getType() == EntityType.MUSHROOM_COW
+          || ride.getType() == EntityType.OCELOT
+          || ride.getType() == EntityType.PIG
+          || ride.getType() == EntityType.SHEEP
+          || ride.getType() == EntityType.SKELETON
+          || ride.getType() == EntityType.SNOWMAN
+          || ride.getType() == EntityType.VILLAGER
+          || ride.getType() == EntityType.WOLF
+          || ride.getType() == EntityType.ZOMBIE);
     }
 
     private void setPathEntity(Location location)
     {
         LivingEntity ride = getRide();
-        if (ride != null) {
+
+        if (ride instanceof CraftCreature) {
+            CraftCreature livingEntity = (CraftCreature) ride;
+
             if (hasNewAI()) {
-                if (ride.getLocation().distanceSquared(location) > 64.0D) {
-                    Vector distance = new Vector(location.getX() - ride.getLocation().getX(), location.getY() - ride.getLocation().getY(), location.getZ() - ride.getLocation().getZ()).normalize().multiply(8);
-                    ((CraftLivingEntity) ride).getHandle().al().a(ride.getLocation().getX() + distance.getX(), ride.getLocation().getY() + distance.getY(), ride.getLocation().getZ() + distance.getZ(), getSpeed());
-                }
-                else {
-                    ((CraftLivingEntity) ride).getHandle().al().a(location.getX(), location.getY(), location.getZ(), getSpeed());
-                }
+                Location interimLocation = getInterimLocation(location);
+                livingEntity.getHandle().al().a(interimLocation.getX(), interimLocation.getY(), interimLocation.getZ(), getSpeed());
             }
             else {
                 ((CraftCreature) ride).getHandle().setPathEntity(new PathEntity(new PathPoint[] { new PathPoint(location.getBlockX(), location.getBlockY(), location.getBlockZ()) }));
             }
         }
+        else if (ride instanceof CraftSlime) {
+            // TODO: implement setPathEntity for slime
+        }
+        else if (ride instanceof CraftGhast) {
+            // TODO: implement setPathEntity for ghast
+        }
+        else if (ride instanceof CraftEnderDragon) {
+            // TODO: implement setPathEntity for enderdragon
+        }
+    }
+
+    private Location getInterimLocation(Location target)
+    {
+        Location interimTarget = null;
+
+        if (target != null) {
+            LivingEntity ride = getRide();
+
+            if (ride != null && ride.getLocation().distanceSquared(target) > 64.0D) {
+                interimTarget = ride.getLocation().clone().add(new Vector(target.getX() - ride.getLocation().getX(), target.getY() - ride.getLocation().getY(), target.getZ() - ride.getLocation().getZ()).normalize().multiply(8));
+            }
+            else {
+                interimTarget = target;
+            }
+        }
+
+        return interimTarget;
     }
 
     private Location convertDirectionToLocation(Vector direction)
