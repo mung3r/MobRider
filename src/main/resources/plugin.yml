@@ -1,6 +1,6 @@
 name: MobRider
 main: com.edwardhand.mobrider.MobRider
-version: 0.45.3-b${BUILD_NUMBER}
+version: 0.45.4-b${BUILD_NUMBER}
 authors: [edwardhand, mung3r]
 website: http://dev.bukkit.org/server-mods/mobrider
 softdepend: [SpoutPlugin,Vault]
@@ -41,7 +41,7 @@ permissions:
     mobrider.command.follow:
         description: Player can use /mob follow
         default: op
-    mobrider.command.follow:
+    mobrider.command.mount:
         description: Player can use /mob mount
         default: op
     mobrider.players:
