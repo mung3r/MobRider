@@ -21,11 +21,13 @@ import com.edwardhand.mobrider.managers.MetricsManager;
 import com.edwardhand.mobrider.managers.RiderManager;
 import com.edwardhand.mobrider.utils.MRLogger;
 
+import net.citizensnpcs.Citizens;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -40,6 +42,7 @@ public class MobRider extends JavaPlugin
     private MessageManager messageManager;
     private ConfigManager config;
     private MetricsManager metrics;
+    private boolean hasCitizens;
 
     @Override
     public void onEnable()
@@ -48,6 +51,7 @@ public class MobRider extends JavaPlugin
 
         setupPermission();
         setupMetrics();
+        setupCitizens();
 
         config = new ConfigManager(this);
         messageManager = new MessageManager();
@@ -108,6 +112,11 @@ public class MobRider extends JavaPlugin
         return metrics;
     }
 
+    public boolean hasCitizens()
+    {
+        return hasCitizens;
+    }
+
     public CommandHandler getCommandHandler()
     {
         return commandHandler;
@@ -143,6 +152,15 @@ public class MobRider extends JavaPlugin
         }
         catch (IOException e) {
             log.warning("Metrics failed to load.");
+        }
+    }
+
+    private void setupCitizens()
+    {
+        Plugin plugin = this.getServer().getPluginManager().getPlugin("Citizens");
+        if (plugin instanceof Citizens) {
+            hasCitizens = true;
+            log.info("Successfully hooked " + plugin.getDescription().getName());
         }
     }
 

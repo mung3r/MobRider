@@ -1,5 +1,8 @@
 package com.edwardhand.mobrider.managers;
 
+import net.citizensnpcs.api.CitizensManager;
+import net.citizensnpcs.resources.npclib.HumanNPC;
+import net.citizensnpcs.resources.npclib.NPCList;
 import net.minecraft.server.PathEntity;
 import net.minecraft.server.PathPoint;
 
@@ -115,17 +118,22 @@ public class GoalManager
 
     public void setDestination(Rider rider, Location location)
     {
-        rider.setGoal(new LocationGoal(plugin, location));
-        messageManager.sendMessage(rider, configManager.goConfirmedMessage);
+        if (location.getWorld().equals(rider.getWorld())) {
+            rider.setGoal(new LocationGoal(plugin, location));
+            messageManager.sendMessage(rider, configManager.goConfirmedMessage);
+        }
+        else {
+            messageManager.sendMessage(rider, configManager.goConfusedMessage);
+        }
     }
 
     public void setPathEntity(Rider rider, Location destination)
     {
         LivingEntity ride = rider.getRide();
-    
+
         if (ride instanceof CraftCreature) {
             CraftCreature creature = (CraftCreature) ride;
-    
+
             if (MRUtil.hasNewAI(ride)) {
                 Location interimLocation = getInterimLocation(ride, destination);
                 creature.getHandle().al().a(interimLocation.getX(), interimLocation.getY(), interimLocation.getZ(), rider.getSpeed());
@@ -149,7 +157,7 @@ public class GoalManager
     {
         if (rider != null) {
             LivingEntity ride = rider.getRide();
-    
+
             if (ride != null && rider.getRideType() != null) {
                 Vector velocity = ride.getVelocity();
                 double saveY = velocity.getY();
@@ -160,8 +168,7 @@ public class GoalManager
         }
     }
 
-
-    public boolean isWithinRange(Location currentLocation, Location destination, double range)
+    public boolean isGoalWithinRange(Location currentLocation, Location destination, double range)
     {
         return currentLocation.distanceSquared(destination) < range;
     }
@@ -191,15 +198,26 @@ public class GoalManager
             if (MRUtil.isNumber(searchTerm)) {
                 net.minecraft.server.Entity entity = ((CraftWorld) player.getWorld()).getHandle().getEntity(Integer.valueOf(searchTerm));
                 if (entity instanceof LivingEntity) {
-                    if (((LivingEntity) entity).getLocation().distanceSquared(player.getLocation()) < searchRange * searchRange) {
+                    if (isEntityWithinRange((LivingEntity) entity, player, searchRange)) {
                         foundEntity = (LivingEntity) entity;
                     }
                 }
             }
             // find player by name
-            else if (foundPlayer != null && !foundPlayer.equals(player) && foundPlayer.getWorld().equals(player.getWorld())
-                    && foundPlayer.getLocation().distanceSquared(player.getLocation()) < searchRange * searchRange) {
+            else if (isEntityWithinRange(foundPlayer, player, searchRange)) {
                 foundEntity = foundPlayer;
+            }
+            // find npc citizen by name
+            else if (plugin.hasCitizens()) {
+                NPCList npcList = CitizensManager.getList();
+                for (HumanNPC npc : npcList.values()) {
+                    if (npc.getName().equalsIgnoreCase(searchTerm)) {
+                        if (isEntityWithinRange(player, npc.getPlayer(), searchRange)) {
+                            foundEntity = npc.getPlayer();
+                            break;
+                        }
+                    }
+                }
             }
             // find mob by name
             else if (ride != null) {
@@ -224,6 +242,11 @@ public class GoalManager
         }
 
         return foundEntity;
+    }
+
+    private boolean isEntityWithinRange(LivingEntity from, LivingEntity to, double range)
+    {
+        return from != null && to != null && !from.equals(to) && from.getWorld().equals(to.getWorld()) && from.getLocation().distanceSquared(to.getLocation()) < range * range;
     }
 
     private Location getInterimLocation(LivingEntity ride, Location destination)

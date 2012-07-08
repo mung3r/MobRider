@@ -32,6 +32,13 @@
       <artifactId>Vault</artifactId>
       <version>1.2.16-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>net.citizensnpcs.Citizens</groupId>
+      <artifactId>Citizens</artifactId>
+      <version>1.2</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/Citizens.jar</systemPath>
+    </dependency>
   </dependencies>
   <name>MobRider</name>
   <url>http://dev.bukkit.org/server-mods/mobrider/</url>

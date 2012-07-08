@@ -28,7 +28,7 @@ public class AttackGoal extends FollowGoal
                     goalManager.setStopGoal(rider);
                 }
                 else {
-                    if (goalManager.isWithinRange(ride.getLocation(), target.getLocation(), rangeSquared)) {
+                    if (goalManager.isGoalWithinRange(ride.getLocation(), target.getLocation(), rangeSquared)) {
                         rider.setTarget(target);
                     }
                     else {
