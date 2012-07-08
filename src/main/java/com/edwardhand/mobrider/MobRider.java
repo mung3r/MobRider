@@ -2,6 +2,7 @@ package com.edwardhand.mobrider;
 
 import java.io.IOException;
 
+import com.edwardhand.mobrider.commands.BuckCommand;
 import com.edwardhand.mobrider.commands.CommandHandler;
 import com.edwardhand.mobrider.commands.AttackCommand;
 import com.edwardhand.mobrider.commands.FollowCommand;
@@ -156,6 +157,7 @@ public class MobRider extends JavaPlugin
         commandHandler.addCommand(new StopCommand(this));
         commandHandler.addCommand(new HelpCommand(this));
         commandHandler.addCommand(new MountCommand(this));
+        commandHandler.addCommand(new BuckCommand(this));
     }
 
     private void registerEvents()

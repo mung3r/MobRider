@@ -20,6 +20,7 @@ import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.goals.AttackGoal;
 import com.edwardhand.mobrider.goals.FollowGoal;
 import com.edwardhand.mobrider.goals.Goal;
+import com.edwardhand.mobrider.goals.GotoGoal;
 import com.edwardhand.mobrider.goals.LocationGoal;
 import com.edwardhand.mobrider.goals.StopGoal;
 import com.edwardhand.mobrider.models.Rider;
@@ -56,13 +57,23 @@ public class GoalManager
 
     public void setFollowGoal(Rider rider, String entityName)
     {
-        setFollowGoal(rider, findGoal(rider, entityName, configManager.MAX_SEARCH_RANGE));
-    }
+        LivingEntity entity = findGoal(rider, entityName, configManager.MAX_SEARCH_RANGE);
 
-    public void setFollowGoal(Rider rider, LivingEntity entity)
-    {
         if (entity != null) {
             rider.setGoal(new FollowGoal(plugin, entity));
+            messageManager.sendMessage(rider, configManager.followConfirmedMessage);
+        }
+        else {
+            messageManager.sendMessage(rider, configManager.followConfusedMessage);
+        }
+    }
+
+    public void setGotoGoal(Rider rider, String entityName)
+    {
+        LivingEntity entity = findGoal(rider, entityName, configManager.MAX_SEARCH_RANGE);
+
+        if (entity != null) {
+            rider.setGoal(new GotoGoal(plugin, entity));
             messageManager.sendMessage(rider, configManager.followConfirmedMessage);
         }
         else {

@@ -14,35 +14,40 @@ commands:
            /<command> goto <player|mob> - go to nearby player or mob
            /<command> goto <x> <z> - go to specific x, z coordinates
            /<command> follow <player|mob> - follow nearby player or mob
-           /<command> stop - stop
            /<command> attack <player|mob> - attack nearby player or mob
+           /<command> stop - stop
+           /<command> buck - buck a player riding you
 permissions:
     mobrider.command.*:
         description: Player can use all /mob commands
         children:
-            mobrider.command.goto: true
-            mobrider.command.attack: true
-            mobrider.command.go: true
-            mobrider.command.stop: true
-            mobrider.command.follow: true
             mobrider.command.mount: true
-    mobrider.command.goto:
-        description: Player can use /mob goto
-        default: op
-    mobrider.command.attack:
-        description: Player can use /mob attack
+            mobrider.command.go: true
+            mobrider.command.goto: true
+            mobrider.command.follow: true
+            mobrider.command.attack: true
+            mobrider.command.stop: true
+            mobrider.command.buck: true
+    mobrider.command.mount:
+        description: Player can use /mob mount
         default: op
     mobrider.command.go:
         description: Player can use /mob go
         default: op
-    mobrider.command.stop:
-        description: Player can use /mob stop
+    mobrider.command.goto:
+        description: Player can use /mob goto
         default: op
     mobrider.command.follow:
         description: Player can use /mob follow
         default: op
-    mobrider.command.mount:
-        description: Player can use /mob mount
+    mobrider.command.attack:
+        description: Player can use /mob attack
+        default: op
+    mobrider.command.stop:
+        description: Player can use /mob stop
+        default: op
+    mobrider.command.buck:
+        description: Player can use /mob buck
         default: op
     mobrider.players:
         description: Player can mount other players
