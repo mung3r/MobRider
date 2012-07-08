@@ -42,7 +42,7 @@ public class MetricsManager extends Metrics
                     @Override
                     public int getValue()
                     {
-                        EntityType rideType = getColumnName().equals("Player") ? EntityType.PLAYER : EntityType.fromName(getColumnName());
+                        EntityType rideType = "Player".equals(getColumnName()) ? EntityType.PLAYER : EntityType.fromName(getColumnName());
                         Integer count = rideTypeCount.get(rideType);
                         rideTypeCount.put(rideType, Integer.valueOf(0));
                         return count;

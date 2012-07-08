@@ -71,7 +71,7 @@ public class CommandHandler {
                         if (realArgs.length < cmd.getMinArguments() || realArgs.length > cmd.getMaxArguments()) {
                             displayCommandHelp(cmd, sender);
                             return true;
-                        } else if (realArgs.length > 0 && realArgs[0].equals("?")) {
+                        } else if (realArgs.length > 0 && "?".equals(realArgs[0])) {
                             displayCommandHelp(cmd, sender);
                             return true;
                         }
