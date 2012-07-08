@@ -18,6 +18,8 @@ import com.edwardhand.mobrider.models.RideType;
 
 public class ConfigManager
 {
+    public final Material controlItem;
+
     public final int MAX_TRAVEL_DISTANCE;
     public final double MAX_SEARCH_RANGE;
     public final double ATTACK_RANGE;
@@ -47,6 +49,9 @@ public class ConfigManager
         configFile = new File(plugin.getDataFolder(), CONFIG_FILE);
         config = getConfig(configFile);
 
+        ConfigurationSection general = config.getConfigurationSection("general");
+        controlItem = Material.matchMaterial(general.getString("control_item", "fishing_rod"));
+        
         ConfigurationSection range = config.getConfigurationSection("range");
         MAX_TRAVEL_DISTANCE = Double.valueOf(range.getDouble("max_travel_distance", 100)).intValue();
         MAX_SEARCH_RANGE = range.getDouble("max_search_distance", 16);

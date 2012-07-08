@@ -69,7 +69,7 @@ public class RiderPlayerListener implements Listener
         Player player = event.getPlayer();
         ItemStack itemInHand = player.getInventory().getItemInHand();
 
-        if (itemInHand != null && itemInHand.getType() == Material.FISHING_ROD) {
+        if (itemInHand != null && itemInHand.getType() == configManager.controlItem) {
 
             Rider rider = riderManager.getRider(player);
 

@@ -1,3 +1,6 @@
+general:
+    control_item: fishing_rod 
+
 range:
     max_travel_distance: 100.0
     max_search_range: 16.0
