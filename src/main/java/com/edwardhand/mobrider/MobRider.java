@@ -32,7 +32,7 @@ public class MobRider extends JavaPlugin
 {
     private static final MRLogger log = new MRLogger();
 
-    public Permission permission;
+    private Permission permission;
     private CommandHandler commandHandler;
     private RiderManager riderManager;
     private GoalManager goalManager;

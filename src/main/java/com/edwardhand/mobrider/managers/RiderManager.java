@@ -29,6 +29,7 @@ public class RiderManager implements Runnable
 
     private Permission permission;
     private MetricsManager metrics;
+    private ConfigManager configManager;
     private GoalManager goalManager;
     private MessageManager messageManager;
     private Map<String, Rider> riders;
@@ -37,6 +38,7 @@ public class RiderManager implements Runnable
     {
         permission = plugin.getPermission();
         metrics = plugin.getMetricsManager();
+        configManager = plugin.getConfigManager();
         goalManager = plugin.getGoalManager();
         messageManager = plugin.getMessageManager();
 
@@ -109,12 +111,12 @@ public class RiderManager implements Runnable
     public void feedRide(Rider rider)
     {
         if (rider.isFullHealth()) {
-            messageManager.sendMessage(rider, ConfigManager.fedConfusedMessage);
+            messageManager.sendMessage(rider, configManager.fedConfusedMessage);
         }
         else {
             rider.setHealth(Math.min(rider.getHealth() + 5, rider.getMaxHealth()));
             MRUtil.removeItemInHand(rider.getPlayer());
-            messageManager.sendMessage(rider, ConfigManager.fedConfirmedMessage);
+            messageManager.sendMessage(rider, configManager.fedConfirmedMessage);
         }
     }
 

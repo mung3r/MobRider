@@ -14,6 +14,7 @@ import com.edwardhand.mobrider.utils.MRUtil;
 
 public class GoCommand extends BasicCommand
 {
+    private ConfigManager configManager;
     private RiderManager riderManager;
     private GoalManager goalManager;
     private MessageManager messageManager;
@@ -21,6 +22,7 @@ public class GoCommand extends BasicCommand
     public GoCommand(MobRider plugin)
     {
         super("Go");
+        configManager = plugin.getConfigManager();
         riderManager = plugin.getRiderManager();
         goalManager = plugin.getGoalManager();
         messageManager = plugin.getMessageManager();
@@ -47,7 +49,7 @@ public class GoCommand extends BasicCommand
                     goalManager.setDirection(rider, DirectionType.fromName(args[0]).getDirection(), Integer.parseInt(args[1]));
                 }
                 else {
-                    messageManager.sendMessage(rider, ConfigManager.goConfusedMessage);
+                    messageManager.sendMessage(rider, configManager.goConfusedMessage);
                 }
             }
             else {

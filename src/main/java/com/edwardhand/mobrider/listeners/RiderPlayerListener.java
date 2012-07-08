@@ -23,13 +23,13 @@ import com.edwardhand.mobrider.utils.MRUtil;
 
 public class RiderPlayerListener implements Listener
 {
-    private ConfigManager config;
+    private ConfigManager configManager;
     private RiderManager riderManager;
     private GoalManager goalManager;
 
     public RiderPlayerListener(MobRider plugin)
     {
-        config = plugin.getConfigManager();
+        configManager = plugin.getConfigManager();
         riderManager = plugin.getRiderManager();
         goalManager = plugin.getGoalManager();
     }
@@ -50,7 +50,7 @@ public class RiderPlayerListener implements Listener
                 ((CraftPlayer) player).getHandle().setPassengerOf(null);
             }
             else {
-                LivingEntity target = MRUtil.getNearByTarget(player);
+                LivingEntity target = MRUtil.getNearByTarget(player, (int) configManager.MOUNT_RANGE);
                 if (target != null && riderManager.canRide(player, target)) {
                     target.setPassenger(player);
                     Rider rider = riderManager.addRider(player);
@@ -58,7 +58,7 @@ public class RiderPlayerListener implements Listener
                 }
             }
         }
-        else if (vehicle instanceof LivingEntity && config.isFood(player.getItemInHand().getType())) {
+        else if (vehicle instanceof LivingEntity && configManager.isFood(player.getItemInHand().getType())) {
             riderManager.feedRide(riderManager.getRider(player));
         }
     }
@@ -73,7 +73,7 @@ public class RiderPlayerListener implements Listener
 
             Rider rider = riderManager.getRider(player);
 
-            goalManager.setDestination(rider, player.getTargetBlock(null, ConfigManager.MAX_TRAVEL_DISTANCE).getLocation());
+            goalManager.setDestination(rider, player.getTargetBlock(null, configManager.MAX_TRAVEL_DISTANCE).getLocation());
         }
     }
 

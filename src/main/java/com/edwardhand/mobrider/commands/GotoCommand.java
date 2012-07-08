@@ -14,6 +14,7 @@ import com.edwardhand.mobrider.utils.MRUtil;
 
 public class GotoCommand extends BasicCommand
 {
+    private ConfigManager configManager;
     private RiderManager riderManager;
     private GoalManager goalManager;
     private MessageManager messageManager;
@@ -21,6 +22,7 @@ public class GotoCommand extends BasicCommand
     public GotoCommand(MobRider plugin)
     {
         super("Goto");
+        configManager = plugin.getConfigManager();
         riderManager = plugin.getRiderManager();
         goalManager = plugin.getGoalManager();
         messageManager = plugin.getMessageManager();
@@ -47,7 +49,7 @@ public class GotoCommand extends BasicCommand
                     goalManager.setDestination(rider, new Location(rider.getWorld(), Integer.parseInt(args[0]), 64.0D, Integer.parseInt(args[1])));
                 }
                 else {
-                    messageManager.sendMessage(rider, ConfigManager.goConfusedMessage);
+                    messageManager.sendMessage(rider, configManager.goConfusedMessage);
                 }
             }
             else {

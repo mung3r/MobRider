@@ -18,21 +18,20 @@ import com.edwardhand.mobrider.models.RideType;
 
 public class ConfigManager
 {
-    public static int MAX_TRAVEL_DISTANCE;
-    public static double MAX_SEARCH_RANGE;
-    public static double ATTACK_RANGE;
-    public static double MOUNT_RANGE;
-    public static double MOUNT_CHANCE;
+    public final int MAX_TRAVEL_DISTANCE;
+    public final double MAX_SEARCH_RANGE;
+    public final double ATTACK_RANGE;
+    public final double MOUNT_RANGE;
 
-    public static String attackConfirmedMessage;
-    public static String attackConfusedMessage;
-    public static String followConfirmedMessage;
-    public static String followConfusedMessage;
-    public static String goConfirmedMessage;
-    public static String goConfusedMessage;
-    public static String stopConfirmedMessage;
-    public static String fedConfirmedMessage;
-    public static String fedConfusedMessage;
+    public final String attackConfirmedMessage;
+    public final String attackConfusedMessage;
+    public final String followConfirmedMessage;
+    public final String followConfusedMessage;
+    public final String goConfirmedMessage;
+    public final String goConfusedMessage;
+    public final String stopConfirmedMessage;
+    public final String fedConfirmedMessage;
+    public final String fedConfusedMessage;
 
     private static final String CONFIG_FILE = "config.yml";
 

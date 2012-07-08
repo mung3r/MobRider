@@ -2,21 +2,24 @@ package com.edwardhand.mobrider.goals;
 
 import org.bukkit.Location;
 
+import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.managers.ConfigManager;
 import com.edwardhand.mobrider.managers.GoalManager;
 import com.edwardhand.mobrider.models.Rider;
 
 public abstract class BasicGoal implements Goal
 {
-    protected double range;
+    protected ConfigManager configManager;
+    protected double rangeSquared;
     protected GoalManager goalManager;
     protected Location destination;
 
-    public BasicGoal(GoalManager goalManager, Location destination)
+    public BasicGoal(MobRider plugin, Location destination)
     {
-        this.goalManager = goalManager;
+        configManager = plugin.getConfigManager();
+        goalManager = plugin.getGoalManager();
         this.destination = destination;
-        range = ConfigManager.MOUNT_RANGE * ConfigManager.MOUNT_RANGE;
+        rangeSquared = configManager.MOUNT_RANGE * configManager.MOUNT_RANGE;
     }
 
     @Override

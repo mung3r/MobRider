@@ -7,8 +7,6 @@ import java.util.Map;
 
 import org.bukkit.util.Vector;
 
-import com.edwardhand.mobrider.managers.ConfigManager;
-
 public enum DirectionType {
     NORTH(new Vector(0, 0, -1), Arrays.asList("north", "n")),
     SOUTH(new Vector(0, 0, 1), Arrays.asList("south", "s")),
@@ -34,7 +32,7 @@ public enum DirectionType {
 
     private DirectionType(Vector direction, List<String> names)
     {
-        this.direction = direction.normalize().multiply(ConfigManager.MAX_TRAVEL_DISTANCE);
+        this.direction = direction.normalize();
         this.names = names;
     }
 

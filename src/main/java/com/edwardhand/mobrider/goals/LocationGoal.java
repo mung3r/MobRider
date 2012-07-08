@@ -3,14 +3,14 @@ package com.edwardhand.mobrider.goals;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
-import com.edwardhand.mobrider.managers.GoalManager;
+import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.models.Rider;
 
-public class LocationGoal extends BasicGoal implements Goal
+public class LocationGoal extends BasicGoal
 {
-    public LocationGoal(GoalManager goalManager, Location destination)
+    public LocationGoal(MobRider plugin, Location destination)
     {
-        super(goalManager, destination);
+        super(plugin, destination);
     }
 
     @Override
@@ -21,7 +21,7 @@ public class LocationGoal extends BasicGoal implements Goal
             LivingEntity ride = rider.getRide();
 
             if (ride != null) {
-                if (goalManager.isWithinRange(ride.getLocation(), destination, range)) {
+                if (goalManager.isWithinRange(ride.getLocation(), destination, rangeSquared)) {
                     goalManager.setStopGoal(rider);
                 }
                 else {

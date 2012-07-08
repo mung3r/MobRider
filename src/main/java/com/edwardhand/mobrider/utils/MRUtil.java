@@ -17,8 +17,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import com.edwardhand.mobrider.managers.ConfigManager;
-
 public class MRUtil
 {
     public static boolean isNumber(final String s)
@@ -39,14 +37,14 @@ public class MRUtil
         return entity.getType().name() == null ? "" : entity.getType().name();
     }
 
-    public static LivingEntity getNearByTarget(Player player)
+    public static LivingEntity getNearByTarget(Player player, int range)
     {
         LivingEntity livingEntity = null;
 
         if (player != null) {
             EntityPlayer mcPlayer = ((CraftPlayer) player).getHandle();
 
-            Location loc = player.getTargetBlock(null, (int) ConfigManager.MOUNT_RANGE).getLocation();
+            Location loc = player.getTargetBlock(null, range).getLocation();
             CraftWorld craftWorld = (CraftWorld) player.getWorld();
             double x1 = loc.getX() + 0.5D;
             double y1 = loc.getY() + 0.5D;
@@ -55,7 +53,7 @@ public class MRUtil
             @SuppressWarnings("rawtypes")
             List entities = new ArrayList();
             double r = 0.5D;
-            while ((entities.size() == 0) && (r < ConfigManager.MOUNT_RANGE)) {
+            while ((entities.size() == 0) && (r < range)) {
                 AxisAlignedBB bb = AxisAlignedBB.a(x1 - r, y1 - r, z1 - r, x1 + r, y1 + r, z1 + r);
                 entities = craftWorld.getHandle().getEntities(mcPlayer, bb);
                 r += 0.5D;

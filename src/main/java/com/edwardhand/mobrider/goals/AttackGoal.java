@@ -2,16 +2,15 @@ package com.edwardhand.mobrider.goals;
 
 import org.bukkit.entity.LivingEntity;
 
-import com.edwardhand.mobrider.managers.ConfigManager;
-import com.edwardhand.mobrider.managers.GoalManager;
+import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.models.Rider;
 
 public class AttackGoal extends FollowGoal
 {
-    public AttackGoal(GoalManager goalManager, LivingEntity target)
+    public AttackGoal(MobRider plugin, LivingEntity target)
     {
-        super(goalManager, target);
-        range = ConfigManager.ATTACK_RANGE * ConfigManager.ATTACK_RANGE;
+        super(plugin, target);
+        rangeSquared = plugin.getConfigManager().ATTACK_RANGE * plugin.getConfigManager().ATTACK_RANGE;
     }
 
     @Override
@@ -29,7 +28,7 @@ public class AttackGoal extends FollowGoal
                     goalManager.setStopGoal(rider);
                 }
                 else {
-                    if (goalManager.isWithinRange(ride.getLocation(), target.getLocation(), range)) {
+                    if (goalManager.isWithinRange(ride.getLocation(), target.getLocation(), rangeSquared)) {
                         rider.setTarget(target);
                     }
                     else {

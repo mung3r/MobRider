@@ -27,10 +27,14 @@ import com.edwardhand.mobrider.utils.MRUtil;
 
 public class GoalManager
 {
+    private MobRider plugin;
+    private ConfigManager configManager;
     private MessageManager messageManager;
 
     public GoalManager(MobRider plugin)
     {
+        this.plugin = plugin;
+        configManager = plugin.getConfigManager();
         messageManager = plugin.getMessageManager();
     }
 
@@ -45,63 +49,63 @@ public class GoalManager
     public void setStopGoal(Rider rider)
     {
         if (!(rider.getGoal() instanceof StopGoal)) {
-            rider.setGoal(new StopGoal(this, rider.getRide().getLocation()));
-            messageManager.sendMessage(rider, ConfigManager.stopConfirmedMessage);
+            rider.setGoal(new StopGoal(plugin, rider.getRide().getLocation()));
+            messageManager.sendMessage(rider, configManager.stopConfirmedMessage);
         }
     }
 
     public void setFollowGoal(Rider rider, String entityName)
     {
-        setFollowGoal(rider, findGoal(rider, entityName, ConfigManager.MAX_SEARCH_RANGE));
+        setFollowGoal(rider, findGoal(rider, entityName, configManager.MAX_SEARCH_RANGE));
     }
 
     public void setFollowGoal(Rider rider, LivingEntity entity)
     {
         if (entity != null) {
-            rider.setGoal(new FollowGoal(this, entity));
-            messageManager.sendMessage(rider, ConfigManager.followConfirmedMessage);
+            rider.setGoal(new FollowGoal(plugin, entity));
+            messageManager.sendMessage(rider, configManager.followConfirmedMessage);
         }
         else {
-            messageManager.sendMessage(rider, ConfigManager.followConfusedMessage);
+            messageManager.sendMessage(rider, configManager.followConfusedMessage);
         }
     }
 
     public void setAttackGoal(Rider rider, String entityName)
     {
-        setAttackGoal(rider, findGoal(rider, entityName, ConfigManager.ATTACK_RANGE));
+        setAttackGoal(rider, findGoal(rider, entityName, configManager.ATTACK_RANGE));
     }
 
     public void setAttackGoal(Rider rider, LivingEntity entity)
     {
         if (entity != null) {
-            rider.setGoal(new AttackGoal(this, entity));
-            messageManager.sendMessage(rider, ConfigManager.attackConfirmedMessage);
+            rider.setGoal(new AttackGoal(plugin, entity));
+            messageManager.sendMessage(rider, configManager.attackConfirmedMessage);
         }
         else {
-            messageManager.sendMessage(rider, ConfigManager.attackConfusedMessage);
+            messageManager.sendMessage(rider, configManager.attackConfusedMessage);
         }
     }
 
     public void setDirection(Rider rider, Vector direction)
     {
-        setDirection(rider, direction, ConfigManager.MAX_TRAVEL_DISTANCE);
-    }
-
-    public void setDestination(Rider rider, Location location)
-    {
-        rider.setGoal(new LocationGoal(this, location));
-        messageManager.sendMessage(rider, ConfigManager.goConfirmedMessage);
+        setDirection(rider, direction, configManager.MAX_TRAVEL_DISTANCE);
     }
 
     public void setDirection(Rider rider, Vector direction, int distance)
     {
         if (direction != null) {
-            rider.setGoal(new LocationGoal(this, convertDirectionToLocation(rider, direction.multiply(Math.min(2.5D, distance / (double) ConfigManager.MAX_TRAVEL_DISTANCE)))));
-            messageManager.sendMessage(rider, ConfigManager.goConfirmedMessage);
+            rider.setGoal(new LocationGoal(plugin, convertDirectionToLocation(rider, direction.multiply(Math.min(configManager.MAX_TRAVEL_DISTANCE, distance)))));
+            messageManager.sendMessage(rider, configManager.goConfirmedMessage);
         }
         else {
-            messageManager.sendMessage(rider, ConfigManager.goConfusedMessage);
+            messageManager.sendMessage(rider, configManager.goConfusedMessage);
         }
+    }
+
+    public void setDestination(Rider rider, Location location)
+    {
+        rider.setGoal(new LocationGoal(plugin, location));
+        messageManager.sendMessage(rider, configManager.goConfirmedMessage);
     }
 
     public void setPathEntity(Rider rider, Location destination)

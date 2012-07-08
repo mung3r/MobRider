@@ -7,6 +7,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.edwardhand.mobrider.MobRider;
+import com.edwardhand.mobrider.managers.ConfigManager;
 import com.edwardhand.mobrider.managers.GoalManager;
 import com.edwardhand.mobrider.managers.RiderManager;
 import com.edwardhand.mobrider.models.Rider;
@@ -14,12 +15,14 @@ import com.edwardhand.mobrider.utils.MRUtil;
 
 public class MountCommand extends BasicCommand
 {
+    private ConfigManager configManager;
     private RiderManager riderManager;
     private GoalManager goalManager;
 
     public MountCommand(MobRider plugin)
     {
         super("Mount");
+        configManager = plugin.getConfigManager();
         riderManager = plugin.getRiderManager();
         goalManager = plugin.getGoalManager();
         setDescription("Mount nearby mob");
@@ -40,7 +43,7 @@ public class MountCommand extends BasicCommand
                 ((CraftPlayer) player).getHandle().setPassengerOf(null);
             }
             else {
-                LivingEntity target = MRUtil.getNearByTarget(player);
+                LivingEntity target = MRUtil.getNearByTarget(player, (int) configManager.MOUNT_RANGE);
                 if (riderManager.canRide(player, target)) {
                     target.setPassenger(player);
                     Rider rider = riderManager.addRider(player);
