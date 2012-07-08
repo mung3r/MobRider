@@ -1,7 +1,8 @@
-package com.edwardhand.mobrider.utils;
+package com.edwardhand.mobrider.managers;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.List;
@@ -15,12 +16,13 @@ import org.bukkit.entity.EntityType;
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.models.RideType;
 
-public class MRConfig
+public class ConfigManager
 {
     public static int MAX_TRAVEL_DISTANCE;
     public static double MAX_SEARCH_RANGE;
     public static double ATTACK_RANGE;
     public static double MOUNT_RANGE;
+    public static double MOUNT_CHANCE;
 
     public static String attackConfirmedMessage;
     public static String attackConfusedMessage;
@@ -35,14 +37,16 @@ public class MRConfig
     private static final String CONFIG_FILE = "config.yml";
 
     private FileConfiguration config;
+    private File configFile;
     private MobRider plugin;
     private Set<Material> food;
 
-    public MRConfig(MobRider plugin)
+    public ConfigManager(MobRider plugin)
     {
         this.plugin = plugin;
 
-        config = getConfig(new File(plugin.getDataFolder(), CONFIG_FILE));
+        configFile = new File(plugin.getDataFolder(), CONFIG_FILE);
+        config = getConfig(configFile);
 
         ConfigurationSection range = config.getConfigurationSection("range");
         MAX_TRAVEL_DISTANCE = Double.valueOf(range.getDouble("max_travel_distance", 100)).intValue();
@@ -70,7 +74,17 @@ public class MRConfig
         ConfigurationSection mobs = config.getConfigurationSection("mobs");
         for (String name : mobs.getKeys(false)) {
             ConfigurationSection mob = mobs.getConfigurationSection(name);
-            new RideType(EntityType.fromName(name), Double.valueOf(mob.getDouble("speed", 0.2)).floatValue(), mob.getString("noise", ""));
+            new RideType(EntityType.fromName(name), Double.valueOf(mob.getDouble("speed", 0.2)).floatValue(), mob.getString("noise", ""), mob.getDouble("chance", 100D));
+        }
+    }
+
+    public void save()
+    {
+        try {
+            config.save(configFile);
+        }
+        catch (IOException e) {
+            MobRider.getMRLogger().severe(e.getMessage());
         }
     }
 
@@ -85,7 +99,7 @@ public class MRConfig
             try {
                 file.getParentFile().mkdir();
                 file.createNewFile();
-                InputStream inputStream = MRConfig.class.getResourceAsStream("/" + file.getName());
+                InputStream inputStream = ConfigManager.class.getResourceAsStream("/" + file.getName());
                 FileOutputStream outputStream = new FileOutputStream(file);
 
                 byte[] buffer = new byte[8192];

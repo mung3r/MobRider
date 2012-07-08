@@ -4,16 +4,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.edwardhand.mobrider.MobRider;
+import com.edwardhand.mobrider.managers.GoalManager;
+import com.edwardhand.mobrider.managers.RiderManager;
 import com.edwardhand.mobrider.models.Rider;
 
 public class StopCommand extends BasicCommand
 {
-    private MobRider plugin = null;
+    private RiderManager riderManager;
+    private GoalManager goalManager;
 
     public StopCommand(MobRider plugin)
     {
         super("Stop");
-        this.plugin = plugin;
+        riderManager = plugin.getRiderManager();
+        goalManager = plugin.getGoalManager();
         setDescription("Stop your mob");
         setUsage("/mob stop");
         setArgumentRange(0, 0);
@@ -27,9 +31,9 @@ public class StopCommand extends BasicCommand
         if (sender instanceof Player) {
             Player player = (Player) sender;
 
-            if (plugin.getRiderHandler().isRider(player)) {
-                Rider rider = plugin.getRiderHandler().getRider(player);
-                rider.stop();
+            if (riderManager.isRider(player)) {
+                Rider rider = riderManager.getRider(player);
+                goalManager.setStopGoal(rider);
             }
             else {
                 sender.sendMessage("You must be riding a mob to use this command!");

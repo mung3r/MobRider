@@ -1,0 +1,227 @@
+package com.edwardhand.mobrider.managers;
+
+import net.minecraft.server.PathEntity;
+import net.minecraft.server.PathPoint;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.entity.CraftCreature;
+import org.bukkit.craftbukkit.entity.CraftEnderDragon;
+import org.bukkit.craftbukkit.entity.CraftGhast;
+import org.bukkit.craftbukkit.entity.CraftSlime;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
+
+import com.edwardhand.mobrider.MobRider;
+import com.edwardhand.mobrider.goals.AttackGoal;
+import com.edwardhand.mobrider.goals.FollowGoal;
+import com.edwardhand.mobrider.goals.Goal;
+import com.edwardhand.mobrider.goals.LocationGoal;
+import com.edwardhand.mobrider.goals.StopGoal;
+import com.edwardhand.mobrider.models.Rider;
+import com.edwardhand.mobrider.utils.MRUtil;
+
+public class GoalManager
+{
+    private MessageManager messageManager;
+
+    public GoalManager(MobRider plugin)
+    {
+        messageManager = plugin.getMessageManager();
+    }
+
+    public void update(Rider rider)
+    {
+        Goal goal = rider.getGoal();
+        if (goal != null) {
+            goal.executeUpdate(rider);
+        }
+    }
+
+    public void setStopGoal(Rider rider)
+    {
+        if (!(rider.getGoal() instanceof StopGoal)) {
+            rider.setGoal(new StopGoal(this, rider.getRide().getLocation()));
+            messageManager.sendMessage(rider, ConfigManager.stopConfirmedMessage);
+        }
+    }
+
+    public void setFollowGoal(Rider rider, String entityName)
+    {
+        setFollowGoal(rider, findGoal(rider, entityName, ConfigManager.MAX_SEARCH_RANGE));
+    }
+
+    public void setFollowGoal(Rider rider, LivingEntity entity)
+    {
+        if (entity != null) {
+            rider.setGoal(new FollowGoal(this, entity));
+            messageManager.sendMessage(rider, ConfigManager.followConfirmedMessage);
+        }
+        else {
+            messageManager.sendMessage(rider, ConfigManager.followConfusedMessage);
+        }
+    }
+
+    public void setAttackGoal(Rider rider, String entityName)
+    {
+        setAttackGoal(rider, findGoal(rider, entityName, ConfigManager.ATTACK_RANGE));
+    }
+
+    public void setAttackGoal(Rider rider, LivingEntity entity)
+    {
+        if (entity != null) {
+            rider.setGoal(new AttackGoal(this, entity));
+            messageManager.sendMessage(rider, ConfigManager.attackConfirmedMessage);
+        }
+        else {
+            messageManager.sendMessage(rider, ConfigManager.attackConfusedMessage);
+        }
+    }
+
+    public void setDirection(Rider rider, Vector direction)
+    {
+        setDirection(rider, direction, ConfigManager.MAX_TRAVEL_DISTANCE);
+    }
+
+    public void setDestination(Rider rider, Location location)
+    {
+        rider.setGoal(new LocationGoal(this, location));
+        messageManager.sendMessage(rider, ConfigManager.goConfirmedMessage);
+    }
+
+    public void setDirection(Rider rider, Vector direction, int distance)
+    {
+        if (direction != null) {
+            rider.setGoal(new LocationGoal(this, convertDirectionToLocation(rider, direction.multiply(Math.min(2.5D, distance / (double) ConfigManager.MAX_TRAVEL_DISTANCE)))));
+            messageManager.sendMessage(rider, ConfigManager.goConfirmedMessage);
+        }
+        else {
+            messageManager.sendMessage(rider, ConfigManager.goConfusedMessage);
+        }
+    }
+
+    public void setPathEntity(Rider rider, Location destination)
+    {
+        LivingEntity ride = rider.getRide();
+    
+        if (ride instanceof CraftCreature) {
+            CraftCreature creature = (CraftCreature) ride;
+    
+            if (MRUtil.hasNewAI(ride)) {
+                Location interimLocation = getInterimLocation(ride, destination);
+                creature.getHandle().al().a(interimLocation.getX(), interimLocation.getY(), interimLocation.getZ(), rider.getSpeed());
+            }
+            else {
+                ((CraftCreature) ride).getHandle().setPathEntity(new PathEntity(new PathPoint[] { new PathPoint(destination.getBlockX(), destination.getBlockY(), destination.getBlockZ()) }));
+            }
+        }
+        else if (ride instanceof CraftSlime) {
+            // TODO: implement setPathEntity for slime
+        }
+        else if (ride instanceof CraftGhast) {
+            // TODO: implement setPathEntity for ghast
+        }
+        else if (ride instanceof CraftEnderDragon) {
+            // TODO: implement setPathEntity for enderdragon
+        }
+    }
+
+    public void updateSpeed(Rider rider)
+    {
+        if (rider != null) {
+            LivingEntity ride = rider.getRide();
+    
+            if (ride != null && rider.getRideType() != null) {
+                Vector velocity = ride.getVelocity();
+                double saveY = velocity.getY();
+                velocity.normalize().multiply(rider.getSpeed());
+                velocity.setY(saveY);
+                ride.setVelocity(velocity);
+            }
+        }
+    }
+
+
+    public boolean isWithinRange(Location currentLocation, Location destination, double range)
+    {
+        return currentLocation.distanceSquared(destination) < range;
+    }
+
+    private Location convertDirectionToLocation(Rider rider, Vector direction)
+    {
+        Location location = null;
+        LivingEntity ride = rider.getRide();
+
+        if (ride != null) {
+            Location rideLocation = ride.getLocation();
+            location = rider.getWorld().getHighestBlockAt(rideLocation.getBlockX() + direction.getBlockX(), rideLocation.getBlockZ() + direction.getBlockZ()).getLocation();
+        }
+
+        return location;
+    }
+
+    private LivingEntity findGoal(Rider rider, String searchTerm, double searchRange)
+    {
+        LivingEntity foundEntity = null;
+        LivingEntity player = rider.getPlayer();
+        LivingEntity ride = rider.getRide();
+        Player foundPlayer = Bukkit.getPlayer(searchTerm);
+
+        if (player != null) {
+            // find entity by entity ID
+            if (MRUtil.isNumber(searchTerm)) {
+                net.minecraft.server.Entity entity = ((CraftWorld) player.getWorld()).getHandle().getEntity(Integer.valueOf(searchTerm));
+                if (entity instanceof LivingEntity) {
+                    if (((LivingEntity) entity).getLocation().distanceSquared(player.getLocation()) < searchRange * searchRange) {
+                        foundEntity = (LivingEntity) entity;
+                    }
+                }
+            }
+            // find player by name
+            else if (foundPlayer != null && !foundPlayer.equals(player) && foundPlayer.getWorld().equals(player.getWorld())
+                    && foundPlayer.getLocation().distanceSquared(player.getLocation()) < searchRange * searchRange) {
+                foundEntity = foundPlayer;
+            }
+            // find mob by name
+            else if (ride != null) {
+                double lastDistance = Double.MAX_VALUE;
+
+                for (Entity entity : player.getNearbyEntities(2 * searchRange, 2 * searchRange, 2 * searchRange)) {
+
+                    if (entity instanceof LivingEntity) {
+                        EntityType creatureType = entity.getType();
+
+                        if (creatureType != null && creatureType.name().equalsIgnoreCase(searchTerm)) {
+                            double entityDistance = player.getLocation().distanceSquared(entity.getLocation());
+
+                            if (lastDistance > entityDistance && entity.getEntityId() != player.getEntityId() && entity.getEntityId() != ride.getEntityId()) {
+                                lastDistance = entityDistance;
+                                foundEntity = (LivingEntity) entity;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return foundEntity;
+    }
+
+    private Location getInterimLocation(LivingEntity ride, Location destination)
+    {
+        Location interimTarget = null;
+
+        if (ride != null && ride.getLocation().distanceSquared(destination) > 64.0D) {
+            interimTarget = ride.getLocation().clone().add(new Vector(destination.getX() - ride.getLocation().getX(), destination.getY() - ride.getLocation().getY(), destination.getZ() - ride.getLocation().getZ()).normalize().multiply(8));
+        }
+        else {
+            interimTarget = destination;
+        }
+
+        return interimTarget;
+    }
+}

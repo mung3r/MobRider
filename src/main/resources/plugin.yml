@@ -1,6 +1,6 @@
 name: MobRider
 main: com.edwardhand.mobrider.MobRider
-version: 0.45.4-b${BUILD_NUMBER}
+version: 0.46.0-b${BUILD_NUMBER}
 authors: [edwardhand, mung3r]
 website: http://dev.bukkit.org/server-mods/mobrider
 softdepend: [SpoutPlugin,Vault]

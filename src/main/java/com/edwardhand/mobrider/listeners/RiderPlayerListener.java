@@ -15,20 +15,23 @@ import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.edwardhand.mobrider.MobRider;
+import com.edwardhand.mobrider.managers.ConfigManager;
+import com.edwardhand.mobrider.managers.GoalManager;
+import com.edwardhand.mobrider.managers.RiderManager;
 import com.edwardhand.mobrider.models.Rider;
-import com.edwardhand.mobrider.utils.MRConfig;
-import com.edwardhand.mobrider.utils.MRHandler;
 import com.edwardhand.mobrider.utils.MRUtil;
 
 public class RiderPlayerListener implements Listener
 {
-    private MRConfig config;
-    private MRHandler riderHandler;
+    private ConfigManager config;
+    private RiderManager riderManager;
+    private GoalManager goalManager;
 
     public RiderPlayerListener(MobRider plugin)
     {
-        config = plugin.getMRConfig();
-        riderHandler = plugin.getRiderHandler();
+        config = plugin.getConfigManager();
+        riderManager = plugin.getRiderManager();
+        goalManager = plugin.getGoalManager();
     }
 
     // This method must run even if it was canceled.
@@ -47,17 +50,16 @@ public class RiderPlayerListener implements Listener
                 ((CraftPlayer) player).getHandle().setPassengerOf(null);
             }
             else {
-                LivingEntity target = MRUtil.getTargetLivingEntity(player);
-                if (target != null && MRUtil.canRide(player, target)) {
+                LivingEntity target = MRUtil.getNearByTarget(player);
+                if (target != null && riderManager.canRide(player, target)) {
                     target.setPassenger(player);
-                    Rider rider = riderHandler.addRider(player);
-                    rider.stop();
+                    Rider rider = riderManager.addRider(player);
+                    goalManager.setStopGoal(rider);
                 }
             }
         }
         else if (vehicle instanceof LivingEntity && config.isFood(player.getItemInHand().getType())) {
-            riderHandler.getRider(player).feed();
-            MRUtil.removeItemInHand(player);
+            riderManager.feedRide(riderManager.getRider(player));
         }
     }
 
@@ -69,9 +71,9 @@ public class RiderPlayerListener implements Listener
 
         if (itemInHand != null && itemInHand.getType() == Material.FISHING_ROD) {
 
-            Rider rider = riderHandler.getRider(player);
+            Rider rider = riderManager.getRider(player);
 
-            rider.setDestination(player.getTargetBlock(null, MRConfig.MAX_TRAVEL_DISTANCE).getLocation());
+            goalManager.setDestination(rider, player.getTargetBlock(null, ConfigManager.MAX_TRAVEL_DISTANCE).getLocation());
         }
     }
 
@@ -79,7 +81,7 @@ public class RiderPlayerListener implements Listener
     public void onItemHeldChange(PlayerItemHeldEvent event)
     {
         Player player = event.getPlayer();
-        Rider rider = riderHandler.getRiders().get(player.getName());
+        Rider rider = riderManager.getRiders().get(player.getName());
 
         // Holding down SHIFT(sneak) and mouse scrolling adjusts speed
         if (rider != null && rider.hasGoal() && player.isSneaking()) {

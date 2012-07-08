@@ -12,16 +12,19 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.edwardhand.mobrider.MobRider;
+import com.edwardhand.mobrider.managers.GoalManager;
+import com.edwardhand.mobrider.managers.RiderManager;
 import com.edwardhand.mobrider.models.Rider;
-import com.edwardhand.mobrider.utils.MRHandler;
 
 public class RiderDamageListener implements Listener
 {
-    private MRHandler riderHandler;
+    private RiderManager riderManager;
+    private GoalManager goalManager;
 
     public RiderDamageListener(MobRider plugin)
     {
-        riderHandler = plugin.getRiderHandler();
+        riderManager = plugin.getRiderManager();
+        goalManager = plugin.getGoalManager();
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -42,7 +45,7 @@ public class RiderDamageListener implements Listener
             // rider damaged by entity
             if (entity instanceof Player) {
 
-                Rider rider = riderHandler.getRider((Player) entity);
+                Rider rider = riderManager.getRider((Player) entity);
 
                 if (rider.isValid()) {
                     LivingEntity ride = rider.getRide();
@@ -51,7 +54,7 @@ public class RiderDamageListener implements Listener
                         event.setCancelled(true); // riders get in the way of skeleton arrows
                     }
                     else if (!damager.equals(ride) && !damager.equals(rider.getTarget())) {
-                        rider.attack((LivingEntity) damager);
+                        goalManager.setAttackGoal(rider, (LivingEntity) damager);
                         return;
                     }
                 }
@@ -60,13 +63,13 @@ public class RiderDamageListener implements Listener
             // entity damaged by rider
             if (damager instanceof Player) {
 
-                Rider rider = riderHandler.getRider((Player) damager);
+                Rider rider = riderManager.getRider((Player) damager);
 
                 if (rider.isValid()) {
                     LivingEntity ride = rider.getRide();
 
                     if (!entity.equals(ride) && !entity.equals(rider.getTarget())) {
-                        rider.attack((LivingEntity) entity);
+                        goalManager.setAttackGoal(rider, (LivingEntity) entity);
                         return;
                     }
                 }
@@ -74,11 +77,12 @@ public class RiderDamageListener implements Listener
 
             // ride damaged by entity
             if (damager instanceof LivingEntity) {
-                Rider rider = riderHandler.getRider((Player) entity.getPassenger());
+                Player player = (Player) entity.getPassenger();
+                Rider rider = riderManager.getRider(player);
 
                 if (rider.isValid()) {
-                    if (!damager.equals(rider.getPlayer())) {
-                        rider.attack((LivingEntity) damager);
+                    if (!damager.equals(player)) {
+                        goalManager.setAttackGoal(rider, (LivingEntity) damager);
                     }
                 }
             }
@@ -89,7 +93,7 @@ public class RiderDamageListener implements Listener
             Entity entity = event.getEntity();
 
             if (entity instanceof Player) {
-                Rider rider = riderHandler.getRider((Player) entity);
+                Rider rider = riderManager.getRider((Player) entity);
 
                 if (rider.isValid()) {
                     switch (event.getCause()) {
@@ -99,6 +103,9 @@ public class RiderDamageListener implements Listener
                         case DROWNING:
                             if (rider.hasWaterCreature())
                                 event.setCancelled(true);
+                            break;
+                        default:
+                            break;
                     }
                 }
             }

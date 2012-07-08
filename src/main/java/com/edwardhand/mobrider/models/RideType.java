@@ -10,14 +10,20 @@ public class RideType
     private EntityType type;
     private float speed;
     private String noise;
+    private double chance;
 
     private static final Map<EntityType, RideType> typeMap = new HashMap<EntityType, RideType>();
 
-    public RideType(EntityType type, float speed, String noise)
+    static {
+        typeMap.put(EntityType.PLAYER, new RideType(EntityType.PLAYER, 0.0F, "", 100.0D));
+    }
+
+    public RideType(EntityType type, float speed, String noise, double chance)
     {
         this.type = type;
         this.speed = speed;
         this.noise = noise;
+        this.chance = chance;
 
         typeMap.put(type, this);
     }
@@ -35,6 +41,11 @@ public class RideType
     public String getNoise()
     {
         return noise;
+    }
+
+    public double getChance()
+    {
+        return chance;
     }
 
     public static RideType fromType(EntityType type)

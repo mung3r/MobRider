@@ -4,17 +4,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.edwardhand.mobrider.MobRider;
+import com.edwardhand.mobrider.managers.GoalManager;
+import com.edwardhand.mobrider.managers.RiderManager;
 import com.edwardhand.mobrider.models.Rider;
-import com.edwardhand.mobrider.utils.MRHandler;
 
 public class AttackCommand extends BasicCommand
 {
-    private MRHandler riderHandler;
+    private RiderManager riderManager;
+    private GoalManager goalManager;
 
     public AttackCommand(MobRider plugin)
     {
         super("Attack");
-        riderHandler = plugin.getRiderHandler();
+        riderManager = plugin.getRiderManager();
+        goalManager = plugin.getGoalManager();
         setDescription("Attack another player or mob");
         setUsage("/mob attack §9<player|mobs>");
         setArgumentRange(1, 1);
@@ -27,10 +30,10 @@ public class AttackCommand extends BasicCommand
     {
         if (sender instanceof Player) {
             Player player = (Player) sender;
- 
-            if (riderHandler.isRider(player)) {
-                Rider rider = riderHandler.getRider(player);
-                rider.attack(args[0]);
+
+            if (riderManager.isRider(player)) {
+                Rider rider = riderManager.getRider(player);
+                goalManager.setAttackGoal(rider, args[0]);
             }
             else {
                 sender.sendMessage("You must be riding a mob to use this command!");

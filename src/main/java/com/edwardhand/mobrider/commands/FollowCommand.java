@@ -4,17 +4,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.edwardhand.mobrider.MobRider;
+import com.edwardhand.mobrider.managers.GoalManager;
+import com.edwardhand.mobrider.managers.RiderManager;
 import com.edwardhand.mobrider.models.Rider;
-import com.edwardhand.mobrider.utils.MRHandler;
 
 public class FollowCommand extends BasicCommand
 {
-    private MRHandler riderHandler;
+    private RiderManager riderManager;
+    private GoalManager goalManager;
 
     public FollowCommand(MobRider plugin)
     {
         super("Follow");
-        riderHandler = plugin.getRiderHandler();
+        riderManager = plugin.getRiderManager();
+        goalManager = plugin.getGoalManager();
         setDescription("Follow another player or mob");
         setUsage("/mob follow §9<player|mob>");
         setArgumentRange(1, 1);
@@ -27,10 +30,10 @@ public class FollowCommand extends BasicCommand
     {
         if (sender instanceof Player) {
             Player player = (Player) sender;
- 
-            if (riderHandler.isRider(player)) {
-                Rider rider = riderHandler.getRider(player);
-                rider.follow(args[0]);
+
+            if (riderManager.isRider(player)) {
+                Rider rider = riderManager.getRider(player);
+                goalManager.setFollowGoal(rider, args[0]);
             }
             else {
                 sender.sendMessage("You must be riding a mob to use this command!");

@@ -1,4 +1,4 @@
-package com.edwardhand.mobrider.utils;
+package com.edwardhand.mobrider.managers;
 
 import java.io.IOException;
 import java.util.Hashtable;
@@ -9,14 +9,16 @@ import org.bukkit.plugin.Plugin;
 
 import com.edwardhand.mobrider.Metrics;
 
-public class MRMetrics extends Metrics
+public class MetricsManager extends Metrics
 {
     private Map<EntityType, Integer> rideTypeCount;
 
-    public MRMetrics(Plugin plugin) throws IOException
+    public MetricsManager(Plugin plugin) throws IOException
     {
         super(plugin);
         rideTypeCount = new Hashtable<EntityType, Integer>() {
+            private static final long serialVersionUID = 1L;
+
             @Override
             public synchronized Integer get(Object key)
             {

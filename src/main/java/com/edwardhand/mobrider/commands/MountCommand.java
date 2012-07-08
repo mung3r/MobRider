@@ -7,18 +7,21 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.edwardhand.mobrider.MobRider;
+import com.edwardhand.mobrider.managers.GoalManager;
+import com.edwardhand.mobrider.managers.RiderManager;
 import com.edwardhand.mobrider.models.Rider;
-import com.edwardhand.mobrider.utils.MRHandler;
 import com.edwardhand.mobrider.utils.MRUtil;
 
 public class MountCommand extends BasicCommand
 {
-    private MRHandler riderHandler;
+    private RiderManager riderManager;
+    private GoalManager goalManager;
 
     public MountCommand(MobRider plugin)
     {
         super("Mount");
-        riderHandler = plugin.getRiderHandler();
+        riderManager = plugin.getRiderManager();
+        goalManager = plugin.getGoalManager();
         setDescription("Mount nearby mob");
         setUsage("/mob mount");
         setArgumentRange(0, 0);
@@ -37,11 +40,11 @@ public class MountCommand extends BasicCommand
                 ((CraftPlayer) player).getHandle().setPassengerOf(null);
             }
             else {
-                LivingEntity target = MRUtil.getTargetLivingEntity(player);
-                if (MRUtil.canRide(player, target)) {
+                LivingEntity target = MRUtil.getNearByTarget(player);
+                if (riderManager.canRide(player, target)) {
                     target.setPassenger(player);
-                    Rider rider = riderHandler.addRider(player);
-                    rider.stop();
+                    Rider rider = riderManager.addRider(player);
+                    goalManager.setStopGoal(rider);
                 }
             }
         }

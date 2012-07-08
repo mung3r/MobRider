@@ -1,7 +1,7 @@
 range:
     max_travel_distance: 100.0
-    max_search_range: 100.0
-    attack_range: 10.0
+    max_search_range: 16.0
+    attack_range: 16.0
     mount_range: 3.0
 
 noise_suffix:
@@ -12,7 +12,8 @@ noise_suffix:
     go_confirmed: ''
     go_confused: '?'
     stop_confirmed: ''
-    creature_fed: ' :D'
+    fed_confirmed: ' :D'
+    fed_confused: '?'
 
 food:
     - brown_mushroom
@@ -38,78 +39,104 @@ mobs:
     Blaze:
         speed: 0.4
         noise: 'Kaboom'
+        chance: 100.0
     CaveSpider:
         speed: 0.4
         noise: 'Cheeuuuk'
+        chance: 100.0
     Chicken:
         speed: 0.2
         noise: 'Cluck'
+        chance: 100.0
     Cow:
         speed: 0.3
         noise: 'Mooooo'
+        chance: 100.0
     Creeper:
         speed: 0.5F
         noise: 'Hisssss'
+        chance: 100.0
     EnderDragon:
         speed: 0.7F
         noise: 'Rawwwwwwr'
+        chance: 100.0
     Enderman:
         speed: 0.2
         noise: 'Mooooaaan'
+        chance: 100.0
     Ghast:
         speed: 0.5
         noise: 'Hooooo'
+        chance: 100.0
     Giant:
         speed: 0.5
         noise: 'MOOOOAAAN'
+        chance: 100.0
     LavaSlime:
         speed: 0.2
         noise: 'Glub'
+        chance: 100.0
     Monster:
         speed: 0.4
         noise: 'Rawr'
+        chance: 100.0
     MushroomCow:
         speed: 0.3
         noise: 'Moo00sh'
+        chance: 100.0
     Ozelot:
         speed: 0.6
         noise: 'Meow'
+        chance: 100.0
     Pig:
         speed: 0.25
         noise: 'Oink'
+        chance: 100.0
     PigZombie:
         speed: 0.4
         noise: 'Mooooiiink'
+        chance: 100.0
     Sheep:
         speed: 0.25
         noise: 'Baaaaa'
+        chance: 100.0
     Silverfish:
         speed: 0.2
         noise: 'Cheeuuuk'
+        chance: 100.0
     Skeleton:
         speed: 0.2
         noise: '*silence*'
+        chance: 100.0
     Slime:
         speed: 0.2
         noise: 'Blluuurrrp'
+        chance: 100.0
     SnowMan:
         speed: 0.3
         noise: '*silence*'
+        chance: 100.0
     Spider:
         speed: 0.4
         noise: 'Cheeuuuk'
+        chance: 100.0
     Squid:
         speed: 0.6
         noise: 'Glub'
+        chance: 100.0
     Villager:
         speed: 0.3
         noise: 'Mhmm'
+        chance: 100.0
     VillagerGolem:
         speed: 0.2
         noise: 'Grrr'
+        chance: 100.0
     Wolf:
         speed: 0.6
         noise: 'Woof'
+        chance: 100.0
     Zombie:
         speed: 0.2
         noise: 'Mooooaaan'
+        chance: 100.0

@@ -14,6 +14,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.milkbowl.vault.permission.Permission;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -21,9 +23,11 @@ import com.edwardhand.mobrider.MobRider;
 
 public class CommandHandler {
 
+    private Permission permission;
     protected Map<String, Command> commands;
 
-    public CommandHandler() {
+    public CommandHandler(MobRider plugin) {
+        permission = plugin.getPermission();
         commands = new LinkedHashMap<String, Command>();
     }
 
@@ -98,10 +102,15 @@ public class CommandHandler {
         }
     }
 
-    public static boolean hasPermission(CommandSender sender, String permission) {
-        if (!(sender instanceof Player) || permission == null || permission.isEmpty()) {
+    public boolean hasPermission(CommandSender sender, String permString) {
+        if (!(sender instanceof Player) || permString == null || permString.isEmpty()) {
             return true;
         }
-        return MobRider.hasPermission((Player) sender, permission);
+
+        Player player = (Player) sender;
+        if (permission != null) {
+            return permission.has(player, permString);
+        }
+        return player.hasPermission(permString);
     }
 }

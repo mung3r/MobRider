@@ -10,21 +10,14 @@ import net.minecraft.server.EntityPlayer;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
-import org.bukkit.entity.Animals;
-import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Ghast;
-import org.bukkit.entity.Golem;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Slime;
-import org.bukkit.entity.Squid;
-import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import com.edwardhand.mobrider.MobRider;
+import com.edwardhand.mobrider.managers.ConfigManager;
 
 public class MRUtil
 {
@@ -46,59 +39,14 @@ public class MRUtil
         return entity.getType().name() == null ? "" : entity.getType().name();
     }
 
-    public static boolean canRide(Player player, Entity entity)
-    {
-        if (player == null || entity == null) {
-            return false;
-        }
-
-        if (entity.getPassenger() != null) {
-            player.sendMessage("That creature already has a rider.");
-            return false;
-        }
-
-        if (MobRider.permission == null) {
-            return true;
-        }
-
-        if (entity instanceof Animals || entity instanceof Squid || entity instanceof Golem || entity instanceof Villager) {
-            if (MobRider.permission.playerHas(player, "mobrider.animals") || MobRider.permission.playerHas(player, "mobrider.animals." + MRUtil.getCreatureName(entity).toLowerCase()))
-                return true;
-            else {
-                player.sendMessage("You do not have permission to ride animals.");
-                return false;
-            }
-        }
-
-        if (entity instanceof Monster || entity instanceof Ghast || entity instanceof Slime || entity instanceof EnderDragon) {
-            if (MobRider.permission.playerHas(player, "mobrider.monsters") || MobRider.permission.playerHas(player, "mobrider.monsters." + MRUtil.getCreatureName(entity).toLowerCase()))
-                return true;
-            else {
-                player.sendMessage("You do not have permission to ride monsters.");
-                return false;
-            }
-        }
-
-        if (entity instanceof Player) {
-            if (MobRider.permission.playerHas(player, "mobrider.players") || MobRider.permission.playerHas(player, "mobrider.players." + ((Player) entity).getName().toLowerCase()))
-                return true;
-            else {
-                player.sendMessage("You do not have permission to ride players.");
-                return false;
-            }
-        }
-
-        return false;
-    }
-
-    public static LivingEntity getTargetLivingEntity(Player player)
+    public static LivingEntity getNearByTarget(Player player)
     {
         LivingEntity livingEntity = null;
 
         if (player != null) {
             EntityPlayer mcPlayer = ((CraftPlayer) player).getHandle();
 
-            Location loc = player.getTargetBlock(null, (int) MRConfig.MOUNT_RANGE).getLocation();
+            Location loc = player.getTargetBlock(null, (int) ConfigManager.MOUNT_RANGE).getLocation();
             CraftWorld craftWorld = (CraftWorld) player.getWorld();
             double x1 = loc.getX() + 0.5D;
             double y1 = loc.getY() + 0.5D;
@@ -107,7 +55,7 @@ public class MRUtil
             @SuppressWarnings("rawtypes")
             List entities = new ArrayList();
             double r = 0.5D;
-            while ((entities.size() == 0) && (r < MRConfig.MOUNT_RANGE)) {
+            while ((entities.size() == 0) && (r < ConfigManager.MOUNT_RANGE)) {
                 AxisAlignedBB bb = AxisAlignedBB.a(x1 - r, y1 - r, z1 - r, x1 + r, y1 + r, z1 + r);
                 entities = craftWorld.getHandle().getEntities(mcPlayer, bb);
                 r += 0.5D;
@@ -136,5 +84,22 @@ public class MRUtil
                 inv.setItem(inv.getHeldItemSlot(), null);
             }
         }
+    }
+
+    public static boolean hasNewAI(LivingEntity livingEntity)
+    {
+        return livingEntity != null && (livingEntity.getType() == EntityType.CHICKEN
+          || livingEntity.getType() == EntityType.COW
+          || livingEntity.getType() == EntityType.CREEPER
+          || livingEntity.getType() == EntityType.IRON_GOLEM
+          || livingEntity.getType() == EntityType.MUSHROOM_COW
+          || livingEntity.getType() == EntityType.OCELOT
+          || livingEntity.getType() == EntityType.PIG
+          || livingEntity.getType() == EntityType.SHEEP
+          || livingEntity.getType() == EntityType.SKELETON
+          || livingEntity.getType() == EntityType.SNOWMAN
+          || livingEntity.getType() == EntityType.VILLAGER
+          || livingEntity.getType() == EntityType.WOLF
+          || livingEntity.getType() == EntityType.ZOMBIE);
     }
 }
