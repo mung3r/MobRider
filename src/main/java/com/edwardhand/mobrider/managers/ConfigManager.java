@@ -11,6 +11,7 @@ import java.util.Set;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 
 import com.edwardhand.mobrider.MobRider;
@@ -50,24 +51,24 @@ public class ConfigManager
         config = getConfig(configFile);
 
         ConfigurationSection general = config.getConfigurationSection("general");
-        controlItem = Material.matchMaterial(general.getString("control_item", "fishing_rod"));
-        
+        controlItem = Material.matchMaterial(general.getString("control_item"));
+
         ConfigurationSection range = config.getConfigurationSection("range");
-        MAX_TRAVEL_DISTANCE = Double.valueOf(range.getDouble("max_travel_distance", 100)).intValue();
-        MAX_SEARCH_RANGE = range.getDouble("max_search_distance", 16);
-        ATTACK_RANGE = range.getDouble("attack_range", 16);
-        MOUNT_RANGE = range.getDouble("mount_range", 3);
+        MAX_TRAVEL_DISTANCE = Double.valueOf(range.getDouble("max_travel_distance")).intValue();
+        MAX_SEARCH_RANGE = range.getDouble("max_search_distance");
+        ATTACK_RANGE = range.getDouble("attack_range");
+        MOUNT_RANGE = range.getDouble("mount_range");
 
         ConfigurationSection messageSuffix = config.getConfigurationSection("noise_suffix");
-        attackConfirmedMessage = messageSuffix.getString("attack_confirmed", "!");
-        attackConfusedMessage = messageSuffix.getString("attack_confused", "?");
-        followConfirmedMessage = messageSuffix.getString("follow_confirmed", "!");
-        followConfusedMessage = messageSuffix.getString("follow_confused", "?");
-        goConfirmedMessage = messageSuffix.getString("go_confirmed", "");
-        goConfusedMessage = messageSuffix.getString("go_confused", "?");
-        stopConfirmedMessage = messageSuffix.getString("stop_confirmed", "");
-        fedConfirmedMessage = messageSuffix.getString("fed_confirmed", " :D");
-        fedConfusedMessage = messageSuffix.getString("fed_confused", "?");
+        attackConfirmedMessage = messageSuffix.getString("attack_confirmed");
+        attackConfusedMessage = messageSuffix.getString("attack_confused");
+        followConfirmedMessage = messageSuffix.getString("follow_confirmed");
+        followConfusedMessage = messageSuffix.getString("follow_confused");
+        goConfirmedMessage = messageSuffix.getString("go_confirmed");
+        goConfusedMessage = messageSuffix.getString("go_confused");
+        stopConfirmedMessage = messageSuffix.getString("stop_confirmed");
+        fedConfirmedMessage = messageSuffix.getString("fed_confirmed");
+        fedConfusedMessage = messageSuffix.getString("fed_confused");
 
         food = new HashSet<Material>();
         List<String> materials = config.getStringList("food");
@@ -78,7 +79,7 @@ public class ConfigManager
         ConfigurationSection mobs = config.getConfigurationSection("mobs");
         for (String name : mobs.getKeys(false)) {
             ConfigurationSection mob = mobs.getConfigurationSection(name);
-            new RideType(EntityType.fromName(name), Double.valueOf(mob.getDouble("speed", 0.2)).floatValue(), mob.getString("noise", ""), mob.getDouble("chance", 100D));
+            new RideType(EntityType.fromName(name), Double.valueOf(mob.getDouble("speed")).floatValue(), mob.getString("noise"), mob.getDouble("chance"));
         }
     }
 
@@ -99,11 +100,13 @@ public class ConfigManager
 
     private FileConfiguration getConfig(File file)
     {
-        if (!file.exists()) {
-            try {
+        FileConfiguration config = null;
+
+        try {
+            if (!file.exists()) {
                 file.getParentFile().mkdir();
                 file.createNewFile();
-                InputStream inputStream = ConfigManager.class.getResourceAsStream("/" + file.getName());
+                InputStream inputStream = plugin.getResource(file.getName());
                 FileOutputStream outputStream = new FileOutputStream(file);
 
                 byte[] buffer = new byte[8192];
@@ -116,11 +119,15 @@ public class ConfigManager
 
                 MobRider.getMRLogger().info("Default config created successfully!");
             }
-            catch (Exception e) {
-                MobRider.getMRLogger().warning("Default config could not be created!");
-            }
+
+            config = plugin.getConfig();
+            config.setDefaults(YamlConfiguration.loadConfiguration(plugin.getResource(file.getName())));
+            config.options().copyDefaults(true);
+        }
+        catch (Exception e) {
+            MobRider.getMRLogger().warning("Default config could not be created!");
         }
 
-        return plugin.getConfig();
+        return config;
     }
 }
