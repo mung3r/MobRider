@@ -111,8 +111,9 @@ public class ConfigManager
 
                 byte[] buffer = new byte[8192];
                 int length = 0;
-                while ((length = inputStream.read(buffer)) > 0)
+                while ((length = inputStream.read(buffer)) > 0) {
                     outputStream.write(buffer, 0, length);
+                }
 
                 inputStream.close();
                 outputStream.close();
