@@ -20,6 +20,7 @@ import com.edwardhand.mobrider.managers.MessageManager;
 import com.edwardhand.mobrider.managers.MetricsManager;
 import com.edwardhand.mobrider.managers.RiderManager;
 import com.edwardhand.mobrider.utils.MRLogger;
+import com.edwardhand.mobrider.utils.MRUpdate;
 
 import net.citizensnpcs.Citizens;
 import net.milkbowl.vault.permission.Permission;
@@ -34,6 +35,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class MobRider extends JavaPlugin
 {
     private static final MRLogger log = new MRLogger();
+    private static final String DEV_BUKKIT_URL = "http://dev.bukkit.org/server-mods/mobrider";
+    private static final long CHECK_DELAY = 0;
+    private static final long CHECK_PERIOD = 432000;
 
     private Permission permission;
     private CommandHandler commandHandler;
@@ -61,10 +65,7 @@ public class MobRider extends JavaPlugin
         registerCommands();
         registerEvents();
 
-        if (getServer().getScheduler().scheduleSyncRepeatingTask(this, riderManager, 5L, 1L) < 0) {
-            getServer().getPluginManager().disablePlugin(this);
-            log.severe("Failed to schedule task.");
-        }
+        Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, new MRUpdate(this, DEV_BUKKIT_URL), CHECK_DELAY, CHECK_PERIOD);
 
         log.info(getDescription().getVersion() + " enabled.");
     }
@@ -135,7 +136,7 @@ public class MobRider extends JavaPlugin
             if (permissionProvider != null) {
                 permission = permissionProvider.getProvider();
             }
-        
+
             if (permission == null) {
                 log.warning("Missing permissions - everything is allowed!");
             }
@@ -145,7 +146,8 @@ public class MobRider extends JavaPlugin
         }
     }
 
-    private void setupMetrics() {
+    private void setupMetrics()
+    {
         try {
             metrics = new MetricsManager(this);
             metrics.setupGraphs();
@@ -168,7 +170,7 @@ public class MobRider extends JavaPlugin
     private void registerCommands()
     {
         commandHandler = new CommandHandler(this);
-    
+
         commandHandler.addCommand(new AttackCommand(this));
         commandHandler.addCommand(new FollowCommand(this));
         commandHandler.addCommand(new GoCommand(this));

@@ -6,6 +6,7 @@ import java.util.Random;
 
 import net.milkbowl.vault.permission.Permission;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Entity;
@@ -25,6 +26,8 @@ import com.edwardhand.mobrider.utils.MRUtil;
 
 public class RiderManager implements Runnable
 {
+    private static final long UPDATE_DELAY = 5L;
+    private static final long UPDATE_PERIOD = 1L;
     private Random random = new Random();
 
     private Permission permission;
@@ -43,6 +46,11 @@ public class RiderManager implements Runnable
         messageManager = plugin.getMessageManager();
 
         riders = new Hashtable<String, Rider>();
+
+        if (Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, UPDATE_DELAY, UPDATE_PERIOD) < 0) {
+            Bukkit.getPluginManager().disablePlugin(plugin);
+            MobRider.getMRLogger().severe("Failed to schedule task.");
+        }
     }
 
     @Override
