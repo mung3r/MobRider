@@ -57,7 +57,7 @@ public class Rider
         LivingEntity target = null;
         LivingEntity ride = getRide();
 
-        if (ride != null) {
+        if (ride instanceof Creature) {
             target = ((Creature) ride).getTarget();
         }
 
