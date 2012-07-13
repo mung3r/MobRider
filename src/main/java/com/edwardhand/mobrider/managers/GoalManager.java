@@ -108,8 +108,7 @@ public class GoalManager
     public void setDirection(Rider rider, Vector direction, int distance)
     {
         if (direction != null) {
-            rider.setGoal(new LocationGoal(plugin, convertDirectionToLocation(rider, direction.multiply(Math.min(configManager.MAX_TRAVEL_DISTANCE, distance)))));
-            messageManager.sendMessage(rider, configManager.goConfirmedMessage);
+        	setDestination(rider, convertDirectionToLocation(rider, direction.multiply(Math.min(configManager.MAX_TRAVEL_DISTANCE, distance))));
         }
         else {
             messageManager.sendMessage(rider, configManager.goConfusedMessage);
