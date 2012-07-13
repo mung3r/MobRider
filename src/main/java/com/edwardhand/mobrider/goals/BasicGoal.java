@@ -13,6 +13,7 @@ public abstract class BasicGoal implements Goal
     protected double rangeSquared;
     protected GoalManager goalManager;
     protected Location destination;
+    protected long timeCreated;
 
     public BasicGoal(MobRider plugin, Location destination)
     {
@@ -20,6 +21,11 @@ public abstract class BasicGoal implements Goal
         goalManager = plugin.getGoalManager();
         this.destination = destination;
         rangeSquared = configManager.MOUNT_RANGE * configManager.MOUNT_RANGE;
+        timeCreated = System.currentTimeMillis();
+    }
+
+    public long getTimeCreated() {
+        return timeCreated;
     }
 
     @Override

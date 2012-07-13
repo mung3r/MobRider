@@ -9,17 +9,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerAnimationEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
-import org.bukkit.inventory.ItemStack;
 
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.managers.ConfigManager;
 import com.edwardhand.mobrider.managers.GoalManager;
 import com.edwardhand.mobrider.managers.RiderManager;
 import com.edwardhand.mobrider.models.Rider;
-import com.edwardhand.mobrider.utils.MRUtil;
 
 public class RiderPlayerListener implements Listener
 {
@@ -34,46 +32,39 @@ public class RiderPlayerListener implements Listener
         goalManager = plugin.getGoalManager();
     }
 
-    // This method must run even if it was canceled.
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerInteract(PlayerInteractEvent event)
     {
-        if ((event.getAction() != Action.RIGHT_CLICK_AIR) && (event.getAction() != Action.RIGHT_CLICK_BLOCK)) {
-            return;
-        }
-
         Player player = event.getPlayer();
-        Entity vehicle = player.getVehicle();
 
-        if (player.getItemInHand().getType() == Material.SADDLE) {
-            if (vehicle instanceof LivingEntity) {
-                ((CraftPlayer) player).getHandle().setPassengerOf(null);
+        if (player.getItemInHand().getType() == configManager.controlItem && riderManager.isRider(player) && !goalManager.isWithinHysteresisThreshold(riderManager.getRider(player).getGoal())) {
+            if (event.getAction() == Action.LEFT_CLICK_AIR) {
+                goalManager.setDirection(riderManager.getRider(player), player.getLocation().getDirection().normalize());
             }
-            else {
-                LivingEntity target = MRUtil.getNearByTarget(player, (int) configManager.MOUNT_RANGE);
-                if (target != null && riderManager.canRide(player, target)) {
-                    target.setPassenger(player);
-                    Rider rider = riderManager.addRider(player);
-                    goalManager.setStopGoal(rider);
-                }
+            else if (event.getAction() == Action.RIGHT_CLICK_AIR) {
+                goalManager.setStopGoal(riderManager.getRider(player));
             }
-        }
-        else if (vehicle instanceof LivingEntity && configManager.isFood(player.getItemInHand().getType())) {
-            riderManager.feedRide(riderManager.getRider(player));
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerAnimation(PlayerAnimationEvent event)
+    public void onPlayerInteractEntity(PlayerInteractEntityEvent event)
     {
         Player player = event.getPlayer();
-        ItemStack itemInHand = player.getInventory().getItemInHand();
+        Entity vehicle = player.getVehicle();
+        Entity target = event.getRightClicked();
 
-        if (itemInHand != null && itemInHand.getType() == configManager.controlItem) {
-
-            Rider rider = riderManager.getRider(player);
-
-            goalManager.setDestination(rider, player.getTargetBlock(null, configManager.MAX_TRAVEL_DISTANCE).getLocation());
+        if (vehicle instanceof LivingEntity && vehicle.equals(target) && riderManager.isRider(player)) {
+            if (configManager.isFood(player.getItemInHand().getType())) {
+                riderManager.feedRide(riderManager.getRider(player));
+            }
+            else {
+                ((CraftPlayer) player).getHandle().setPassengerOf(null);
+            }
+        }
+        else if (player.getItemInHand().getType() == Material.SADDLE && riderManager.canRide(player, target)) {
+            target.setPassenger(player);
+            goalManager.setStopGoal(riderManager.addRider(player));
         }
     }
 
@@ -81,11 +72,9 @@ public class RiderPlayerListener implements Listener
     public void onItemHeldChange(PlayerItemHeldEvent event)
     {
         Player player = event.getPlayer();
-        Rider rider = riderManager.getRiders().get(player.getName());
 
         // Holding down SHIFT(sneak) and mouse scrolling adjusts speed
-        if (rider != null && rider.hasGoal() && player.isSneaking()) {
-
+        if (riderManager.isRider(player) && player.isSneaking()) {
             int newSlot = event.getNewSlot();
             int prevSlot = event.getPreviousSlot();
             boolean increase = (prevSlot - newSlot) > 0;
@@ -93,6 +82,7 @@ public class RiderPlayerListener implements Listener
             if (((prevSlot == 0) && (newSlot == 8)) || ((prevSlot == 8) && (newSlot == 0)))
                 increase = !increase;
 
+            Rider rider = riderManager.getRider(player);
             rider.setSpeed(increase ? rider.getSpeed() + 0.05F : rider.getSpeed() - 0.05F);
         }
     }

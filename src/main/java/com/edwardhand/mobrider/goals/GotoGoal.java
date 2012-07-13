@@ -31,7 +31,7 @@ public class GotoGoal extends LocationGoal
                     goalManager.setStopGoal(rider);
                 }
                 else {
-                    if (goalManager.isGoalWithinRange(ride.getLocation(), target.getLocation(), rangeSquared)) {
+                    if (goalManager.isWithinRange(ride.getLocation(), target.getLocation(), rangeSquared)) {
                         goalManager.setStopGoal(rider);
                     }
                     else {

@@ -31,6 +31,8 @@ import com.edwardhand.mobrider.utils.MRUtil;
 
 public class GoalManager
 {
+    private static final long HYSTERESIS_THRESHOLD = 250; // quarter second
+                                                          // in milliseconds
     private MobRider plugin;
     private ConfigManager configManager;
     private MessageManager messageManager;
@@ -108,7 +110,7 @@ public class GoalManager
     public void setDirection(Rider rider, Vector direction, int distance)
     {
         if (direction != null) {
-        	setDestination(rider, convertDirectionToLocation(rider, direction.multiply(Math.min(configManager.MAX_TRAVEL_DISTANCE, distance))));
+            setDestination(rider, convertDirectionToLocation(rider, direction.multiply(Math.min(configManager.MAX_TRAVEL_DISTANCE, distance))));
         }
         else {
             messageManager.sendMessage(rider, configManager.goConfusedMessage);
@@ -167,9 +169,14 @@ public class GoalManager
         }
     }
 
-    public boolean isGoalWithinRange(Location currentLocation, Location destination, double range)
+    public boolean isWithinRange(Location currentLocation, Location destination, double range)
     {
         return currentLocation.distanceSquared(destination) < range;
+    }
+
+    public boolean isWithinHysteresisThreshold(Goal goal)
+    {
+        return goal.getTimeCreated() < HYSTERESIS_THRESHOLD;
     }
 
     private Location convertDirectionToLocation(Rider rider, Vector direction)

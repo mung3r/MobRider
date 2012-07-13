@@ -56,14 +56,14 @@ public class RiderManager implements Runnable
     @Override
     public void run()
     {
-        for (String playerName : getRiders().keySet()) {
-            Rider rider = getRiders().get(playerName);
+        for (String playerName : riders.keySet()) {
+            Rider rider = riders.get(playerName);
             if (rider.isValid()) {
                 goalManager.update(rider);
             }
             else {
                 rider.setTarget(null);
-                getRiders().remove(playerName);
+                riders.remove(playerName);
             }
         }
     }
@@ -95,11 +95,6 @@ public class RiderManager implements Runnable
         }
 
         return rider != null ? rider : new Rider(null);
-    }
-
-    public Map<String, Rider> getRiders()
-    {
-        return riders;
     }
 
     public boolean isRider(Player player)
