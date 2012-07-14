@@ -1,6 +1,6 @@
 name: MobRider
 main: com.edwardhand.mobrider.MobRider
-version: 0.46.0-b${BUILD_NUMBER}
+version: 0.46.1-b${BUILD_NUMBER}
 authors: [edwardhand, mung3r]
 website: http://dev.bukkit.org/server-mods/mobrider
 softdepend: [SpoutPlugin,Vault]
@@ -11,7 +11,7 @@ commands:
            Usage:
            /<command> mount <player|mob> - mount a nearby player or mob
            /<command> go <direction> - go n, north, northeast, etc.
-           /<command> goto <player|mob> - go to nearby player or mob
+           /<command> goto <player|mob|npc|region> - go to nearby player, mob, npc or region
            /<command> goto <x> <z> - go to specific x, z coordinates
            /<command> follow <player|mob> - follow nearby player or mob
            /<command> attack <player|mob> - attack nearby player or mob
