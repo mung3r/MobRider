@@ -7,19 +7,16 @@ import org.bukkit.entity.LivingEntity;
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.models.Rider;
 import com.sk89q.worldedit.BlockVector;
-import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 public class RegionGoal extends LocationGoal
 {
-    protected RegionManager regionManager;
     protected ProtectedRegion region;
 
     public RegionGoal(MobRider plugin, ProtectedRegion region, World world)
     {
         super(plugin, getMidPoint(region, world));
         this.region = region;
-        regionManager = plugin.getWorldGuardPlugin().getRegionManager(world);
     }
 
     @Override
