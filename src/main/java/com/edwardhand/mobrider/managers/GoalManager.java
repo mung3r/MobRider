@@ -1,5 +1,7 @@
 package com.edwardhand.mobrider.managers;
 
+import java.util.Iterator;
+
 import net.citizensnpcs.api.CitizensManager;
 import net.citizensnpcs.resources.npclib.HumanNPC;
 import net.citizensnpcs.resources.npclib.NPCList;
@@ -25,9 +27,11 @@ import com.edwardhand.mobrider.goals.FollowGoal;
 import com.edwardhand.mobrider.goals.Goal;
 import com.edwardhand.mobrider.goals.GotoGoal;
 import com.edwardhand.mobrider.goals.LocationGoal;
+import com.edwardhand.mobrider.goals.RegionGoal;
 import com.edwardhand.mobrider.goals.StopGoal;
 import com.edwardhand.mobrider.models.Rider;
 import com.edwardhand.mobrider.utils.MRUtil;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 public class GoalManager
 {
@@ -73,16 +77,25 @@ public class GoalManager
         }
     }
 
-    public void setGotoGoal(Rider rider, String entityName)
+    public void setGotoGoal(Rider rider, String goalName)
     {
-        LivingEntity entity = findGoal(rider, entityName, configManager.MAX_SEARCH_RANGE);
+        LivingEntity entity = findGoal(rider, goalName, configManager.MAX_SEARCH_RANGE);
 
         if (entity != null) {
             rider.setGoal(new GotoGoal(plugin, entity));
             messageManager.sendMessage(rider, configManager.followConfirmedMessage);
         }
         else {
-            messageManager.sendMessage(rider, configManager.followConfusedMessage);
+            if (plugin.hasWorldGuard()) {
+                ProtectedRegion region = findRegion(rider, goalName);
+
+                if (region != null) {
+                    rider.setGoal(new RegionGoal(plugin, region, rider.getWorld()));
+                }
+            }
+            else {
+                messageManager.sendMessage(rider, configManager.followConfusedMessage);
+            }
         }
     }
 
@@ -169,14 +182,29 @@ public class GoalManager
         }
     }
 
-    public boolean isWithinRange(Location currentLocation, Location destination, double range)
+    public boolean isWithinRange(Location currentLocation, Location destination, double rangeSquared)
     {
-        return currentLocation.distanceSquared(destination) < range;
+        return currentLocation.distanceSquared(destination) < rangeSquared;
+    }
+
+    public boolean isWithinRegion(Location currentLocation, ProtectedRegion region)
+    {
+        boolean isWithinRegion = false;
+
+        Iterator<ProtectedRegion> regionIterator = plugin.getWorldGuardPlugin().getRegionManager(currentLocation.getWorld()).getApplicableRegions(currentLocation).iterator();
+        while (regionIterator.hasNext()) {
+            if (regionIterator.next().getId().equals(region.getId())) {
+                isWithinRegion = true;
+                break;
+            }
+        }
+
+        return isWithinRegion;
     }
 
     public boolean isWithinHysteresisThreshold(Goal goal)
     {
-        return goal.getTimeCreated() < HYSTERESIS_THRESHOLD;
+        return (System.currentTimeMillis() - goal.getTimeCreated()) < HYSTERESIS_THRESHOLD;
     }
 
     private Location convertDirectionToLocation(Rider rider, Vector direction)
@@ -201,7 +229,7 @@ public class GoalManager
 
         if (player != null) {
             // find entity by entity ID
-            if (MRUtil.isNumber(searchTerm)) {
+            if (MRUtil.isInteger(searchTerm)) {
                 net.minecraft.server.Entity entity = ((CraftWorld) player.getWorld()).getHandle().getEntity(Integer.valueOf(searchTerm));
                 if (entity instanceof LivingEntity) {
                     if (isEntityWithinRange((LivingEntity) entity, player, searchRange)) {
@@ -248,6 +276,17 @@ public class GoalManager
         }
 
         return foundEntity;
+    }
+
+    private ProtectedRegion findRegion(Rider rider, String regionName)
+    {
+        ProtectedRegion region = null;
+
+        if (plugin.hasWorldGuard()) {
+            region = plugin.getWorldGuardPlugin().getRegionManager(rider.getWorld()).getRegion(regionName);
+        }
+
+        return region;
     }
 
     private boolean isEntityWithinRange(LivingEntity from, LivingEntity to, double range)

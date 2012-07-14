@@ -45,7 +45,7 @@ public class GotoCommand extends BasicCommand
                 if (args.length == 1) {
                     goalManager.setGotoGoal(rider, args[0]);
                 }
-                else if (args.length == 2 && MRUtil.isNumber(args[0]) && MRUtil.isNumber(args[1])) {
+                else if (args.length == 2 && MRUtil.isInteger(args[0]) && MRUtil.isInteger(args[1])) {
                     goalManager.setDestination(rider, new Location(rider.getWorld(), Integer.parseInt(args[0]), 64.0D, Integer.parseInt(args[1])));
                 }
                 else {

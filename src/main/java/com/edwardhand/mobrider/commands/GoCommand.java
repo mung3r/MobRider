@@ -45,7 +45,7 @@ public class GoCommand extends BasicCommand
                 if (args.length == 1 && DirectionType.fromName(args[0]) != null) {
                     goalManager.setDirection(rider, DirectionType.fromName(args[0]).getDirection());
                 }
-                else if (args.length == 2 && DirectionType.fromName(args[0]) != null && MRUtil.isNumber(args[1])) {
+                else if (args.length == 2 && DirectionType.fromName(args[0]) != null && MRUtil.isInteger(args[1])) {
                     goalManager.setDirection(rider, DirectionType.fromName(args[0]).getDirection(), Integer.parseInt(args[1]));
                 }
                 else {

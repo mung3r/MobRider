@@ -21,6 +21,7 @@ import com.edwardhand.mobrider.managers.MetricsManager;
 import com.edwardhand.mobrider.managers.RiderManager;
 import com.edwardhand.mobrider.utils.MRLogger;
 import com.edwardhand.mobrider.utils.MRUpdate;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 import net.citizensnpcs.Citizens;
 import net.milkbowl.vault.permission.Permission;
@@ -46,7 +47,8 @@ public class MobRider extends JavaPlugin
     private MessageManager messageManager;
     private ConfigManager config;
     private MetricsManager metrics;
-    private boolean hasCitizens;
+    private WorldGuardPlugin worldGuardPlugin;
+    private Citizens citizensPlugin;
 
     @Override
     public void onEnable()
@@ -55,6 +57,7 @@ public class MobRider extends JavaPlugin
 
         setupPermission();
         setupMetrics();
+        setupWorldGuard();
         setupCitizens();
 
         config = new ConfigManager(this);
@@ -114,14 +117,24 @@ public class MobRider extends JavaPlugin
         return metrics;
     }
 
-    public boolean hasCitizens()
-    {
-        return hasCitizens;
-    }
-
     public CommandHandler getCommandHandler()
     {
         return commandHandler;
+    }
+
+    public boolean hasCitizens()
+    {
+        return citizensPlugin != null;
+    }
+
+    public boolean hasWorldGuard()
+    {
+        return worldGuardPlugin != null;
+    }
+
+    public WorldGuardPlugin getWorldGuardPlugin()
+    {
+        return worldGuardPlugin;
     }
 
     public static MRLogger getMRLogger()
@@ -158,11 +171,20 @@ public class MobRider extends JavaPlugin
         }
     }
 
+    private void setupWorldGuard()
+    {
+        Plugin plugin = this.getServer().getPluginManager().getPlugin("WorldGuard");
+        if (plugin instanceof WorldGuardPlugin) {
+            worldGuardPlugin = (WorldGuardPlugin) plugin;
+            log.info("Successfully hooked " + plugin.getDescription().getName());
+        }
+    }
+
     private void setupCitizens()
     {
         Plugin plugin = this.getServer().getPluginManager().getPlugin("Citizens");
         if (plugin instanceof Citizens) {
-            hasCitizens = true;
+            citizensPlugin = (Citizens) plugin;
             log.info("Successfully hooked " + plugin.getDescription().getName());
         }
     }

@@ -19,17 +19,16 @@ import org.bukkit.inventory.PlayerInventory;
 
 public class MRUtil
 {
-    public static boolean isNumber(final String s)
+    public static boolean isInteger(final String s)
     {
         try {
             Integer.parseInt(s);
-            return true;
         }
         catch (NumberFormatException e) {
-            // do nothing, really
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     public static String getCreatureName(Entity entity)
