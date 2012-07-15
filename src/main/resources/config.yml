@@ -2,9 +2,9 @@ general:
     control_item: fishing_rod 
 
 range:
-    max_travel_distance: 100.0
-    max_search_distance: 50.0
-    attack_range: 25.0
+    max_travel_distance: 125.0
+    max_search_distance: 75.0
+    attack_range: 50.0
     mount_range: 3.0
 
 noise_suffix:

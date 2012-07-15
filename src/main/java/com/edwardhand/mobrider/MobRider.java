@@ -10,6 +10,7 @@ import com.edwardhand.mobrider.commands.GoCommand;
 import com.edwardhand.mobrider.commands.GotoCommand;
 import com.edwardhand.mobrider.commands.HelpCommand;
 import com.edwardhand.mobrider.commands.MountCommand;
+import com.edwardhand.mobrider.commands.ReloadCommand;
 import com.edwardhand.mobrider.commands.StopCommand;
 import com.edwardhand.mobrider.listeners.RiderDamageListener;
 import com.edwardhand.mobrider.listeners.RiderTargetListener;
@@ -86,6 +87,13 @@ public class MobRider extends JavaPlugin
     {
         return commandHandler.dispatch(sender, cmd, commandLabel, args);
     }
+
+    @Override
+    public void reloadConfig()
+    {
+        super.reloadConfig();
+        config = new ConfigManager(this);
+    };
 
     public Permission getPermission()
     {
@@ -201,6 +209,7 @@ public class MobRider extends JavaPlugin
         commandHandler.addCommand(new HelpCommand(this));
         commandHandler.addCommand(new MountCommand(this));
         commandHandler.addCommand(new BuckCommand(this));
+        commandHandler.addCommand(new ReloadCommand(this));
     }
 
     private void registerEvents()
