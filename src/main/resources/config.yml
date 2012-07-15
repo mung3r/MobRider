@@ -3,7 +3,7 @@ general:
 
 range:
     max_travel_distance: 100.0
-    max_search_range: 16.0
+    max_search_distance: 16.0
     attack_range: 16.0
     mount_range: 3.0
 
