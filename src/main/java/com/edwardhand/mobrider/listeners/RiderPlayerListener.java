@@ -1,6 +1,7 @@
 package com.edwardhand.mobrider.listeners;
 
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.entity.CraftPig;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -61,10 +62,19 @@ public class RiderPlayerListener implements Listener
             else {
                 ((CraftPlayer) player).getHandle().setPassengerOf(null);
             }
+
+            if (vehicle instanceof CraftPig) {
+                event.setCancelled(true);
+            }
         }
         else if (player.getItemInHand().getType() == Material.SADDLE && riderManager.canRide(player, target)) {
             target.setPassenger(player);
             goalManager.setStopGoal(riderManager.addRider(player));
+        }
+        else if (target instanceof CraftPig && ((CraftPig) target).hasSaddle() && riderManager.canRide(player, target)) {
+            target.setPassenger(player);
+            goalManager.setStopGoal(riderManager.addRider(player));
+            event.setCancelled(true);
         }
     }
 
