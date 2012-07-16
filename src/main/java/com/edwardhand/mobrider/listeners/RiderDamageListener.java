@@ -9,7 +9,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.managers.GoalManager;
@@ -28,85 +27,86 @@ public class RiderDamageListener implements Listener
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onEntityDamage(EntityDamageEvent event)
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
     {
         if (event.isCancelled())
             return;
 
-        if (event instanceof EntityDamageByEntityEvent) {
+        Entity entity = event.getEntity();
+        Entity damager = event.getDamager();
 
-            Entity entity = event.getEntity();
-            Entity damager = ((EntityDamageByEntityEvent) event).getDamager();
+        if (damager instanceof Projectile) {
+            damager = ((Projectile) damager).getShooter();
+        }
 
-            if (damager instanceof Projectile) {
-                damager = ((Projectile) damager).getShooter();
-            }
+        // rider damaged by entity
+        if (entity instanceof Player) {
 
-            // rider damaged by entity
-            if (entity instanceof Player) {
+            Rider rider = riderManager.getRider((Player) entity);
 
-                Rider rider = riderManager.getRider((Player) entity);
+            if (rider.isValid()) {
+                LivingEntity ride = rider.getRide();
 
-                if (rider.isValid()) {
-                    LivingEntity ride = rider.getRide();
-
-                    if (damager.equals(ride)) {
-                        event.setCancelled(true); // riders get in the way of skeleton arrows
-                    }
-                    else if (!damager.equals(ride) && !damager.equals(rider.getTarget())) {
-                        goalManager.setAttackGoal(rider, (LivingEntity) damager);
-                        return;
-                    }
+                if (damager.equals(ride)) {
+                    event.setCancelled(true); // riders get in the way of
+                                              // skeleton arrows
                 }
-            }
-
-            // entity damaged by rider
-            if (damager instanceof Player) {
-
-                Rider rider = riderManager.getRider((Player) damager);
-
-                if (rider.isValid()) {
-                    LivingEntity ride = rider.getRide();
-
-                    if (!entity.equals(ride) && !entity.equals(rider.getTarget())) {
-                        goalManager.setAttackGoal(rider, (LivingEntity) entity);
-                        return;
-                    }
-                }
-            }
-
-            // ride damaged by entity
-            if (damager instanceof LivingEntity) {
-                Player player = (Player) entity.getPassenger();
-                Rider rider = riderManager.getRider(player);
-
-                if (rider.isValid()) {
-                    if (!damager.equals(player)) {
-                        goalManager.setAttackGoal(rider, (LivingEntity) damager);
-                    }
+                else if (!damager.equals(ride) && !damager.equals(rider.getTarget())) {
+                    goalManager.setAttackGoal(rider, (LivingEntity) damager);
+                    return;
                 }
             }
         }
-        // rider damaged by drowning or suffocation
-        else if (event instanceof EntityDamageByBlockEvent) {
 
-            Entity entity = event.getEntity();
+        // entity damaged by rider
+        if (damager instanceof Player) {
 
-            if (entity instanceof Player) {
-                Rider rider = riderManager.getRider((Player) entity);
+            Rider rider = riderManager.getRider((Player) damager);
 
-                if (rider.isValid()) {
-                    switch (event.getCause()) {
-                        case SUFFOCATION:
+            if (rider.isValid()) {
+                LivingEntity ride = rider.getRide();
+
+                if (!entity.equals(ride) && !entity.equals(rider.getTarget())) {
+                    goalManager.setAttackGoal(rider, (LivingEntity) entity);
+                    return;
+                }
+            }
+        }
+
+        // ride damaged by entity
+        if (damager instanceof LivingEntity) {
+            Player player = (Player) entity.getPassenger();
+            Rider rider = riderManager.getRider(player);
+
+            if (rider.isValid()) {
+                if (!damager.equals(player)) {
+                    goalManager.setAttackGoal(rider, (LivingEntity) damager);
+                }
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onEntityDamageByBlock(EntityDamageByBlockEvent event)
+    {
+        Entity entity = event.getEntity();
+
+        if (entity instanceof Player) {
+            // rider damaged by drowning or suffocation
+            Rider rider = riderManager.getRider((Player) entity);
+
+            if (rider.isValid()) {
+                switch (event.getCause()) {
+                    case SUFFOCATION:
+                        event.setCancelled(true);
+                        break;
+                    case DROWNING:
+                        if (rider.hasWaterCreature()) {
                             event.setCancelled(true);
-                            break;
-                        case DROWNING:
-                            if (rider.hasWaterCreature())
-                                event.setCancelled(true);
-                            break;
-                        default:
-                            break;
-                    }
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
         }
