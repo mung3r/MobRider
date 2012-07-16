@@ -129,7 +129,7 @@ public class Rider
     public boolean isValid()
     {
         Player player = getPlayer();
-        return hasRide(player);
+        return hasRide(player) && !player.isDead();
     }
 
     public Player getPlayer()
