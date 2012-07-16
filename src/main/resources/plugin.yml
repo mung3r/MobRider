@@ -17,6 +17,7 @@ commands:
            /<command> attack <player|mob> - attack nearby player or mob
            /<command> stop - stop
            /<command> buck - buck a player riding you
+           /<command> reload - reload config
 permissions:
     mobrider.command.*:
         description: Player can use all /mob commands
