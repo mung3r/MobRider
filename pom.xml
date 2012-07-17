@@ -20,6 +20,10 @@
 			<id>sk89q-mvn2</id>
 			<url>http://maven.sk89q.com/repo</url>
 		</repository>
+		<repository>
+			<id>onarandombox</id>
+			<url>http://repo.onarandombox.com/content/groups/public</url>
+		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
@@ -41,6 +45,16 @@
 			<groupId>com.sk89q</groupId>
 			<artifactId>worldguard</artifactId>
 			<version>5.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.onarandombox.multiverseportals</groupId>
+			<artifactId>Multiverse-Portals</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.onarandombox.multiversecore</groupId>
+			<artifactId>Multiverse-Core</artifactId>
+			<version>2.5</version>
 		</dependency>
 		<dependency>
 			<groupId>net.citizensnpcs.Citizens</groupId>

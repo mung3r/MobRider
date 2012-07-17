@@ -27,10 +27,13 @@ import com.edwardhand.mobrider.goals.FollowGoal;
 import com.edwardhand.mobrider.goals.Goal;
 import com.edwardhand.mobrider.goals.GotoGoal;
 import com.edwardhand.mobrider.goals.LocationGoal;
+import com.edwardhand.mobrider.goals.PortalGoal;
 import com.edwardhand.mobrider.goals.RegionGoal;
 import com.edwardhand.mobrider.goals.StopGoal;
 import com.edwardhand.mobrider.models.Rider;
 import com.edwardhand.mobrider.utils.MRUtil;
+import com.onarandombox.MultiversePortals.MVPortal;
+import com.onarandombox.MultiversePortals.PortalLocation;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 public class GoalManager
@@ -79,23 +82,23 @@ public class GoalManager
 
     public void setGotoGoal(Rider rider, String goalName)
     {
-        LivingEntity entity = findGoal(rider, goalName, configManager.MAX_SEARCH_RANGE);
+        ProtectedRegion region;
+        PortalLocation portalLocation;
+        LivingEntity entity;
 
-        if (entity != null) {
+        if ((entity = findGoal(rider, goalName, configManager.MAX_SEARCH_RANGE)) != null) {
             rider.setGoal(new GotoGoal(plugin, entity));
             messageManager.sendMessage(rider, configManager.followConfirmedMessage);
         }
-        else {
-            if (plugin.hasWorldGuard()) {
-                ProtectedRegion region = findRegion(rider, goalName);
+        else if ((portalLocation = findPortal(rider, goalName)) != null) {
+            rider.setGoal(new PortalGoal(plugin, portalLocation));
+        }
+        else if ((region = findRegion(rider, goalName)) != null) {
 
-                if (region != null) {
-                    rider.setGoal(new RegionGoal(plugin, region, rider.getWorld()));
-                }
-            }
-            else {
-                messageManager.sendMessage(rider, configManager.followConfusedMessage);
-            }
+            rider.setGoal(new RegionGoal(plugin, region, rider.getWorld()));
+        }
+        else {
+            messageManager.sendMessage(rider, configManager.followConfusedMessage);
         }
     }
 
@@ -187,11 +190,17 @@ public class GoalManager
         return currentLocation.distanceSquared(destination) < rangeSquared;
     }
 
+    public boolean isWithinPortal(Location currentLocation, PortalLocation portalLocation)
+    {
+        // TODO: implement
+        return false;
+    }
+
     public boolean isWithinRegion(Location currentLocation, ProtectedRegion region)
     {
         boolean isWithinRegion = false;
 
-        Iterator<ProtectedRegion> regionIterator = plugin.getWorldGuardPlugin().getRegionManager(currentLocation.getWorld()).getApplicableRegions(currentLocation).iterator();
+        Iterator<ProtectedRegion> regionIterator = plugin.getRegionManager(currentLocation.getWorld()).getApplicableRegions(currentLocation).iterator();
         while (regionIterator.hasNext()) {
             if (regionIterator.next().getId().equals(region.getId())) {
                 isWithinRegion = true;
@@ -278,12 +287,27 @@ public class GoalManager
         return foundEntity;
     }
 
+    private PortalLocation findPortal(Rider rider, String portalName)
+    {
+        PortalLocation portalLocation = null;
+
+        if (plugin.hasMVPortals()) {
+            MVPortal foundPortal = plugin.getMVPortalManager().getPortal(portalName);
+
+            if (foundPortal != null && foundPortal.getWorld().equals(rider.getWorld())) {
+                portalLocation = foundPortal.getLocation();
+            }
+        }
+
+        return portalLocation;
+    }
+
     private ProtectedRegion findRegion(Rider rider, String regionName)
     {
         ProtectedRegion region = null;
 
         if (plugin.hasWorldGuard()) {
-            region = plugin.getWorldGuardPlugin().getRegionManager(rider.getWorld()).getRegion(regionName);
+            region = plugin.getRegionManager(rider.getWorld()).getRegion(regionName);
         }
 
         return region;

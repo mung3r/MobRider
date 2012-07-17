@@ -22,12 +22,16 @@ import com.edwardhand.mobrider.managers.MetricsManager;
 import com.edwardhand.mobrider.managers.RiderManager;
 import com.edwardhand.mobrider.utils.MRLogger;
 import com.edwardhand.mobrider.utils.MRUpdate;
+import com.onarandombox.MultiversePortals.MultiversePortals;
+import com.onarandombox.MultiversePortals.utils.PortalManager;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.managers.RegionManager;
 
 import net.citizensnpcs.Citizens;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
@@ -49,6 +53,7 @@ public class MobRider extends JavaPlugin
     private ConfigManager config;
     private MetricsManager metrics;
     private WorldGuardPlugin worldGuardPlugin;
+    private MultiversePortals mvPortalsPlugin;
     private Citizens citizensPlugin;
 
     @Override
@@ -59,6 +64,7 @@ public class MobRider extends JavaPlugin
         setupPermission();
         setupMetrics();
         setupWorldGuard();
+        setupMVPortal();
         setupCitizens();
 
         config = new ConfigManager(this);
@@ -140,9 +146,19 @@ public class MobRider extends JavaPlugin
         return worldGuardPlugin != null;
     }
 
-    public WorldGuardPlugin getWorldGuardPlugin()
+    public RegionManager getRegionManager(World world)
     {
-        return worldGuardPlugin;
+        return worldGuardPlugin.getRegionManager(world);
+    }
+
+    public boolean hasMVPortals()
+    {
+        return mvPortalsPlugin != null;
+    }
+
+    public PortalManager getMVPortalManager()
+    {
+        return mvPortalsPlugin.getPortalManager();
     }
 
     public static MRLogger getMRLogger()
@@ -184,6 +200,15 @@ public class MobRider extends JavaPlugin
         Plugin plugin = this.getServer().getPluginManager().getPlugin("WorldGuard");
         if (plugin instanceof WorldGuardPlugin) {
             worldGuardPlugin = (WorldGuardPlugin) plugin;
+            log.info("Successfully hooked " + plugin.getDescription().getName());
+        }
+    }
+
+    private void setupMVPortal()
+    {
+        Plugin plugin = this.getServer().getPluginManager().getPlugin("MultiversePortals");
+        if (plugin instanceof MultiversePortals) {
+            mvPortalsPlugin = (MultiversePortals) plugin;
             log.info("Successfully hooked " + plugin.getDescription().getName());
         }
     }
