@@ -74,9 +74,9 @@ public class RiderDamageListener implements Listener
         }
 
         // ride damaged by entity
-        if (damager instanceof LivingEntity) {
+        if (damager instanceof LivingEntity && entity.getPassenger() instanceof Player) {
             Player player = (Player) entity.getPassenger();
-            Rider rider = riderManager.getRider(player);
+            Rider rider = riderManager.getRider((Player) entity.getPassenger());
 
             if (rider.isValid()) {
                 if (!damager.equals(player)) {
