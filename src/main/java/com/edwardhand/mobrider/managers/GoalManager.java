@@ -25,13 +25,11 @@ import com.edwardhand.mobrider.goals.FollowGoal;
 import com.edwardhand.mobrider.goals.Goal;
 import com.edwardhand.mobrider.goals.GotoGoal;
 import com.edwardhand.mobrider.goals.LocationGoal;
-import com.edwardhand.mobrider.goals.PortalGoal;
 import com.edwardhand.mobrider.goals.RegionGoal;
 import com.edwardhand.mobrider.goals.StopGoal;
 import com.edwardhand.mobrider.models.Rider;
 import com.edwardhand.mobrider.utils.MRUtil;
-import com.onarandombox.MultiversePortals.MVPortal;
-import com.onarandombox.MultiversePortals.PortalLocation;
+import com.onarandombox.MultiverseCore.api.MVDestination;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 public class GoalManager
@@ -79,15 +77,15 @@ public class GoalManager
     public void setGotoGoal(Rider rider, String goalName)
     {
         ProtectedRegion region;
-        PortalLocation portalLocation;
+        Location portalLocation;
         LivingEntity entity;
 
         if ((entity = findGoal(rider, goalName, configManager.MAX_SEARCH_RANGE)) != null) {
             rider.setGoal(new GotoGoal(plugin, entity));
             messageManager.sendMessage(rider, configManager.followConfirmedMessage);
         }
-        else if ((portalLocation = findPortal(rider, goalName)) != null && portalLocation.isValidLocation()) {
-            rider.setGoal(new PortalGoal(plugin, portalLocation));
+        else if ((portalLocation = findPortal(rider, goalName)) != null) {
+            rider.setGoal(new LocationGoal(plugin, portalLocation));
         }
         else if ((region = findRegion(rider, goalName)) != null) {
 
@@ -252,15 +250,18 @@ public class GoalManager
         return foundEntity;
     }
 
-    private PortalLocation findPortal(Rider rider, String portalName)
+    private Location findPortal(Rider rider, String portalName)
     {
-        PortalLocation portalLocation = null;
+        Location portalLocation = null;
 
-        if (plugin.hasMVPortals()) {
-            MVPortal foundPortal = plugin.getMVPortalManager().getPortal(portalName);
+        if (plugin.hasMultiverse()) {
+            MVDestination portalTest = plugin.getMVDestinationFactory().getDestination("p:" + portalName);
 
-            if (foundPortal != null && foundPortal.getWorld().equals(rider.getWorld())) {
-                portalLocation = foundPortal.getLocation();
+            if (portalTest.getType().equals("Portal")) {
+                Location locationTest = portalTest.getLocation(null);
+                if (locationTest.getWorld().equals(rider.getWorld())) {
+                    portalLocation = locationTest;
+                }
             }
         }
 

@@ -22,8 +22,8 @@ import com.edwardhand.mobrider.managers.MetricsManager;
 import com.edwardhand.mobrider.managers.RiderManager;
 import com.edwardhand.mobrider.utils.MRLogger;
 import com.edwardhand.mobrider.utils.MRUpdate;
-import com.onarandombox.MultiversePortals.MultiversePortals;
-import com.onarandombox.MultiversePortals.utils.PortalManager;
+import com.onarandombox.MultiverseCore.MultiverseCore;
+import com.onarandombox.MultiverseCore.destination.DestinationFactory;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 
@@ -50,7 +50,7 @@ public class MobRider extends JavaPlugin
     private ConfigManager config;
     private MetricsManager metrics;
     private WorldGuardPlugin worldGuardPlugin;
-    private MultiversePortals mvPortalsPlugin;
+    private DestinationFactory destinationFactory;
     private Citizens citizensPlugin;
 
     @Override
@@ -61,7 +61,7 @@ public class MobRider extends JavaPlugin
         setupPermission();
         setupMetrics();
         setupWorldGuard();
-        setupMVPortal();
+        setupMultiverse();
         setupCitizens();
 
         config = new ConfigManager(this);
@@ -148,14 +148,14 @@ public class MobRider extends JavaPlugin
         return worldGuardPlugin.getRegionManager(world);
     }
 
-    public boolean hasMVPortals()
+    public boolean hasMultiverse()
     {
-        return mvPortalsPlugin != null;
+        return destinationFactory != null;
     }
 
-    public PortalManager getMVPortalManager()
+    public DestinationFactory getMVDestinationFactory()
     {
-        return mvPortalsPlugin.getPortalManager();
+        return destinationFactory;
     }
 
     public static MRLogger getMRLogger()
@@ -201,11 +201,11 @@ public class MobRider extends JavaPlugin
         }
     }
 
-    private void setupMVPortal()
+    private void setupMultiverse()
     {
-        Plugin plugin = this.getServer().getPluginManager().getPlugin("MultiversePortals");
-        if (plugin instanceof MultiversePortals) {
-            mvPortalsPlugin = (MultiversePortals) plugin;
+        Plugin plugin = this.getServer().getPluginManager().getPlugin("Multiverse-Core");
+        if (plugin instanceof MultiverseCore) {
+            destinationFactory = ((MultiverseCore) plugin).getDestFactory();
             log.info("Successfully hooked " + plugin.getDescription().getName());
         }
     }
