@@ -29,7 +29,7 @@ public class MRUpdate implements Runnable
         latestVersion = pluginVersion;
         
         if (Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, CHECK_DELAY, CHECK_PERIOD) < 0) {
-            MobRider.getMRLogger().severe("Failed to schedule MRUpate task.");
+            MobRider.getMRLogger().warning("Failed to schedule MRUpate task.");
         }
     }
 
