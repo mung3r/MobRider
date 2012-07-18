@@ -1,6 +1,6 @@
 general:
     control_item: fishing_rod
-	update_period: 1
+    update_period: 1
 
 range:
     max_travel_distance: 125.0
