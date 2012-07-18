@@ -10,7 +10,7 @@ public class AttackGoal extends FollowGoal
     public AttackGoal(MobRider plugin, LivingEntity target)
     {
         super(plugin, target);
-        rangeSquared = plugin.getConfigManager().ATTACK_RANGE * plugin.getConfigManager().ATTACK_RANGE;
+        rangeSquared = configManager.ATTACK_RANGE * configManager.ATTACK_RANGE;
     }
 
     @Override
