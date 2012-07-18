@@ -41,9 +41,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class MobRider extends JavaPlugin
 {
     private static final MRLogger log = new MRLogger();
-    private static final String DEV_BUKKIT_URL = "http://dev.bukkit.org/server-mods/mobrider";
-    private static final long CHECK_DELAY = 0;
-    private static final long CHECK_PERIOD = 432000;
 
     private Permission permission;
     private CommandHandler commandHandler;
@@ -75,7 +72,7 @@ public class MobRider extends JavaPlugin
         registerCommands();
         registerEvents();
 
-        Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, new MRUpdate(this, DEV_BUKKIT_URL), CHECK_DELAY, CHECK_PERIOD);
+        new MRUpdate(this);
 
         log.info(getDescription().getVersion() + " enabled.");
     }

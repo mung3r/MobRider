@@ -26,8 +26,8 @@ import com.edwardhand.mobrider.utils.MRUtil;
 
 public class RiderManager implements Runnable
 {
-    private static final long UPDATE_DELAY = 5L;
-    private static final long UPDATE_PERIOD = 1L;
+    private static final long UPDATE_DELAY = 0L;
+    private static final long MAX_UPDATE_PERIOD = 20L;
     private Random random = new Random();
 
     private Permission permission;
@@ -47,9 +47,9 @@ public class RiderManager implements Runnable
 
         riders = new Hashtable<String, Rider>();
 
-        if (Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, UPDATE_DELAY, UPDATE_PERIOD) < 0) {
+        if (Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, UPDATE_DELAY, Math.min(configManager.updatePeriod, MAX_UPDATE_PERIOD)) < 0) {
             Bukkit.getPluginManager().disablePlugin(plugin);
-            MobRider.getMRLogger().severe("Failed to schedule task.");
+            MobRider.getMRLogger().severe("Failed to schedule RiderManager task.");
         }
     }
 

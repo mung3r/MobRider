@@ -20,6 +20,7 @@ import com.edwardhand.mobrider.models.RideType;
 public class ConfigManager
 {
     public final Material controlItem;
+    public final long updatePeriod;
 
     public final int MAX_TRAVEL_DISTANCE;
     public final double MAX_SEARCH_RANGE;
@@ -52,6 +53,7 @@ public class ConfigManager
 
         ConfigurationSection general = config.getConfigurationSection("general");
         controlItem = Material.matchMaterial(general.getString("control_item"));
+        updatePeriod = general.getLong("update_period");
 
         ConfigurationSection range = config.getConfigurationSection("range");
         MAX_TRAVEL_DISTANCE = Double.valueOf(range.getDouble("max_travel_distance")).intValue();
