@@ -21,7 +21,7 @@ public class LocationGoal extends BasicGoal
             LivingEntity ride = rider.getRide();
 
             if (ride != null) {
-                if (goalManager.isWithinRange(ride.getLocation(), destination, rangeSquared)) {
+                if (isWithinRange(ride.getLocation(), destination, rangeSquared)) {
                     goalManager.setStopGoal(rider);
                 }
                 else {
@@ -30,5 +30,10 @@ public class LocationGoal extends BasicGoal
                 }
             }
         }
+    }
+
+    protected static boolean isWithinRange(Location start, Location end, double distanceSquared)
+    {
+        return start.distanceSquared(end) < distanceSquared;
     }
 }

@@ -38,7 +38,7 @@ public class RiderPlayerListener implements Listener
     {
         Player player = event.getPlayer();
 
-        if (player.getItemInHand().getType() == configManager.controlItem && riderManager.isRider(player) && !goalManager.isWithinHysteresisThreshold(riderManager.getRider(player).getGoal())) {
+        if (player.getItemInHand().getType() == configManager.controlItem && riderManager.isRider(player) && !riderManager.getRider(player).getGoal().isWithinHysteresisThreshold()) {
             if (event.getAction() == Action.LEFT_CLICK_AIR) {
                 goalManager.setDirection(riderManager.getRider(player), player.getLocation().getDirection().normalize());
             }

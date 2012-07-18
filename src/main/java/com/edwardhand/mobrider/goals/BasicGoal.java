@@ -9,6 +9,8 @@ import com.edwardhand.mobrider.models.Rider;
 
 public abstract class BasicGoal implements Goal
 {
+    private static final long HYSTERESIS_THRESHOLD = 250; // quarter second
+                                                          // in milliseconds
     protected ConfigManager configManager;
     protected double rangeSquared;
     protected GoalManager goalManager;
@@ -24,6 +26,13 @@ public abstract class BasicGoal implements Goal
         timeCreated = System.currentTimeMillis();
     }
 
+    @Override
+    public boolean isWithinHysteresisThreshold()
+    {
+        return (System.currentTimeMillis() - timeCreated) < HYSTERESIS_THRESHOLD;
+    }
+
+    @Override
     public long getTimeCreated() {
         return timeCreated;
     }

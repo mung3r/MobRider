@@ -7,4 +7,5 @@ public interface Goal
 {
     void executeUpdate(Rider rider);
     long getTimeCreated();
+    boolean isWithinHysteresisThreshold();
 }

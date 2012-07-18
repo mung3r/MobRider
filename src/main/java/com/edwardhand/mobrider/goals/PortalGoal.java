@@ -27,7 +27,7 @@ public class PortalGoal extends LocationGoal implements Goal
             LivingEntity ride = rider.getRide();
 
             if (ride != null) {
-                if (goalManager.isWithinRange(ride.getLocation(), destination, rangeSquared) || goalManager.isWithinPortal(ride.getLocation(), portalLocation)) {
+                if (isWithinRange(ride.getLocation(), destination, rangeSquared) || isWithinPortal(ride.getLocation())) {
                     goalManager.setStopGoal(rider);
                 }
                 else {
@@ -36,6 +36,17 @@ public class PortalGoal extends LocationGoal implements Goal
                 }
             }
         }
+    }
+
+    private boolean isWithinPortal(Location currentLocation)
+    {
+        Vector min = portalLocation.getMinimum();
+        Vector max = portalLocation.getMaximum();
+
+        return currentLocation.getWorld().equals(portalLocation.getMVWorld().getCBWorld()) && 
+            currentLocation.getX() > min.getX() && currentLocation.getX() < max.getX() &&
+            currentLocation.getY() > min.getY() && currentLocation.getY() < max.getY() &&
+            currentLocation.getZ() > min.getZ() && currentLocation.getZ() < max.getZ();
     }
 
     private static Location getMidPoint(PortalLocation portalLocation)

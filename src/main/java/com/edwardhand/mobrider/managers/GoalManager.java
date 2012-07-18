@@ -1,7 +1,5 @@
 package com.edwardhand.mobrider.managers;
 
-import java.util.Iterator;
-
 import net.citizensnpcs.api.CitizensManager;
 import net.citizensnpcs.resources.npclib.HumanNPC;
 import net.citizensnpcs.resources.npclib.NPCList;
@@ -38,8 +36,6 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 public class GoalManager
 {
-    private static final long HYSTERESIS_THRESHOLD = 250; // quarter second
-                                                          // in milliseconds
     private MobRider plugin;
     private ConfigManager configManager;
     private MessageManager messageManager;
@@ -90,7 +86,7 @@ public class GoalManager
             rider.setGoal(new GotoGoal(plugin, entity));
             messageManager.sendMessage(rider, configManager.followConfirmedMessage);
         }
-        else if ((portalLocation = findPortal(rider, goalName)) != null) {
+        else if ((portalLocation = findPortal(rider, goalName)) != null && portalLocation.isValidLocation()) {
             rider.setGoal(new PortalGoal(plugin, portalLocation));
         }
         else if ((region = findRegion(rider, goalName)) != null) {
@@ -183,37 +179,6 @@ public class GoalManager
                 ride.setVelocity(velocity);
             }
         }
-    }
-
-    public boolean isWithinRange(Location currentLocation, Location destination, double rangeSquared)
-    {
-        return currentLocation.distanceSquared(destination) < rangeSquared;
-    }
-
-    public boolean isWithinPortal(Location currentLocation, PortalLocation portalLocation)
-    {
-        // TODO: implement
-        return false;
-    }
-
-    public boolean isWithinRegion(Location currentLocation, ProtectedRegion region)
-    {
-        boolean isWithinRegion = false;
-
-        Iterator<ProtectedRegion> regionIterator = plugin.getRegionManager(currentLocation.getWorld()).getApplicableRegions(currentLocation).iterator();
-        while (regionIterator.hasNext()) {
-            if (regionIterator.next().getId().equals(region.getId())) {
-                isWithinRegion = true;
-                break;
-            }
-        }
-
-        return isWithinRegion;
-    }
-
-    public boolean isWithinHysteresisThreshold(Goal goal)
-    {
-        return (System.currentTimeMillis() - goal.getTimeCreated()) < HYSTERESIS_THRESHOLD;
     }
 
     private Location convertDirectionToLocation(Rider rider, Vector direction)
