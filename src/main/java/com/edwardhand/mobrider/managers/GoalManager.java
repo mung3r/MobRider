@@ -3,7 +3,6 @@ package com.edwardhand.mobrider.managers;
 import net.citizensnpcs.api.CitizensManager;
 import net.citizensnpcs.resources.npclib.HumanNPC;
 import net.citizensnpcs.resources.npclib.NPCList;
-import net.minecraft.server.EntityLiving;
 import net.minecraft.server.PathEntity;
 import net.minecraft.server.PathPoint;
 
@@ -13,6 +12,8 @@ import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftCreature;
 import org.bukkit.craftbukkit.entity.CraftEnderDragon;
 import org.bukkit.craftbukkit.entity.CraftGhast;
+import org.bukkit.craftbukkit.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.craftbukkit.entity.CraftSlime;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -189,28 +190,32 @@ public class GoalManager
 
     private Location convertKeyToDirection(Rider rider, Keyboard key)
     {
-        EntityLiving player = (EntityLiving) rider.getPlayer();
-        EntityLiving ride = (EntityLiving) rider.getRide();
-        
-        switch(key) {
-            case KEY_RIGHT:
-                ride.yaw +=45;
-                break;
-            case KEY_LEFT:
-                ride.yaw -= 45;
-                break;
+        CraftPlayer player = (CraftPlayer) rider.getPlayer();
+        CraftLivingEntity ride = (CraftLivingEntity) rider.getRide();
+
+        switch (key) {
+            case KEY_W:
             case KEY_UP:
-                ride.yaw = player.yaw;
+                ride.getHandle().yaw = player.getHandle().yaw;
                 break;
+            case KEY_A:
+            case KEY_LEFT:
+                ride.getHandle().yaw -= 45;
+                break;
+            case KEY_S:
             case KEY_DOWN:
-                ride.yaw = player.yaw + 180;
+                ride.getHandle().yaw = player.getHandle().yaw + 180;
+                break;
+            case KEY_D:
+            case KEY_RIGHT:
+                ride.getHandle().yaw += 45;
                 break;
             default:
                 MobRider.getMRLogger().warning("Unrecognized key pressed");
                 break;
         }
 
-        return convertDirectionToLocation(rider, ((LivingEntity) ride).getLocation().getDirection());
+        return convertDirectionToLocation(rider, ride.getLocation().getDirection().multiply(configManager.MAX_TRAVEL_DISTANCE));
     }
 
     private Location convertDirectionToLocation(Rider rider, Vector direction)

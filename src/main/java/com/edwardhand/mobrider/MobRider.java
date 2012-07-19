@@ -12,7 +12,7 @@ import com.edwardhand.mobrider.commands.HelpCommand;
 import com.edwardhand.mobrider.commands.MountCommand;
 import com.edwardhand.mobrider.commands.ReloadCommand;
 import com.edwardhand.mobrider.commands.StopCommand;
-import com.edwardhand.mobrider.listeners.KeyPressedListener;
+import com.edwardhand.mobrider.input.RiderControlDelegate;
 import com.edwardhand.mobrider.listeners.RiderDamageListener;
 import com.edwardhand.mobrider.listeners.RiderTargetListener;
 import com.edwardhand.mobrider.listeners.RiderPlayerListener;
@@ -39,6 +39,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.getspout.spout.Spout;
+import org.getspout.spoutapi.SpoutManager;
+import org.getspout.spoutapi.keyboard.BindingExecutionDelegate;
+import org.getspout.spoutapi.keyboard.Keyboard;
 
 public class MobRider extends JavaPlugin
 {
@@ -74,6 +77,7 @@ public class MobRider extends JavaPlugin
         riderManager = new RiderManager(this);
 
         registerCommands();
+        registerKeyBindings();
         registerEvents();
 
         new MRUpdate(this);
@@ -257,8 +261,16 @@ public class MobRider extends JavaPlugin
         Bukkit.getPluginManager().registerEvents(new RiderPlayerListener(this), this);
         Bukkit.getPluginManager().registerEvents(new RiderTargetListener(), this);
         Bukkit.getPluginManager().registerEvents(new RiderDamageListener(this), this);
+    }
+
+    private void registerKeyBindings()
+    {
         if (hasSpout()) {
-            Bukkit.getPluginManager().registerEvents(new KeyPressedListener(this), this);
+            BindingExecutionDelegate riderControlDelegate = new RiderControlDelegate(this);
+            SpoutManager.getKeyBindingManager().registerBinding("GoForward", Keyboard.KEY_UP, "Go forward", riderControlDelegate, this);
+            SpoutManager.getKeyBindingManager().registerBinding("TurnLeft", Keyboard.KEY_LEFT, "Turn left", riderControlDelegate, this);
+            SpoutManager.getKeyBindingManager().registerBinding("GoBackward", Keyboard.KEY_DOWN, "Go backward", riderControlDelegate, this);
+            SpoutManager.getKeyBindingManager().registerBinding("TurnRight", Keyboard.KEY_RIGHT, "Turn right", riderControlDelegate, this);
         }
     }
 }
