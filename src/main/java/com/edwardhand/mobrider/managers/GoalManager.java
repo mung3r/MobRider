@@ -3,6 +3,7 @@ package com.edwardhand.mobrider.managers;
 import net.citizensnpcs.api.CitizensManager;
 import net.citizensnpcs.resources.npclib.HumanNPC;
 import net.citizensnpcs.resources.npclib.NPCList;
+import net.minecraft.server.EntityLiving;
 import net.minecraft.server.PathEntity;
 import net.minecraft.server.PathPoint;
 
@@ -18,6 +19,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+import org.getspout.spoutapi.keyboard.Keyboard;
 
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.goals.AttackGoal;
@@ -138,6 +140,12 @@ public class GoalManager
         }
     }
 
+    public void setDirection(Rider rider, Keyboard key)
+    {
+        rider.setGoal(new LocationGoal(plugin, convertKeyToDirection(rider, key)));
+        messageManager.sendMessage(rider, configManager.goConfirmedMessage);
+    }
+
     public void setPathEntity(Rider rider, Location destination)
     {
         LivingEntity ride = rider.getRide();
@@ -177,6 +185,32 @@ public class GoalManager
                 ride.setVelocity(velocity);
             }
         }
+    }
+
+    private Location convertKeyToDirection(Rider rider, Keyboard key)
+    {
+        EntityLiving player = (EntityLiving) rider.getPlayer();
+        EntityLiving ride = (EntityLiving) rider.getRide();
+        
+        switch(key) {
+            case KEY_RIGHT:
+                ride.yaw +=45;
+                break;
+            case KEY_LEFT:
+                ride.yaw -= 45;
+                break;
+            case KEY_UP:
+                ride.yaw = player.yaw;
+                break;
+            case KEY_DOWN:
+                ride.yaw = player.yaw + 180;
+                break;
+            default:
+                MobRider.getMRLogger().warning("Unrecognized key pressed");
+                break;
+        }
+
+        return convertDirectionToLocation(rider, ((LivingEntity) ride).getLocation().getDirection());
     }
 
     private Location convertDirectionToLocation(Rider rider, Vector direction)

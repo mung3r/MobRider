@@ -24,6 +24,10 @@
 			<id>onarandombox</id>
 			<url>http://repo.onarandombox.com/content/groups/public</url>
 		</repository>
+		<repository>
+			<id>spout-repo</id>
+			<url>http://repo.spout.org</url>
+		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
@@ -51,11 +55,16 @@
 			<artifactId>Multiverse-Core</artifactId>
 			<version>2.5</version>
 		</dependency>
-        <dependency>
-            <groupId>com.onarandombox.multiverseportals</groupId>
-            <artifactId>Multiverse-Portals</artifactId>
-            <version>2.4</version>
-        </dependency>
+		<dependency>
+			<groupId>com.onarandombox.multiverseportals</groupId>
+			<artifactId>Multiverse-Portals</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.getspout</groupId>
+			<artifactId>spoutplugin</artifactId>
+			<version>dev-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>net.citizensnpcs.Citizens</groupId>
 			<artifactId>Citizens</artifactId>

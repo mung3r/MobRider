@@ -12,6 +12,7 @@ import com.edwardhand.mobrider.commands.HelpCommand;
 import com.edwardhand.mobrider.commands.MountCommand;
 import com.edwardhand.mobrider.commands.ReloadCommand;
 import com.edwardhand.mobrider.commands.StopCommand;
+import com.edwardhand.mobrider.listeners.KeyPressedListener;
 import com.edwardhand.mobrider.listeners.RiderDamageListener;
 import com.edwardhand.mobrider.listeners.RiderTargetListener;
 import com.edwardhand.mobrider.listeners.RiderPlayerListener;
@@ -37,6 +38,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.getspout.spout.Spout;
 
 public class MobRider extends JavaPlugin
 {
@@ -52,6 +54,7 @@ public class MobRider extends JavaPlugin
     private WorldGuardPlugin worldGuardPlugin;
     private DestinationFactory destinationFactory;
     private Citizens citizensPlugin;
+    private Spout spoutPlugin;
 
     @Override
     public void onEnable()
@@ -63,6 +66,7 @@ public class MobRider extends JavaPlugin
         setupWorldGuard();
         setupMultiverse();
         setupCitizens();
+        setupSpout();
 
         config = new ConfigManager(this);
         messageManager = new MessageManager();
@@ -153,6 +157,11 @@ public class MobRider extends JavaPlugin
         return destinationFactory != null;
     }
 
+    public boolean hasSpout()
+    {
+        return spoutPlugin != null;
+    }
+
     public DestinationFactory getMVDestinationFactory()
     {
         return destinationFactory;
@@ -219,6 +228,15 @@ public class MobRider extends JavaPlugin
         }
     }
 
+    private void setupSpout()
+    {
+        Plugin plugin = this.getServer().getPluginManager().getPlugin("Spout");
+        if (plugin instanceof Spout) {
+            spoutPlugin = (Spout) plugin;
+            log.info("Successfully hooked " + plugin.getDescription().getName());
+        }
+    }
+
     private void registerCommands()
     {
         commandHandler = new CommandHandler(this);
@@ -239,5 +257,8 @@ public class MobRider extends JavaPlugin
         Bukkit.getPluginManager().registerEvents(new RiderPlayerListener(this), this);
         Bukkit.getPluginManager().registerEvents(new RiderTargetListener(), this);
         Bukkit.getPluginManager().registerEvents(new RiderDamageListener(this), this);
+        if (hasSpout()) {
+            Bukkit.getPluginManager().registerEvents(new KeyPressedListener(this), this);
+        }
     }
 }
