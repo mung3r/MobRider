@@ -1,5 +1,6 @@
 package com.edwardhand.mobrider.models;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -26,7 +27,7 @@ public class Rider
     private Goal goal;
     private final float maxSpeed;
     private float speed;
-    private Set<Keyboard> keysPressedSet;
+    private Set<Keyboard> keyPressedSet;
 
     public Rider(String playerName)
     {
@@ -34,6 +35,7 @@ public class Rider
         LivingEntity ride = getRide();
         maxSpeed = ride != null && getRideType() != null ? RideType.fromType(ride.getType()).getMaxSpeed() : MIN_SPEED;
         speed = maxSpeed;
+        keyPressedSet = new HashSet<Keyboard>();
     }
 
     public Goal getGoal()
@@ -196,17 +198,17 @@ public class Rider
 
     public void setKeyPressed(Keyboard key)
     {
-        keysPressedSet.add(key);
+        keyPressedSet.add(key);
     }
 
     public void setKeyReleased(Keyboard key)
     {
-        keysPressedSet.remove(key);
+        keyPressedSet.remove(key);
     }
 
     public boolean hasKeyPressed()
     {
-        return !keysPressedSet.isEmpty();
+        return !keyPressedSet.isEmpty();
     }
 
     private boolean hasRide(Player player)
