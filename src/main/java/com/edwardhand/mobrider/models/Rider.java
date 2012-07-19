@@ -1,5 +1,7 @@
 package com.edwardhand.mobrider.models;
 
+import java.util.Set;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.entity.CraftCreature;
@@ -11,6 +13,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
 import org.bukkit.entity.Squid;
+import org.getspout.spoutapi.keyboard.Keyboard;
 
 import com.edwardhand.mobrider.goals.Goal;
 import com.edwardhand.mobrider.utils.MRUtil;
@@ -23,6 +26,7 @@ public class Rider
     private Goal goal;
     private final float maxSpeed;
     private float speed;
+    private Set<Keyboard> keysPressedSet;
 
     public Rider(String playerName)
     {
@@ -188,6 +192,21 @@ public class Rider
     public boolean hasGoal()
     {
         return goal != null;
+    }
+
+    public void setKeyPressed(Keyboard key)
+    {
+        keysPressedSet.add(key);
+    }
+
+    public void setKeyReleased(Keyboard key)
+    {
+        keysPressedSet.remove(key);
+    }
+
+    public boolean hasKeyPressed()
+    {
+        return !keysPressedSet.isEmpty();
     }
 
     private boolean hasRide(Player player)
