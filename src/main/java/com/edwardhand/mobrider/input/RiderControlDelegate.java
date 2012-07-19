@@ -30,7 +30,6 @@ public class RiderControlDelegate implements BindingExecutionDelegate
     @Override
     public void keyPressed(KeyBindingEvent event)
     {
-        MobRider.getMRLogger().info("Key pressed: " + event.getBinding().getDefaultKey());
         Rider rider = riderManager.getRider(event.getPlayer());
 
         if (event.getPlayer().getActiveScreen() == ScreenType.GAME_SCREEN && rider.isValid()) {
@@ -42,7 +41,6 @@ public class RiderControlDelegate implements BindingExecutionDelegate
     @Override
     public void keyReleased(KeyBindingEvent event)
     {
-        MobRider.getMRLogger().info("Key released: " + event.getBinding().getDefaultKey());
         Rider rider = riderManager.getRider(event.getPlayer());
 
         if (event.getPlayer().getActiveScreen() == ScreenType.GAME_SCREEN && rider.isValid()) {
