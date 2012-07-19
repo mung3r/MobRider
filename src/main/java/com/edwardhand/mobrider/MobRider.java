@@ -39,9 +39,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.getspout.spout.Spout;
-import org.getspout.spoutapi.SpoutManager;
-import org.getspout.spoutapi.keyboard.BindingExecutionDelegate;
-import org.getspout.spoutapi.keyboard.Keyboard;
 
 public class MobRider extends JavaPlugin
 {
@@ -266,11 +263,7 @@ public class MobRider extends JavaPlugin
     private void registerKeyBindings()
     {
         if (hasSpout()) {
-            BindingExecutionDelegate riderControlDelegate = new RiderControlDelegate(this);
-            SpoutManager.getKeyBindingManager().registerBinding("GoForward", Keyboard.KEY_UP, "Go forward", riderControlDelegate, this);
-            SpoutManager.getKeyBindingManager().registerBinding("TurnLeft", Keyboard.KEY_LEFT, "Turn left", riderControlDelegate, this);
-            SpoutManager.getKeyBindingManager().registerBinding("GoBackward", Keyboard.KEY_DOWN, "Go backward", riderControlDelegate, this);
-            SpoutManager.getKeyBindingManager().registerBinding("TurnRight", Keyboard.KEY_RIGHT, "Turn right", riderControlDelegate, this);
+            new RiderControlDelegate(this);
         }
     }
 }
