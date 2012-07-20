@@ -327,7 +327,7 @@ public class GoalManager
     {
         Location interimTarget = null;
 
-        if (ride != null && ride.getLocation().distanceSquared(destination) > 64.0D) {
+        if (ride != null && ride.getLocation().getWorld().equals(destination.getWorld()) && ride.getLocation().distanceSquared(destination) > 64.0D) {
             interimTarget = ride.getLocation().clone().add(new Vector(destination.getX() - ride.getLocation().getX(), destination.getY() - ride.getLocation().getY(), destination.getZ() - ride.getLocation().getZ()).normalize().multiply(8));
         }
         else {

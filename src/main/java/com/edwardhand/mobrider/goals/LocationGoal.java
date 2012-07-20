@@ -34,6 +34,6 @@ public class LocationGoal extends BasicGoal
 
     protected static boolean isWithinRange(Location start, Location end, double distanceSquared)
     {
-        return start.distanceSquared(end) < distanceSquared;
+        return !start.getWorld().equals(end.getWorld()) || start.distanceSquared(end) < distanceSquared;
     }
 }
