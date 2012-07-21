@@ -38,7 +38,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.getspout.spout.Spout;
 
 public class MobRider extends JavaPlugin
 {
@@ -54,7 +53,7 @@ public class MobRider extends JavaPlugin
     private WorldGuardPlugin worldGuardPlugin;
     private DestinationFactory destinationFactory;
     private Citizens citizensPlugin;
-    private Spout spoutPlugin;
+    private Plugin spoutPlugin;
 
     @Override
     public void onEnable()
@@ -232,8 +231,8 @@ public class MobRider extends JavaPlugin
     private void setupSpout()
     {
         Plugin plugin = this.getServer().getPluginManager().getPlugin("Spout");
-        if (plugin instanceof Spout) {
-            spoutPlugin = (Spout) plugin;
+        if (plugin != null) {
+            spoutPlugin = plugin;
             log.info("Successfully hooked " + plugin.getDescription().getName());
         }
     }
