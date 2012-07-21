@@ -32,11 +32,11 @@ public class FollowGoal extends LocationGoal
                 }
                 else {
                     if (isWithinRange(ride.getLocation(), target.getLocation(), rangeSquared)) {
-                        goalManager.setPathEntity(rider, ride.getLocation());
+                        setPathEntity(rider, ride.getLocation());
                     }
                     else {
-                        goalManager.setPathEntity(rider, target.getLocation());
-                        goalManager.updateSpeed(rider);
+                        setPathEntity(rider, target.getLocation());
+                        updateSpeed(rider);
                     }
                 }
             }

@@ -3,22 +3,15 @@ package com.edwardhand.mobrider.managers;
 import net.citizensnpcs.api.CitizensManager;
 import net.citizensnpcs.resources.npclib.HumanNPC;
 import net.citizensnpcs.resources.npclib.NPCList;
-import net.minecraft.server.PathEntity;
-import net.minecraft.server.PathPoint;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.CraftWorld;
-import org.bukkit.craftbukkit.entity.CraftCreature;
-import org.bukkit.craftbukkit.entity.CraftEnderDragon;
-import org.bukkit.craftbukkit.entity.CraftGhast;
-import org.bukkit.craftbukkit.entity.CraftSlime;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
-import org.getspout.spoutapi.keyboard.Keyboard;
 
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.goals.AttackGoal;
@@ -139,92 +132,6 @@ public class GoalManager
         }
     }
 
-    public void setDirection(Rider rider, Keyboard key)
-    {
-        rider.setGoal(new LocationGoal(plugin, convertKeyToDirection(rider, key)));
-        messageManager.sendMessage(rider, configManager.goConfirmedMessage);
-    }
-
-    public void setPathEntity(Rider rider, Vector direction)
-    {
-        setPathEntity(rider, convertDirectionToLocation(rider, direction.normalize().multiply(configManager.MAX_TRAVEL_DISTANCE)));
-    }
-
-    public void setPathEntity(Rider rider, Location destination)
-    {
-        LivingEntity ride = rider.getRide();
-
-        if (ride instanceof CraftCreature) {
-            CraftCreature creature = (CraftCreature) ride;
-
-            if (MRUtil.hasNewAI(ride)) {
-                Location interimLocation = getInterimLocation(ride, destination);
-                creature.getHandle().al().a(interimLocation.getX(), interimLocation.getY(), interimLocation.getZ(), rider.getSpeed());
-            }
-            else {
-                ((CraftCreature) ride).getHandle().setPathEntity(new PathEntity(new PathPoint[] { new PathPoint(destination.getBlockX(), destination.getBlockY(), destination.getBlockZ()) }));
-            }
-        }
-        else if (ride instanceof CraftSlime) {
-            // TODO: implement setPathEntity for slime
-        }
-        else if (ride instanceof CraftGhast) {
-            // TODO: implement setPathEntity for ghast
-        }
-        else if (ride instanceof CraftEnderDragon) {
-            // TODO: implement setPathEntity for enderdragon
-        }
-    }
-
-    public void updateSpeed(Rider rider)
-    {
-        if (rider != null) {
-            LivingEntity ride = rider.getRide();
-
-            if (ride != null && rider.getRideType() != null) {
-                Vector velocity = ride.getVelocity();
-                double saveY = velocity.getY();
-                velocity.normalize().multiply(rider.getSpeed());
-                velocity.setY(saveY);
-                ride.setVelocity(velocity);
-            }
-        }
-    }
-
-    private Location convertKeyToDirection(Rider rider, Keyboard key)
-    {
-        Location location = rider.getRide().getLocation();
-        float yaw = location.getYaw();
-
-        switch (key) {
-            case KEY_UP:
-                yaw = rider.getPlayer().getLocation().getYaw();
-                break;
-            case KEY_LEFT:
-                yaw -= 45;
-                break;
-            case KEY_DOWN:
-                yaw += 180;
-                break;
-            case KEY_RIGHT:
-                yaw += 45;
-                break;
-            default:
-                MobRider.getMRLogger().warning("Unrecognized key pressed");
-                break;
-        }
-
-        if (yaw > 360) {
-            yaw -= 360;
-        }
-        else if (yaw < -360) {
-            yaw += 360;
-        }
-
-        location.setYaw(yaw);
-        return convertDirectionToLocation(rider, location.getDirection().normalize().multiply(configManager.MAX_TRAVEL_DISTANCE));
-    }
-
     private Location convertDirectionToLocation(Rider rider, Vector direction)
     {
         Location location = null;
@@ -328,19 +235,5 @@ public class GoalManager
     private boolean isEntityWithinRange(LivingEntity from, LivingEntity to, double range)
     {
         return from != null && to != null && !from.equals(to) && from.getWorld().equals(to.getWorld()) && from.getLocation().distanceSquared(to.getLocation()) < range * range;
-    }
-
-    private Location getInterimLocation(LivingEntity ride, Location destination)
-    {
-        Location interimTarget = null;
-
-        if (ride != null && ride.getLocation().getWorld().equals(destination.getWorld()) && ride.getLocation().distanceSquared(destination) > 64.0D) {
-            interimTarget = ride.getLocation().clone().add(new Vector(destination.getX() - ride.getLocation().getX(), destination.getY() - ride.getLocation().getY(), destination.getZ() - ride.getLocation().getZ()).normalize().multiply(8));
-        }
-        else {
-            interimTarget = destination;
-        }
-
-        return interimTarget;
     }
 }

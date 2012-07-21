@@ -35,8 +35,8 @@ public class GotoGoal extends LocationGoal
                         goalManager.setStopGoal(rider);
                     }
                     else {
-                        goalManager.setPathEntity(rider, target.getLocation());
-                        goalManager.updateSpeed(rider);
+                        setPathEntity(rider, target.getLocation());
+                        updateSpeed(rider);
                     }
                 }
             }

@@ -32,9 +32,9 @@ public class AttackGoal extends FollowGoal
                         rider.setTarget(target);
                     }
                     else {
-                        goalManager.setPathEntity(rider, target.getLocation());
+                        setPathEntity(rider, target.getLocation());
                     }
-                    goalManager.updateSpeed(rider);
+                    updateSpeed(rider);
                 }
             }
         }

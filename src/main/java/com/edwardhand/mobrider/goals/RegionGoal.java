@@ -36,8 +36,8 @@ public class RegionGoal extends LocationGoal
                     goalManager.setStopGoal(rider);
                 }
                 else {
-                    goalManager.setPathEntity(rider, destination);
-                    goalManager.updateSpeed(rider);
+                    setPathEntity(rider, destination);
+                    updateSpeed(rider);
                 }
             }
         }

@@ -1,5 +1,7 @@
 package com.edwardhand.mobrider.input;
 
+import org.bukkit.Location;
+import org.bukkit.util.Vector;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.event.input.KeyBindingEvent;
 import org.getspout.spoutapi.gui.ScreenType;
@@ -34,7 +36,7 @@ public class RiderControlDelegate implements BindingExecutionDelegate
 
         if (event.getPlayer().getActiveScreen() == ScreenType.GAME_SCREEN && rider.isValid()) {
             rider.setKeyPressed(event.getBinding().getDefaultKey());
-            goalManager.setDirection(rider, event.getBinding().getDefaultKey());
+            goalManager.setDirection(rider, convertKeyToDirection(rider, event.getBinding().getDefaultKey()));
         }
     }
 
@@ -49,5 +51,39 @@ public class RiderControlDelegate implements BindingExecutionDelegate
                 goalManager.setStopGoal(rider);
             }
         }
+    }
+
+    private Vector convertKeyToDirection(Rider rider, Keyboard key)
+    {
+        Location location = rider.getRide().getLocation();
+        float yaw = location.getYaw();
+
+        switch (key) {
+            case KEY_UP:
+                yaw = rider.getPlayer().getLocation().getYaw();
+                break;
+            case KEY_LEFT:
+                yaw -= 45;
+                break;
+            case KEY_DOWN:
+                yaw += 180;
+                break;
+            case KEY_RIGHT:
+                yaw += 45;
+                break;
+            default:
+                MobRider.getMRLogger().warning("Unrecognized key pressed");
+                break;
+        }
+
+        if (yaw > 360) {
+            yaw -= 360;
+        }
+        else if (yaw < -360) {
+            yaw += 360;
+        }
+
+        location.setYaw(yaw);
+        return location.getDirection().normalize();
     }
 }

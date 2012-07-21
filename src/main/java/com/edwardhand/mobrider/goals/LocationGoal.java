@@ -2,6 +2,7 @@ package com.edwardhand.mobrider.goals;
 
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.util.Vector;
 
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.models.Rider;
@@ -28,8 +29,8 @@ public class LocationGoal extends BasicGoal
                     goalManager.setStopGoal(rider);
                 }
                 else {
-                    goalManager.setPathEntity(rider, destination);
-                    goalManager.updateSpeed(rider);
+                    setPathEntity(rider, destination);
+                    updateSpeed(rider);
                 }
             }
         }
@@ -38,5 +39,20 @@ public class LocationGoal extends BasicGoal
     protected static boolean isWithinRange(Location start, Location end, double distanceSquared)
     {
         return !start.getWorld().equals(end.getWorld()) || start.distanceSquared(end) < distanceSquared;
+    }
+
+    protected static void updateSpeed(Rider rider)
+    {
+        if (rider != null) {
+            LivingEntity ride = rider.getRide();
+
+            if (ride != null && rider.getRideType() != null) {
+                Vector velocity = ride.getVelocity();
+                double saveY = velocity.getY();
+                velocity.normalize().multiply(rider.getSpeed());
+                velocity.setY(saveY);
+                ride.setVelocity(velocity);
+            }
+        }
     }
 }

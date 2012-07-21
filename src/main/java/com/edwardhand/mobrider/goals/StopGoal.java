@@ -20,7 +20,7 @@ public class StopGoal extends BasicGoal implements Goal
             LivingEntity ride = rider.getRide();
 
             if (ride != null) {
-                goalManager.setPathEntity(rider, rider.getRide().getLocation());
+                setPathEntity(rider, rider.getRide().getLocation());
             }
         }
     }
