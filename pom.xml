@@ -67,6 +67,13 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/Citizens.jar</systemPath>
 		</dependency>
+        <dependency>
+            <groupId>com.bekvon.bukkit.residence</groupId>
+            <artifactId>Residence</artifactId>
+            <version>2.6.4</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Residence.jar</systemPath>
+        </dependency>
 	</dependencies>
 	<name>MobRider</name>
 	<url>http://dev.bukkit.org/server-mods/mobrider/</url>

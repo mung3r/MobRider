@@ -206,7 +206,7 @@ public class Rider
         keyPressedSet.remove(key);
     }
 
-    public boolean hasKeyPressed()
+    public boolean isKeyPressed()
     {
         return !keyPressedSet.isEmpty();
     }

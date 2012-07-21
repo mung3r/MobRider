@@ -47,7 +47,7 @@ public class RiderControlDelegate implements BindingExecutionDelegate
 
         if (event.getPlayer().getActiveScreen() == ScreenType.GAME_SCREEN && rider.isValid()) {
             rider.setKeyReleased(event.getBinding().getDefaultKey());
-            if (!rider.hasKeyPressed()) {
+            if (!rider.isKeyPressed()) {
                 goalManager.setStopGoal(rider);
             }
         }

@@ -13,6 +13,8 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import com.bekvon.bukkit.residence.Residence;
+import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.goals.AttackGoal;
 import com.edwardhand.mobrider.goals.FollowGoal;
@@ -20,6 +22,7 @@ import com.edwardhand.mobrider.goals.Goal;
 import com.edwardhand.mobrider.goals.GotoGoal;
 import com.edwardhand.mobrider.goals.LocationGoal;
 import com.edwardhand.mobrider.goals.RegionGoal;
+import com.edwardhand.mobrider.goals.ResidenceGoal;
 import com.edwardhand.mobrider.goals.StopGoal;
 import com.edwardhand.mobrider.models.Rider;
 import com.edwardhand.mobrider.utils.MRUtil;
@@ -71,6 +74,7 @@ public class GoalManager
     public void setGotoGoal(Rider rider, String goalName)
     {
         ProtectedRegion region;
+        ClaimedResidence residence;
         Location portalLocation;
         LivingEntity entity;
 
@@ -80,6 +84,9 @@ public class GoalManager
         }
         else if ((portalLocation = findPortal(rider, goalName)) != null) {
             rider.setGoal(new LocationGoal(plugin, portalLocation));
+        }
+        else if ((residence = findResidence(rider, goalName)) != null) {
+            rider.setGoal(new ResidenceGoal(plugin, residence, rider.getWorld()));
         }
         else if ((region = findRegion(rider, goalName)) != null) {
 
@@ -223,13 +230,27 @@ public class GoalManager
 
     private ProtectedRegion findRegion(Rider rider, String regionName)
     {
-        ProtectedRegion region = null;
+        ProtectedRegion regionLocation = null;
 
         if (plugin.hasWorldGuard()) {
-            region = plugin.getRegionManager(rider.getWorld()).getRegion(regionName);
+            regionLocation = plugin.getRegionManager(rider.getWorld()).getRegion(regionName);
         }
 
-        return region;
+        return regionLocation;
+    }
+
+    private ClaimedResidence findResidence(Rider rider, String residenceName)
+    {
+        ClaimedResidence residence = null;
+
+        if (plugin.hasResidence()) {
+            ClaimedResidence residenceTest = Residence.getResidenceManager().getByName(residenceName);
+            if (residenceTest.getWorld().equals(rider.getWorld().getName())) {
+                residence = residenceTest;
+            }
+        }
+
+        return residence;
     }
 
     private boolean isEntityWithinRange(LivingEntity from, LivingEntity to, double range)

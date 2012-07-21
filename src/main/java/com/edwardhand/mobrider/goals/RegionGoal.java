@@ -19,7 +19,7 @@ public class RegionGoal extends LocationGoal
 
     public RegionGoal(MobRider plugin, ProtectedRegion region, World world)
     {
-        super(plugin, getMidPoint(region, world));
+        super(plugin, getDestination(region, world));
         this.region = region;
         regionManager = plugin.getRegionManager(world);
     }
@@ -58,20 +58,19 @@ public class RegionGoal extends LocationGoal
         return isWithinRegion;
     }
 
-    private static Location getMidPoint(ProtectedRegion region, World world)
+    private static Location getDestination(ProtectedRegion region, World world)
     {
         Location midPoint = null;
 
         if (region != null && world != null) {
 
-            BlockVector min = region.getMinimumPoint();
-            BlockVector max = region.getMaximumPoint();
+            BlockVector minPoint = region.getMinimumPoint();
+            BlockVector maxPoint = region.getMaximumPoint();
 
-            double x = min.getX() + max.getX() / 2;
-            double y = min.getY() + max.getY() / 2;
-            double z = min.getZ() + max.getZ() / 2;
+            double x = minPoint.getX() + maxPoint.getX() / 2;
+            double z = minPoint.getZ() + maxPoint.getZ() / 2;
 
-            midPoint = world.getHighestBlockAt(new Location(world, x, y, z)).getLocation();
+            midPoint = world.getHighestBlockAt((int) x, (int) z).getLocation();
         }
 
         return midPoint;

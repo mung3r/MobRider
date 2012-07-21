@@ -2,6 +2,7 @@ package com.edwardhand.mobrider;
 
 import java.io.IOException;
 
+import com.bekvon.bukkit.residence.Residence;
 import com.edwardhand.mobrider.commands.BuckCommand;
 import com.edwardhand.mobrider.commands.CommandHandler;
 import com.edwardhand.mobrider.commands.AttackCommand;
@@ -52,6 +53,7 @@ public class MobRider extends JavaPlugin
     private MetricsManager metrics;
     private WorldGuardPlugin worldGuardPlugin;
     private DestinationFactory destinationFactory;
+    private Residence residencePlugin;
     private Citizens citizensPlugin;
     private Plugin spoutPlugin;
 
@@ -63,6 +65,7 @@ public class MobRider extends JavaPlugin
         setupPermission();
         setupMetrics();
         setupWorldGuard();
+        setupResidence();
         setupMultiverse();
         setupCitizens();
         setupSpout();
@@ -142,6 +145,11 @@ public class MobRider extends JavaPlugin
         return citizensPlugin != null;
     }
 
+    public boolean hasResidence()
+    {
+        return residencePlugin != null;
+    }
+
     public boolean hasWorldGuard()
     {
         return worldGuardPlugin != null;
@@ -206,6 +214,15 @@ public class MobRider extends JavaPlugin
         Plugin plugin = this.getServer().getPluginManager().getPlugin("WorldGuard");
         if (plugin instanceof WorldGuardPlugin) {
             worldGuardPlugin = (WorldGuardPlugin) plugin;
+            log.info("Successfully hooked " + plugin.getDescription().getName());
+        }
+    }
+
+    private void setupResidence()
+    {
+        Plugin plugin = this.getServer().getPluginManager().getPlugin("Residence");
+        if (plugin instanceof Residence) {
+            residencePlugin = (Residence) plugin;
             log.info("Successfully hooked " + plugin.getDescription().getName());
         }
     }
