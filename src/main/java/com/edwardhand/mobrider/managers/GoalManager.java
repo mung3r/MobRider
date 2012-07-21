@@ -12,8 +12,6 @@ import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftCreature;
 import org.bukkit.craftbukkit.entity.CraftEnderDragon;
 import org.bukkit.craftbukkit.entity.CraftGhast;
-import org.bukkit.craftbukkit.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.craftbukkit.entity.CraftSlime;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -59,7 +57,7 @@ public class GoalManager
     public void setStopGoal(Rider rider)
     {
         if (!(rider.getGoal() instanceof StopGoal)) {
-            rider.setGoal(new StopGoal(plugin, rider.getRide().getLocation()));
+            rider.setGoal(new StopGoal(plugin));
             messageManager.sendMessage(rider, configManager.stopConfirmedMessage);
         }
     }
@@ -123,7 +121,7 @@ public class GoalManager
     public void setDirection(Rider rider, Vector direction, int distance)
     {
         if (direction != null) {
-            setDestination(rider, convertDirectionToLocation(rider, direction.multiply(Math.min(configManager.MAX_TRAVEL_DISTANCE, distance))));
+            setDestination(rider, convertDirectionToLocation(rider, direction.normalize().multiply(Math.min(configManager.MAX_TRAVEL_DISTANCE, distance))));
         }
         else {
             messageManager.sendMessage(rider, configManager.goConfusedMessage);
@@ -145,6 +143,11 @@ public class GoalManager
     {
         rider.setGoal(new LocationGoal(plugin, convertKeyToDirection(rider, key)));
         messageManager.sendMessage(rider, configManager.goConfirmedMessage);
+    }
+
+    public void setPathEntity(Rider rider, Vector direction)
+    {
+        setPathEntity(rider, convertDirectionToLocation(rider, direction.normalize().multiply(configManager.MAX_TRAVEL_DISTANCE)));
     }
 
     public void setPathEntity(Rider rider, Location destination)
@@ -190,32 +193,36 @@ public class GoalManager
 
     private Location convertKeyToDirection(Rider rider, Keyboard key)
     {
-        CraftPlayer player = (CraftPlayer) rider.getPlayer();
-        CraftLivingEntity ride = (CraftLivingEntity) rider.getRide();
+        Location location = rider.getRide().getLocation();
+        float yaw = location.getYaw();
 
         switch (key) {
-            case KEY_W:
             case KEY_UP:
-                ride.getHandle().yaw = player.getHandle().yaw;
+                yaw = rider.getPlayer().getLocation().getYaw();
                 break;
-            case KEY_A:
             case KEY_LEFT:
-                ride.getHandle().yaw -= 45;
+                yaw -= 45;
                 break;
-            case KEY_S:
             case KEY_DOWN:
-                ride.getHandle().yaw = player.getHandle().yaw + 180;
+                yaw += 180;
                 break;
-            case KEY_D:
             case KEY_RIGHT:
-                ride.getHandle().yaw += 45;
+                yaw += 45;
                 break;
             default:
                 MobRider.getMRLogger().warning("Unrecognized key pressed");
                 break;
         }
 
-        return convertDirectionToLocation(rider, ride.getLocation().getDirection().multiply(configManager.MAX_TRAVEL_DISTANCE));
+        if (yaw > 360) {
+            yaw -= 360;
+        }
+        else if (yaw < -360) {
+            yaw += 360;
+        }
+
+        location.setYaw(yaw);
+        return convertDirectionToLocation(rider, location.getDirection().normalize().multiply(configManager.MAX_TRAVEL_DISTANCE));
     }
 
     private Location convertDirectionToLocation(Rider rider, Vector direction)

@@ -1,6 +1,5 @@
 package com.edwardhand.mobrider.goals;
 
-import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
 import com.edwardhand.mobrider.MobRider;
@@ -8,9 +7,9 @@ import com.edwardhand.mobrider.models.Rider;
 
 public class StopGoal extends BasicGoal implements Goal
 {
-    public StopGoal(MobRider plugin, Location destination)
+    public StopGoal(MobRider plugin)
     {
-        super(plugin, destination);
+        super(plugin);
     }
 
     @Override
@@ -21,7 +20,7 @@ public class StopGoal extends BasicGoal implements Goal
             LivingEntity ride = rider.getRide();
 
             if (ride != null) {
-                goalManager.setPathEntity(rider, destination);
+                goalManager.setPathEntity(rider, rider.getRide().getLocation());
             }
         }
     }

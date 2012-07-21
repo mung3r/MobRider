@@ -8,9 +8,12 @@ import com.edwardhand.mobrider.models.Rider;
 
 public class LocationGoal extends BasicGoal
 {
+    protected Location destination;
+
     public LocationGoal(MobRider plugin, Location destination)
     {
-        super(plugin, destination);
+        super(plugin);
+        this.destination = destination;
     }
 
     @Override

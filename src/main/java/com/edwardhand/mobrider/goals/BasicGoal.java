@@ -1,7 +1,5 @@
 package com.edwardhand.mobrider.goals;
 
-import org.bukkit.Location;
-
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.managers.ConfigManager;
 import com.edwardhand.mobrider.managers.GoalManager;
@@ -14,14 +12,12 @@ public abstract class BasicGoal implements Goal
     protected ConfigManager configManager;
     protected double rangeSquared;
     protected GoalManager goalManager;
-    protected Location destination;
     protected long timeCreated;
 
-    public BasicGoal(MobRider plugin, Location destination)
+    public BasicGoal(MobRider plugin)
     {
         configManager = plugin.getConfigManager();
         goalManager = plugin.getGoalManager();
-        this.destination = destination;
         rangeSquared = configManager.MOUNT_RANGE * configManager.MOUNT_RANGE;
         timeCreated = System.currentTimeMillis();
     }
@@ -33,7 +29,8 @@ public abstract class BasicGoal implements Goal
     }
 
     @Override
-    public long getTimeCreated() {
+    public long getTimeCreated()
+    {
         return timeCreated;
     }
 
