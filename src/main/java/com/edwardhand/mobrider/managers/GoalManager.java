@@ -82,14 +82,13 @@ public class GoalManager
             rider.setGoal(new GotoGoal(plugin, entity));
             messageManager.sendMessage(rider, configManager.followConfirmedMessage);
         }
-        else if ((portalLocation = findPortal(rider, goalName)) != null) {
+        else if (plugin.hasMultiverse() && (portalLocation = findPortal(rider, goalName)) != null) {
             rider.setGoal(new LocationGoal(plugin, portalLocation));
         }
-        else if ((residence = findResidence(rider, goalName)) != null) {
+        else if (plugin.hasResidence() && (residence = findResidence(rider, goalName)) != null) {
             rider.setGoal(new ResidenceGoal(plugin, residence, rider.getWorld()));
         }
-        else if ((region = findRegion(rider, goalName)) != null) {
-
+        else if (plugin.hasWorldGuard() && (region = findRegion(rider, goalName)) != null) {
             rider.setGoal(new RegionGoal(plugin, region, rider.getWorld()));
         }
         else {
