@@ -73,26 +73,17 @@ public class GoalManager
 
     public void setGotoGoal(Rider rider, String goalName)
     {
-        ProtectedRegion region;
-        ClaimedResidence residence;
-        Location portalLocation;
         LivingEntity entity;
 
         if ((entity = findGoal(rider, goalName, configManager.MAX_SEARCH_RANGE)) != null) {
             rider.setGoal(new GotoGoal(plugin, entity));
-            messageManager.sendMessage(rider, configManager.followConfirmedMessage);
+            messageManager.sendMessage(rider, configManager.goConfirmedMessage);
         }
-        else if (plugin.hasMultiverse() && (portalLocation = findPortal(rider, goalName)) != null) {
-            rider.setGoal(new LocationGoal(plugin, portalLocation));
-        }
-        else if (plugin.hasResidence() && (residence = findResidence(rider, goalName)) != null) {
-            rider.setGoal(new ResidenceGoal(plugin, residence, rider.getWorld()));
-        }
-        else if (plugin.hasWorldGuard() && (region = findRegion(rider, goalName)) != null) {
-            rider.setGoal(new RegionGoal(plugin, region, rider.getWorld()));
+        else if (foundPortal(rider, goalName) || foundResidence(rider, goalName) || foundRegion(rider, goalName)) {
+            messageManager.sendMessage(rider, configManager.goConfirmedMessage);
         }
         else {
-            messageManager.sendMessage(rider, configManager.followConfusedMessage);
+            messageManager.sendMessage(rider, configManager.goConfusedMessage);
         }
     }
 
@@ -209,47 +200,55 @@ public class GoalManager
         return foundEntity;
     }
 
-    private Location findPortal(Rider rider, String portalName)
+    private boolean foundPortal(Rider rider, String portalName)
     {
-        Location portalLocation = null;
+        boolean foundPortal = false;
 
         if (plugin.hasMultiverse()) {
             MVDestination portalTest = plugin.getMVDestinationFactory().getDestination("p:" + portalName);
 
             if (portalTest.getType().equals("Portal")) {
-                Location locationTest = portalTest.getLocation(null);
-                if (locationTest.getWorld().equals(rider.getWorld())) {
-                    portalLocation = locationTest;
+                Location portalLocation = portalTest.getLocation(null);
+                if (portalLocation.getWorld().equals(rider.getWorld())) {
+                    rider.setGoal(new LocationGoal(plugin, portalLocation));
+                    foundPortal = true;
                 }
             }
         }
 
-        return portalLocation;
+        return foundPortal;
     }
 
-    private ProtectedRegion findRegion(Rider rider, String regionName)
+    private boolean foundResidence(Rider rider, String residenceName)
     {
-        ProtectedRegion regionLocation = null;
-
-        if (plugin.hasWorldGuard()) {
-            regionLocation = plugin.getRegionManager(rider.getWorld()).getRegion(regionName);
-        }
-
-        return regionLocation;
-    }
-
-    private ClaimedResidence findResidence(Rider rider, String residenceName)
-    {
-        ClaimedResidence residence = null;
+        boolean foundResidence = false;
 
         if (plugin.hasResidence()) {
-            ClaimedResidence residenceTest = Residence.getResidenceManager().getByName(residenceName);
-            if (residenceTest.getWorld().equals(rider.getWorld().getName())) {
-                residence = residenceTest;
+            ClaimedResidence residence = Residence.getResidenceManager().getByName(residenceName);
+            if (residence != null) {
+                if (residence.getWorld().equals(rider.getWorld().getName())) {
+                    rider.setGoal(new ResidenceGoal(plugin, residence, rider.getWorld()));
+                    foundResidence = true;
+                }
             }
         }
 
-        return residence;
+        return foundResidence;
+    }
+
+    private boolean foundRegion(Rider rider, String regionName)
+    {
+        boolean foundRegion = false;
+
+        if (plugin.hasWorldGuard()) {
+            ProtectedRegion region = plugin.getRegionManager(rider.getWorld()).getRegion(regionName);
+            if (region != null) {
+                rider.setGoal(new RegionGoal(plugin, region, rider.getWorld()));
+                foundRegion = true;
+            }
+        }
+
+        return foundRegion;
     }
 
     private boolean isEntityWithinRange(LivingEntity from, LivingEntity to, double range)
