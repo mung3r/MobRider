@@ -123,7 +123,7 @@ public class GoalManager
     {
         if (location.getWorld().equals(rider.getWorld())) {
             rider.setGoal(new LocationGoal(plugin, location));
-            messageManager.sendMessage(rider, configManager.goConfirmedMessage);
+            //messageManager.sendMessage(rider, configManager.goConfirmedMessage);
         }
         else {
             messageManager.sendMessage(rider, configManager.goConfusedMessage);
