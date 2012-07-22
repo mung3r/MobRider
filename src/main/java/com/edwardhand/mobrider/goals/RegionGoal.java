@@ -33,7 +33,7 @@ public class RegionGoal extends LocationGoal
 
             if (ride != null) {
                 if (isWithinRange(ride.getLocation(), destination, rangeSquared) || isWithinRegion(ride.getLocation())) {
-                    goalManager.setStopGoal(rider);
+                    isGoalDone = true;
                 }
                 else {
                     setPathEntity(rider, destination);

@@ -13,7 +13,6 @@ import org.bukkit.util.Vector;
 
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.managers.ConfigManager;
-import com.edwardhand.mobrider.managers.GoalManager;
 import com.edwardhand.mobrider.models.Rider;
 import com.edwardhand.mobrider.utils.MRUtil;
 
@@ -23,15 +22,15 @@ public abstract class BasicGoal implements Goal
                                                           // in milliseconds
     protected ConfigManager configManager;
     protected double rangeSquared;
-    protected GoalManager goalManager;
     protected long timeCreated;
+    protected boolean isGoalDone;
 
     public BasicGoal(MobRider plugin)
     {
         configManager = plugin.getConfigManager();
-        goalManager = plugin.getGoalManager();
         rangeSquared = configManager.MOUNT_RANGE * configManager.MOUNT_RANGE;
         timeCreated = System.currentTimeMillis();
+        isGoalDone = false;
     }
 
     @Override
@@ -44,6 +43,12 @@ public abstract class BasicGoal implements Goal
     public long getTimeCreated()
     {
         return timeCreated;
+    }
+
+    @Override
+    public boolean isGoalDone()
+    {
+        return isGoalDone;
     }
 
     @Override

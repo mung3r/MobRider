@@ -20,12 +20,12 @@ public class AttackGoal extends FollowGoal
             LivingEntity ride = rider.getRide();
 
             if (target == null) {
-                goalManager.setStopGoal(rider);
+                isGoalDone = true;
             }
             else {
                 if (target.isDead()) {
                     target = null;
-                    goalManager.setStopGoal(rider);
+                    isGoalDone = true;
                 }
                 else {
                     if (isWithinRange(ride.getLocation(), target.getLocation(), rangeSquared)) {

@@ -18,7 +18,6 @@ import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.goals.AttackGoal;
 import com.edwardhand.mobrider.goals.FollowGoal;
-import com.edwardhand.mobrider.goals.Goal;
 import com.edwardhand.mobrider.goals.GotoGoal;
 import com.edwardhand.mobrider.goals.LocationGoal;
 import com.edwardhand.mobrider.goals.RegionGoal;
@@ -44,9 +43,11 @@ public class GoalManager
 
     public void update(Rider rider)
     {
-        Goal goal = rider.getGoal();
-        if (goal != null) {
-            goal.executeUpdate(rider);
+        if (rider.hasGoal()) {
+            if (rider.getGoal().isGoalDone()) {
+                setStopGoal(rider);
+            }
+            rider.getGoal().executeUpdate(rider);
         }
     }
 
@@ -60,7 +61,7 @@ public class GoalManager
 
     public void setFollowGoal(Rider rider, String entityName)
     {
-        LivingEntity entity = findGoal(rider, entityName, configManager.MAX_SEARCH_RANGE);
+        LivingEntity entity = findLivingEntity(rider, entityName, configManager.MAX_SEARCH_RANGE);
 
         if (entity != null) {
             rider.setGoal(new FollowGoal(plugin, entity));
@@ -75,7 +76,7 @@ public class GoalManager
     {
         LivingEntity entity;
 
-        if ((entity = findGoal(rider, goalName, configManager.MAX_SEARCH_RANGE)) != null) {
+        if ((entity = findLivingEntity(rider, goalName, configManager.MAX_SEARCH_RANGE)) != null) {
             rider.setGoal(new GotoGoal(plugin, entity));
             messageManager.sendMessage(rider, configManager.goConfirmedMessage);
         }
@@ -89,7 +90,7 @@ public class GoalManager
 
     public void setAttackGoal(Rider rider, String entityName)
     {
-        setAttackGoal(rider, findGoal(rider, entityName, configManager.ATTACK_RANGE));
+        setAttackGoal(rider, findLivingEntity(rider, entityName, configManager.ATTACK_RANGE));
     }
 
     public void setAttackGoal(Rider rider, LivingEntity entity)
@@ -142,16 +143,14 @@ public class GoalManager
         return location;
     }
 
-    private LivingEntity findGoal(Rider rider, String searchTerm, double searchRange)
+    private LivingEntity findLivingEntity(Rider rider, String searchTerm, double searchRange)
     {
         LivingEntity foundEntity = null;
         LivingEntity player = rider.getPlayer();
-        LivingEntity ride = rider.getRide();
-        Player foundPlayer = Bukkit.getPlayer(searchTerm);
 
         if (player != null) {
             // find entity by entity ID
-            if (MRUtil.isInteger(searchTerm)) {
+            if (foundEntity == null && MRUtil.isInteger(searchTerm)) {
                 net.minecraft.server.Entity entity = ((CraftWorld) player.getWorld()).getHandle().getEntity(Integer.valueOf(searchTerm));
                 if (entity instanceof LivingEntity) {
                     if (isEntityWithinRange((LivingEntity) entity, player, searchRange)) {
@@ -159,12 +158,15 @@ public class GoalManager
                     }
                 }
             }
+
             // find player by name
-            else if (isEntityWithinRange(foundPlayer, player, searchRange)) {
+            Player foundPlayer = Bukkit.getPlayer(searchTerm);
+            if (foundEntity == null && isEntityWithinRange(foundPlayer, player, searchRange)) {
                 foundEntity = foundPlayer;
             }
+
             // find npc citizen by name
-            else if (plugin.hasCitizens()) {
+            if (foundEntity == null && plugin.hasCitizens()) {
                 NPCList npcList = CitizensManager.getList();
                 for (HumanNPC npc : npcList.values()) {
                     if (npc.getName().equalsIgnoreCase(searchTerm)) {
@@ -175,8 +177,10 @@ public class GoalManager
                     }
                 }
             }
+
             // find mob by name
-            else if (ride != null) {
+            LivingEntity ride = rider.getRide();
+            if (foundEntity == null && ride != null) {
                 double lastDistance = Double.MAX_VALUE;
 
                 for (Entity entity : player.getNearbyEntities(2 * searchRange, 2 * searchRange, 2 * searchRange)) {
