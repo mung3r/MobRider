@@ -99,4 +99,15 @@ public class MRUtil
           || livingEntity.getType() == EntityType.WOLF
           || livingEntity.getType() == EntityType.ZOMBIE);
     }
+
+    public static boolean isAggressive(LivingEntity livingEntity)
+    {
+        return livingEntity != null && (livingEntity.getType() == EntityType.CREEPER
+          || livingEntity.getType() == EntityType.IRON_GOLEM
+          || livingEntity.getType() == EntityType.OCELOT
+          || livingEntity.getType() == EntityType.SKELETON
+          || livingEntity.getType() == EntityType.SNOWMAN
+          || livingEntity.getType() == EntityType.WOLF
+          || livingEntity.getType() == EntityType.ZOMBIE);
+    }
 }

@@ -95,7 +95,7 @@ public class GoalManager
 
     public void setAttackGoal(Rider rider, LivingEntity entity)
     {
-        if (entity != null) {
+        if (MRUtil.isAggressive(entity)) {
             rider.setGoal(new AttackGoal(plugin, entity));
             messageManager.sendMessage(rider, configManager.attackConfirmedMessage);
         }
