@@ -17,6 +17,7 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
 import org.bukkit.entity.Squid;
+import org.bukkit.entity.Tameable;
 import org.bukkit.entity.Villager;
 
 import com.edwardhand.mobrider.MobRider;
@@ -28,7 +29,7 @@ public class RiderManager implements Runnable
 {
     private static final long UPDATE_DELAY = 0L;
     private static final long MAX_UPDATE_PERIOD = 20L;
-    private Random random = new Random();
+    private static Random random = new Random();
 
     private Permission permission;
     private MetricsManager metrics;
@@ -135,12 +136,12 @@ public class RiderManager implements Runnable
         }
 
         if (permission == null) {
-            return isWinner(player, entity);
+            return isOwner(player, entity) || isWinner(player, entity);
         }
 
         if (entity instanceof Animals || entity instanceof Squid || entity instanceof Golem || entity instanceof Villager) {
             if (permission.playerHas(player, "mobrider.animals") || permission.playerHas(player, "mobrider.animals." + MRUtil.getCreatureName(entity).toLowerCase()))
-                return isWinner(player, entity);
+                return isOwner(player, entity) || isWinner(player, entity);
             else {
                 player.sendMessage("You do not have permission to ride that animal.");
                 return false;
@@ -149,7 +150,7 @@ public class RiderManager implements Runnable
 
         if (entity instanceof Monster || entity instanceof Ghast || entity instanceof Slime || entity instanceof EnderDragon) {
             if (permission.playerHas(player, "mobrider.monsters") || permission.playerHas(player, "mobrider.monsters." + MRUtil.getCreatureName(entity).toLowerCase()))
-                return isWinner(player, entity);
+                return isOwner(player, entity) || isWinner(player, entity);
             else {
                 player.sendMessage("You do not have permission to ride that monster.");
                 return false;
@@ -168,7 +169,7 @@ public class RiderManager implements Runnable
         return false;
     }
 
-    private boolean isWinner(Player player, Entity entity)
+    private static boolean isWinner(Player player, Entity entity)
     {
         boolean isWinner = RideType.fromType(entity.getType()) != null ? random.nextDouble() * 100D < RideType.fromType(entity.getType()).getChance() : true;
 
@@ -177,5 +178,18 @@ public class RiderManager implements Runnable
         }
 
         return isWinner;
+    }
+
+    private static boolean isOwner(Player player, Entity entity)
+    {
+        if (entity instanceof Tameable) {
+            if (((Tameable) entity).isTamed() && ((Tameable) entity).getOwner() instanceof Player) {
+                Player owner = (Player) ((Tameable) entity).getOwner();
+                if (owner.getName().equals(player.getName())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
