@@ -10,7 +10,6 @@ public class AttackGoal extends FollowGoal
     public AttackGoal(MobRider plugin, LivingEntity target)
     {
         super(plugin, target);
-        rangeSquared = configManager.ATTACK_RANGE * configManager.ATTACK_RANGE;
     }
 
     @Override
@@ -21,6 +20,7 @@ public class AttackGoal extends FollowGoal
 
             if (target == null) {
                 isGoalDone = true;
+                rider.setTarget(null);
             }
             else {
                 if (target.isDead()) {
@@ -28,7 +28,7 @@ public class AttackGoal extends FollowGoal
                     isGoalDone = true;
                 }
                 else {
-                    if (isWithinRange(ride.getLocation(), target.getLocation(), rangeSquared)) {
+                    if (isWithinRange(ride.getLocation(), target.getLocation(), NEWAI_DISTANCE_LIMIT_SQUARED)) {
                         rider.setTarget(target);
                     }
                     else {

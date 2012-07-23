@@ -18,7 +18,8 @@ import com.edwardhand.mobrider.utils.MRUtil;
 
 public abstract class BasicGoal implements Goal
 {
-    private static final long HYSTERESIS_THRESHOLD = 250; // quarter second
+    protected static final double NEWAI_DISTANCE_LIMIT_SQUARED = 64.0D;
+    protected static final long HYSTERESIS_THRESHOLD = 250; // quarter second
                                                           // in milliseconds
     protected ConfigManager configManager;
     protected double rangeSquared;
@@ -86,7 +87,7 @@ public abstract class BasicGoal implements Goal
     {
         Location interimTarget = null;
 
-        if (ride != null && ride.getLocation().getWorld().equals(destination.getWorld()) && ride.getLocation().distanceSquared(destination) > 64.0D) {
+        if (ride != null && ride.getLocation().getWorld().equals(destination.getWorld()) && ride.getLocation().distanceSquared(destination) > NEWAI_DISTANCE_LIMIT_SQUARED) {
             interimTarget = ride.getLocation().clone().add(new Vector(destination.getX() - ride.getLocation().getX(), destination.getY() - ride.getLocation().getY(), destination.getZ() - ride.getLocation().getZ()).normalize().multiply(8));
         }
         else {
