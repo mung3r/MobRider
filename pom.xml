@@ -74,6 +74,13 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/Residence.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>couk.Adamki11s.Regios</groupId>
+            <artifactId>Regios</artifactId>
+            <version>5.0.54</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Regios.jar</systemPath>
+        </dependency>
 	</dependencies>
 	<name>MobRider</name>
 	<url>http://dev.bukkit.org/server-mods/mobrider/</url>

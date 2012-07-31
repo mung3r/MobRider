@@ -29,6 +29,9 @@ import com.onarandombox.MultiverseCore.destination.DestinationFactory;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 
+import couk.Adamki11s.Regios.API.RegiosAPI;
+import couk.Adamki11s.Regios.Main.Regios;
+
 import net.citizensnpcs.Citizens;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
@@ -56,6 +59,8 @@ public class MobRider extends JavaPlugin
     private WorldGuardPlugin worldGuardPlugin;
     private DestinationFactory destinationFactory;
     private Residence residencePlugin;
+    private RegiosAPI regiosAPI;
+
     private Citizens citizensPlugin;
     private Plugin spoutPlugin;
 
@@ -68,6 +73,7 @@ public class MobRider extends JavaPlugin
         setupMetrics();
         setupWorldGuard();
         setupResidence();
+        setupRegios();
         setupMultiverse();
         setupCitizens();
         setupSpout();
@@ -157,6 +163,16 @@ public class MobRider extends JavaPlugin
         return residencePlugin != null;
     }
 
+    public boolean hasRegios()
+    {
+        return regiosAPI != null;
+    }
+
+    public RegiosAPI getRegiosAPI()
+    {
+        return regiosAPI;
+    }
+
     public boolean hasWorldGuard()
     {
         return worldGuardPlugin != null;
@@ -233,6 +249,15 @@ public class MobRider extends JavaPlugin
         Plugin plugin = this.getServer().getPluginManager().getPlugin("Residence");
         if (plugin instanceof Residence) {
             residencePlugin = (Residence) plugin;
+            log.info("Successfully hooked " + plugin.getDescription().getName());
+        }
+    }
+
+    private void setupRegios()
+    {
+        Plugin plugin = this.getServer().getPluginManager().getPlugin("Regios");
+        if (plugin instanceof Regios) {
+            regiosAPI = new RegiosAPI();
             log.info("Successfully hooked " + plugin.getDescription().getName());
         }
     }

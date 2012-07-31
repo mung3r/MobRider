@@ -21,12 +21,15 @@ import com.edwardhand.mobrider.goals.FollowGoal;
 import com.edwardhand.mobrider.goals.GotoGoal;
 import com.edwardhand.mobrider.goals.LocationGoal;
 import com.edwardhand.mobrider.goals.RegionGoal;
+import com.edwardhand.mobrider.goals.RegiosGoal;
 import com.edwardhand.mobrider.goals.ResidenceGoal;
 import com.edwardhand.mobrider.goals.StopGoal;
 import com.edwardhand.mobrider.models.Rider;
 import com.edwardhand.mobrider.utils.MRUtil;
 import com.onarandombox.MultiverseCore.api.MVDestination;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+
+import couk.Adamki11s.Regios.Regions.Region;
 
 public class GoalManager
 {
@@ -80,7 +83,7 @@ public class GoalManager
             rider.setGoal(new GotoGoal(plugin, entity));
             messageManager.sendMessage(rider, configManager.goConfirmedMessage);
         }
-        else if (foundPortal(rider, goalName) || foundResidence(rider, goalName) || foundRegion(rider, goalName)) {
+        else if (foundPortal(rider, goalName) || foundResidence(rider, goalName) || foundRegion(rider, goalName) || foundRegios(rider, goalName)) {
             messageManager.sendMessage(rider, configManager.goConfirmedMessage);
         }
         else {
@@ -229,11 +232,9 @@ public class GoalManager
 
         if (plugin.hasResidence()) {
             ClaimedResidence residence = Residence.getResidenceManager().getByName(residenceName);
-            if (residence != null) {
-                if (residence.getWorld().equals(rider.getWorld().getName())) {
-                    rider.setGoal(new ResidenceGoal(plugin, residence, rider.getWorld()));
-                    foundResidence = true;
-                }
+            if (residence != null && residence.getWorld().equals(rider.getWorld().getName())) {
+                rider.setGoal(new ResidenceGoal(plugin, residence, rider.getWorld()));
+                foundResidence = true;
             }
         }
 
@@ -248,6 +249,21 @@ public class GoalManager
             ProtectedRegion region = plugin.getRegionManager(rider.getWorld()).getRegion(regionName);
             if (region != null) {
                 rider.setGoal(new RegionGoal(plugin, region, rider.getWorld()));
+                foundRegion = true;
+            }
+        }
+
+        return foundRegion;
+    }
+
+    private boolean foundRegios(Rider rider, String regiosName)
+    {
+        boolean foundRegion = false;
+
+        if (plugin.hasRegios()) {
+            Region region = plugin.getRegiosAPI().getRegion(regiosName);
+            if (region != null && region.getWorld().equals(rider.getWorld())) {
+                rider.setGoal(new RegiosGoal(plugin, region, rider.getWorld()));
                 foundRegion = true;
             }
         }

@@ -3,7 +3,7 @@ main: com.edwardhand.mobrider.MobRider
 version: 0.46.1-b${BUILD_NUMBER}
 authors: [edwardhand, mung3r]
 website: http://dev.bukkit.org/server-mods/mobrider
-softdepend: [Citizens,WorldGuard,Residence,Multiverse-Core,SpoutPlugin,Vault]
+softdepend: [Citizens,WorldGuard,Residence,Regios,Multiverse-Core,SpoutPlugin,Vault]
 commands:
   mob:
     description: MobRider commands
