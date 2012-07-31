@@ -33,7 +33,7 @@ public class MRUtil
 
     public static String getCreatureName(Entity entity)
     {
-        return entity.getType().name() == null ? "" : entity.getType().name();
+        return entity == null || entity.getType().name() == null ? "" : entity.getType().name();
     }
 
     public static LivingEntity getNearByTarget(Player player, int range)
