@@ -18,7 +18,7 @@ public class LocationGoal extends BasicGoal
     }
 
     @Override
-    public void executeUpdate(Rider rider)
+    public void update(Rider rider)
     {
         if (rider != null) {
             rider.setTarget(null);

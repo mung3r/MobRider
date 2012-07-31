@@ -50,7 +50,7 @@ public class GoalManager
             if (rider.getGoal().isGoalDone()) {
                 setStopGoal(rider);
             }
-            rider.getGoal().executeUpdate(rider);
+            rider.getGoal().update(rider);
         }
     }
 
@@ -256,12 +256,12 @@ public class GoalManager
         return foundRegion;
     }
 
-    private boolean foundRegios(Rider rider, String regiosName)
+    private boolean foundRegios(Rider rider, String regionName)
     {
         boolean foundRegion = false;
 
         if (plugin.hasRegios()) {
-            Region region = plugin.getRegiosAPI().getRegion(regiosName);
+            Region region = plugin.getRegiosAPI().getRegion(regionName);
             if (region != null && region.getWorld().equals(rider.getWorld())) {
                 rider.setGoal(new RegiosGoal(plugin, region, rider.getWorld()));
                 foundRegion = true;

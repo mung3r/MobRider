@@ -21,7 +21,7 @@ public class RegiosGoal extends LocationGoal
     }
 
     @Override
-    public void executeUpdate(Rider rider)
+    public void update(Rider rider)
     {
         if (rider != null) {
             rider.setTarget(null);

@@ -53,7 +53,7 @@ public abstract class BasicGoal implements Goal
     }
 
     @Override
-    public void executeUpdate(Rider rider)
+    public void update(Rider rider)
     {
     }
 

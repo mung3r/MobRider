@@ -13,7 +13,7 @@ public class AttackGoal extends FollowGoal
     }
 
     @Override
-    public void executeUpdate(Rider rider)
+    public void update(Rider rider)
     {
         if (rider != null) {
             LivingEntity ride = rider.getRide();
