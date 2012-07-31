@@ -4,6 +4,8 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Random;
 
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
@@ -32,6 +34,7 @@ public class RiderManager implements Runnable
     private static Random random = new Random();
 
     private Permission permission;
+    private Economy economy;
     private MetricsManager metrics;
     private ConfigManager configManager;
     private GoalManager goalManager;
@@ -41,6 +44,7 @@ public class RiderManager implements Runnable
     public RiderManager(MobRider plugin)
     {
         permission = plugin.getPermission();
+        economy = plugin.getEconomy();
         metrics = plugin.getMetricsManager();
         configManager = plugin.getConfigManager();
         goalManager = plugin.getGoalManager();
@@ -126,6 +130,11 @@ public class RiderManager implements Runnable
 
     public boolean canRide(Player player, Entity entity)
     {
+        return isAllowed(player, entity) && (isOwner(player, entity) || (isWinner(player, entity) && isWithdrawSuccess(player, entity)));
+    }
+
+    private boolean isAllowed(Player player, Entity entity)
+    {
         if (player == null || entity == null) {
             return false;
         }
@@ -136,12 +145,12 @@ public class RiderManager implements Runnable
         }
 
         if (permission == null) {
-            return isOwner(player, entity) || isWinner(player, entity);
+            return true;
         }
 
         if (entity instanceof Animals || entity instanceof Squid || entity instanceof Golem || entity instanceof Villager) {
             if (permission.playerHas(player, "mobrider.animals") || permission.playerHas(player, "mobrider.animals." + MRUtil.getCreatureName(entity).toLowerCase()))
-                return isOwner(player, entity) || isWinner(player, entity);
+                return true;
             else {
                 player.sendMessage("You do not have permission to ride that animal.");
                 return false;
@@ -150,7 +159,7 @@ public class RiderManager implements Runnable
 
         if (entity instanceof Monster || entity instanceof Ghast || entity instanceof Slime || entity instanceof EnderDragon) {
             if (permission.playerHas(player, "mobrider.monsters") || permission.playerHas(player, "mobrider.monsters." + MRUtil.getCreatureName(entity).toLowerCase()))
-                return isOwner(player, entity) || isWinner(player, entity);
+                return true;
             else {
                 player.sendMessage("You do not have permission to ride that monster.");
                 return false;
@@ -178,6 +187,33 @@ public class RiderManager implements Runnable
         }
 
         return isWinner;
+    }
+
+    private boolean isWithdrawSuccess(Player player, Entity entity)
+    {
+        if (economy == null) {
+            return true;
+        }
+
+        if (player == null || entity == null) {
+            return false;
+        }
+
+        double cost = RideType.fromType(entity.getType()).getCost();
+
+        if (cost == 0.0) {
+            return true;
+        }
+
+        EconomyResponse response = economy.withdrawPlayer(player.getName(), cost);
+        if (response.transactionSuccess()) {
+            player.sendMessage("You were charged " + economy.format(response.amount) + " for riding this creature.");
+        }
+        else {
+            player.sendMessage("You have insufficient funds to ride that creature.");
+        }
+
+        return response.transactionSuccess();
     }
 
     private static boolean isOwner(Player player, Entity entity)

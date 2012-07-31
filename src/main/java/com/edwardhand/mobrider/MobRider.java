@@ -30,6 +30,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 
 import net.citizensnpcs.Citizens;
+import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
@@ -45,6 +46,7 @@ public class MobRider extends JavaPlugin
     private static final MRLogger log = new MRLogger();
 
     private Permission permission;
+    private Economy economy;
     private CommandHandler commandHandler;
     private RiderManager riderManager;
     private GoalManager goalManager;
@@ -62,7 +64,7 @@ public class MobRider extends JavaPlugin
     {
         log.setName(this.getDescription().getName());
 
-        setupPermission();
+        setupVault();
         setupMetrics();
         setupWorldGuard();
         setupResidence();
@@ -103,11 +105,16 @@ public class MobRider extends JavaPlugin
     {
         super.reloadConfig();
         config = new ConfigManager(this);
-    };
+    }
 
     public Permission getPermission()
     {
         return permission;
+    }
+
+    public Economy getEconomy()
+    {
+        return economy;
     }
 
     public RiderManager getRiderManager()
@@ -180,20 +187,23 @@ public class MobRider extends JavaPlugin
         return log;
     }
 
-    private void setupPermission()
+    private void setupVault()
     {
-        try {
-            RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-            if (permissionProvider != null) {
-                permission = permissionProvider.getProvider();
-            }
-
-            if (permission == null) {
-                log.warning("Missing permissions - everything is allowed!");
-            }
+        RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+        if (permissionProvider != null) {
+            permission = permissionProvider.getProvider();
         }
-        catch (NoClassDefFoundError e) {
-            log.warning("Vault not found - everything is allowed!");
+        else {
+            log.warning("Missing permissions - everything is allowed!");
+        }
+
+        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        if (economyProvider != null) {
+            economy = economyProvider.getProvider();
+            log.info("Economy enabled.");
+        }
+        else {
+            log.warning("Economy disabled.");
         }
     }
 

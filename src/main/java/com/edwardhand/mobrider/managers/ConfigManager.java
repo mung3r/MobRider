@@ -81,7 +81,7 @@ public class ConfigManager
         ConfigurationSection mobs = config.getConfigurationSection("mobs");
         for (String name : mobs.getKeys(false)) {
             ConfigurationSection mob = mobs.getConfigurationSection(name);
-            new RideType(EntityType.fromName(name), Double.valueOf(mob.getDouble("speed")).floatValue(), mob.getString("noise"), mob.getDouble("chance"));
+            new RideType(EntityType.fromName(name), Double.valueOf(mob.getDouble("speed")).floatValue(), mob.getString("noise"), mob.getDouble("chance"), mob.getDouble("cost"));
         }
     }
 

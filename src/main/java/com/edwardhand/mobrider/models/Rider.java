@@ -6,13 +6,13 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.entity.CraftCreature;
+import org.bukkit.craftbukkit.entity.CraftEnderDragon;
+import org.bukkit.craftbukkit.entity.CraftGhast;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.entity.CraftSlime;
 import org.bukkit.entity.Creature;
-import org.bukkit.entity.EnderDragon;
-import org.bukkit.entity.Ghast;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Slime;
 import org.bukkit.entity.Squid;
 import org.getspout.spoutapi.keyboard.Keyboard;
 
@@ -75,21 +75,21 @@ public class Rider
         LivingEntity ride = getRide();
 
         if (ride != null) {
-            if (ride instanceof Creature) {
-                if (MRUtil.hasNewAI(ride) && target instanceof CraftLivingEntity) {
-                    ((CraftCreature) ride).getHandle().b(((CraftLivingEntity) target).getHandle());
+            if (ride instanceof CraftCreature) {
+                if (MRUtil.hasNewAI(ride)) {
+                    ((CraftCreature) ride).getHandle().b(target instanceof CraftLivingEntity ? ((CraftLivingEntity) target).getHandle() : null);
                 }
                 else {
-                    ((Creature) ride).setTarget(target);
+                    ((CraftCreature) ride).setTarget(target);
                 }
             }
-            else if (ride instanceof Slime) {
+            else if (ride instanceof CraftSlime) {
                 // TODO: implement setTarget for slime
             }
-            else if (ride instanceof Ghast) {
+            else if (ride instanceof CraftGhast) {
                 // TODO: implement setTarget for ghast
             }
-            else if (ride instanceof EnderDragon) {
+            else if (ride instanceof CraftEnderDragon) {
                 // TODO: implement setTarget for enderdragon
             }
         }
