@@ -62,8 +62,8 @@ public class ResidenceGoal extends LocationGoal
             Location lowLoc = area.getLowLoc();
             Location highLoc = area.getHighLoc();
 
-            double x = lowLoc.getX() + highLoc.getX() / 2;
-            double z = lowLoc.getZ() + highLoc.getZ() / 2;
+            double x = (lowLoc.getX() + highLoc.getX()) / 2;
+            double z = (lowLoc.getZ() + highLoc.getZ()) / 2;
 
             midPoint = area.getWorld().getHighestBlockAt((int) x, (int) z).getLocation();
         }

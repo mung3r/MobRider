@@ -67,8 +67,8 @@ public class RegionGoal extends LocationGoal
             BlockVector minPoint = region.getMinimumPoint();
             BlockVector maxPoint = region.getMaximumPoint();
 
-            double x = minPoint.getX() + maxPoint.getX() / 2;
-            double z = minPoint.getZ() + maxPoint.getZ() / 2;
+            double x = (minPoint.getX() + maxPoint.getX()) / 2;
+            double z = (minPoint.getZ() + maxPoint.getZ()) / 2;
 
             midPoint = world.getHighestBlockAt((int) x, (int) z).getLocation();
         }
