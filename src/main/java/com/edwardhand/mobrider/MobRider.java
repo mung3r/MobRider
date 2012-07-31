@@ -30,7 +30,6 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 
 import couk.Adamki11s.Regios.API.RegiosAPI;
-import couk.Adamki11s.Regios.Main.Regios;
 
 import net.citizensnpcs.Citizens;
 import net.milkbowl.vault.economy.Economy;
@@ -69,21 +68,16 @@ public class MobRider extends JavaPlugin
     {
         log.setName(this.getDescription().getName());
 
-        setupVault();
-        setupMetrics();
-        setupWorldGuard();
-        setupResidence();
-        setupRegios();
-        setupMultiverse();
-        setupCitizens();
-        setupSpout();
+        initVault();
+        initMetrics();
+        initPlugins();
 
         config = new ConfigManager(this);
         messageManager = new MessageManager();
         goalManager = new GoalManager(this);
         riderManager = new RiderManager(this);
 
-        registerCommands();
+        addCommands();
         registerKeyBindings();
         registerEvents();
 
@@ -188,14 +182,14 @@ public class MobRider extends JavaPlugin
         return destinationFactory != null;
     }
 
-    public boolean hasSpout()
-    {
-        return spoutPlugin != null;
-    }
-
     public DestinationFactory getMVDestinationFactory()
     {
         return destinationFactory;
+    }
+
+    public boolean hasSpout()
+    {
+        return spoutPlugin != null;
     }
 
     public static MRLogger getMRLogger()
@@ -203,27 +197,34 @@ public class MobRider extends JavaPlugin
         return log;
     }
 
-    private void setupVault()
+    private void initVault()
     {
-        RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-        if (permissionProvider != null) {
-            permission = permissionProvider.getProvider();
+        Plugin vaultPlugin = getPlugin("Vault", "net.milkbowl.vault.Vault");
+
+        if (vaultPlugin != null) {
+            RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(
+                    net.milkbowl.vault.permission.Permission.class);
+            if (permissionProvider != null) {
+                permission = permissionProvider.getProvider();
+            }
+
+            RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+            if (economyProvider != null) {
+                economy = economyProvider.getProvider();
+                log.info("Economy enabled.");
+            }
         }
-        else {
+
+        if (permission == null) {
             log.warning("Missing permissions - everything is allowed!");
         }
 
-        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-        if (economyProvider != null) {
-            economy = economyProvider.getProvider();
-            log.info("Economy enabled.");
-        }
-        else {
+        if (economy == null) {
             log.warning("Economy disabled.");
         }
     }
 
-    private void setupMetrics()
+    private void initMetrics()
     {
         try {
             metrics = new MetricsManager(this);
@@ -235,61 +236,41 @@ public class MobRider extends JavaPlugin
         }
     }
 
-    private void setupWorldGuard()
+    private void initPlugins()
     {
-        Plugin plugin = this.getServer().getPluginManager().getPlugin("WorldGuard");
-        if (plugin instanceof WorldGuardPlugin) {
-            worldGuardPlugin = (WorldGuardPlugin) plugin;
-            log.info("Successfully hooked " + plugin.getDescription().getName());
-        }
-    }
+        worldGuardPlugin = (WorldGuardPlugin) getPlugin("WorldGuard", "com.sk89q.worldguard.bukkit.WorldGuardPlugin");
+        residencePlugin = (Residence) getPlugin("Residence", "com.bekvon.bukkit.residence.Residence");
+        citizensPlugin = (Citizens) getPlugin("Citizens", "net.citizensnpcs.Citizens");
+        spoutPlugin = getPlugin("Spout", "org.getspout.spout.Spout");
 
-    private void setupResidence()
-    {
-        Plugin plugin = this.getServer().getPluginManager().getPlugin("Residence");
-        if (plugin instanceof Residence) {
-            residencePlugin = (Residence) plugin;
-            log.info("Successfully hooked " + plugin.getDescription().getName());
-        }
-    }
-
-    private void setupRegios()
-    {
-        Plugin plugin = this.getServer().getPluginManager().getPlugin("Regios");
-        if (plugin instanceof Regios) {
+        Plugin regiosPlugin = getPlugin("Regios", "couk.Adamki11s.Regios.Main.Regios");
+        if (regiosPlugin != null) {
             regiosAPI = new RegiosAPI();
-            log.info("Successfully hooked " + plugin.getDescription().getName());
+        }
+
+        Plugin multiversePlugin = getPlugin("Multiverse-Core", "com.onarandombox.MultiverseCore.MultiverseCore");
+        if (multiversePlugin != null) {
+            destinationFactory = ((MultiverseCore) multiversePlugin).getDestFactory();
         }
     }
 
-    private void setupMultiverse()
+    private Plugin getPlugin(String pluginName, String className)
     {
-        Plugin plugin = this.getServer().getPluginManager().getPlugin("Multiverse-Core");
-        if (plugin instanceof MultiverseCore) {
-            destinationFactory = ((MultiverseCore) plugin).getDestFactory();
-            log.info("Successfully hooked " + plugin.getDescription().getName());
+        Plugin plugin = this.getServer().getPluginManager().getPlugin(pluginName);
+        try {
+            Class<?> testClass = Class.forName(className);
+            if (testClass.isInstance(plugin)) {
+                log.info("Successfully hooked " + plugin.getDescription().getName());
+                return plugin;
+            }
         }
+        catch (ClassNotFoundException e) {
+            log.info("Did not hook " + pluginName);
+        }
+        return null;
     }
 
-    private void setupCitizens()
-    {
-        Plugin plugin = this.getServer().getPluginManager().getPlugin("Citizens");
-        if (plugin instanceof Citizens) {
-            citizensPlugin = (Citizens) plugin;
-            log.info("Successfully hooked " + plugin.getDescription().getName());
-        }
-    }
-
-    private void setupSpout()
-    {
-        Plugin plugin = this.getServer().getPluginManager().getPlugin("Spout");
-        if (plugin != null) {
-            spoutPlugin = plugin;
-            log.info("Successfully hooked " + plugin.getDescription().getName());
-        }
-    }
-
-    private void registerCommands()
+    private void addCommands()
     {
         commandHandler = new CommandHandler(this);
 
