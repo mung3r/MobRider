@@ -202,10 +202,10 @@ public class MobRider extends JavaPlugin
         Plugin vaultPlugin = getPlugin("Vault", "net.milkbowl.vault.Vault");
 
         if (vaultPlugin != null) {
-            RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(
-                    net.milkbowl.vault.permission.Permission.class);
+            RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
             if (permissionProvider != null) {
                 permission = permissionProvider.getProvider();
+                log.info("Found permissions provider.");
             }
 
             RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
@@ -260,12 +260,12 @@ public class MobRider extends JavaPlugin
         try {
             Class<?> testClass = Class.forName(className);
             if (testClass.isInstance(plugin)) {
-                log.info("Successfully hooked " + plugin.getDescription().getName());
+                log.info("Found plugin " + plugin.getDescription().getName());
                 return plugin;
             }
         }
         catch (ClassNotFoundException e) {
-            log.info("Did not hook " + pluginName);
+            log.warning("Did not find plugin " + pluginName);
         }
         return null;
     }
