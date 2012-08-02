@@ -76,14 +76,7 @@ public class RiderControlDelegate implements BindingExecutionDelegate
                 break;
         }
 
-        if (yaw > 360) {
-            yaw -= 360;
-        }
-        else if (yaw < -360) {
-            yaw += 360;
-        }
-
-        location.setYaw(yaw);
+        location.setYaw(yaw % 360);
         return location.getDirection().normalize();
     }
 }
