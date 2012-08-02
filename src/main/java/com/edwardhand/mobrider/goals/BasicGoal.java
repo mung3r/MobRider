@@ -66,7 +66,7 @@ public abstract class BasicGoal implements Goal
 
             if (MRUtil.hasNewAI(ride)) {
                 Location interimLocation = getInterimLocation(ride, destination);
-                creature.getHandle().al().a(interimLocation.getX(), interimLocation.getY(), interimLocation.getZ(), rider.getSpeed());
+                creature.getHandle().getNavigation().a(interimLocation.getX(), interimLocation.getY(), interimLocation.getZ(), rider.getSpeed());
             }
             else {
                 ((CraftCreature) ride).getHandle().setPathEntity(new PathEntity(new PathPoint[] { new PathPoint(destination.getBlockX(), destination.getBlockY(), destination.getBlockZ()) }));
