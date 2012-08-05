@@ -97,9 +97,10 @@ public class RiderManager implements Runnable
 
     public void removeRider(Player player)
     {
-        LivingEntity target = (LivingEntity) player.getVehicle();
+        Entity entity = player.getVehicle();
 
-        if (target instanceof LivingEntity) {
+        if (entity instanceof LivingEntity) {
+            LivingEntity target = (LivingEntity) entity;
             ((CraftPlayer) player).getHandle().setPassengerOf(null);
             if (permission.has(player, "mobrider.spawnegg") && hasSpawnEgg(target)) {
                 target.remove();
