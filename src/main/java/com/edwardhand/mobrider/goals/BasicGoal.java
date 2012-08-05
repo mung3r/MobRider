@@ -1,5 +1,9 @@
 package com.edwardhand.mobrider.goals;
 
+import java.lang.reflect.Method;
+
+import net.minecraft.server.EntityCreature;
+import net.minecraft.server.Navigation;
 import net.minecraft.server.PathEntity;
 import net.minecraft.server.PathPoint;
 
@@ -66,10 +70,10 @@ public abstract class BasicGoal implements Goal
 
             if (MRUtil.hasNewAI(ride)) {
                 Location interimLocation = getInterimLocation(ride, destination);
-                creature.getHandle().getNavigation().a(interimLocation.getX(), interimLocation.getY(), interimLocation.getZ(), rider.getSpeed());
+                getNavigation(creature.getHandle()).a(interimLocation.getX(), interimLocation.getY(), interimLocation.getZ(), rider.getSpeed());
             }
             else {
-                ((CraftCreature) ride).getHandle().setPathEntity(new PathEntity(new PathPoint[] { new PathPoint(destination.getBlockX(), destination.getBlockY(), destination.getBlockZ()) }));
+                creature.getHandle().setPathEntity(new PathEntity(new PathPoint[] { new PathPoint(destination.getBlockX(), destination.getBlockY(), destination.getBlockZ()) }));
             }
         }
         else if (ride instanceof CraftSlime) {
@@ -81,6 +85,25 @@ public abstract class BasicGoal implements Goal
         else if (ride instanceof CraftEnderDragon) {
             // TODO: implement setPathEntity for enderdragon
         }
+    }
+
+    private static Navigation getNavigation(EntityCreature entityCreature)
+    {
+        try {
+            Method m = EntityCreature.class.getMethod("getNavigation");
+            return (Navigation) m.invoke((Object) entityCreature);
+        }
+        catch (Exception e) {
+        }
+
+        try {
+            Method m = EntityCreature.class.getMethod("al");
+            return (Navigation) m.invoke((Object) entityCreature);
+        }
+        catch (Exception e) {
+        }
+
+        return null;
     }
 
     private static Location getInterimLocation(LivingEntity ride, Location destination)
