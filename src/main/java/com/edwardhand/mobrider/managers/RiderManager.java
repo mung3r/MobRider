@@ -9,9 +9,11 @@ import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Golem;
 import org.bukkit.entity.LivingEntity;
@@ -21,6 +23,8 @@ import org.bukkit.entity.Slime;
 import org.bukkit.entity.Squid;
 import org.bukkit.entity.Tameable;
 import org.bukkit.entity.Villager;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.SpawnEgg;
 
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.models.RideType;
@@ -91,6 +95,47 @@ public class RiderManager implements Runnable
         return rider != null ? rider : new Rider(null);
     }
 
+    public void removeRider(Player player)
+    {
+        LivingEntity target = (LivingEntity) player.getVehicle();
+
+        if (target instanceof LivingEntity) {
+            ((CraftPlayer) player).getHandle().setPassengerOf(null);
+            if (permission.has(player, "mobrider.spawnegg") && hasSpawnEgg(target)) {
+                target.remove();
+                player.getWorld().dropItemNaturally(player.getLocation(), getSpawnEgg((LivingEntity) target));
+            }
+        }
+    }
+
+    private boolean hasSpawnEgg(Entity entity)
+    {
+        boolean hasSpawnEgg = false;
+
+        if (entity instanceof LivingEntity) {
+            EntityType type = ((LivingEntity) entity).getType();
+            switch (type) {
+                case ENDER_DRAGON:
+                case GIANT:
+                case SNOWMAN:
+                case IRON_GOLEM:
+                case PLAYER:
+                    hasSpawnEgg = false;
+                    break;
+                default:
+                    hasSpawnEgg = true;
+            }
+        }
+
+        return hasSpawnEgg;
+    }
+
+    private ItemStack getSpawnEgg(LivingEntity entity)
+    {
+        SpawnEgg egg = new SpawnEgg(entity.getType());
+        return new ItemStack(egg.getItemType(), 1, egg.getData());
+    }
+
     public Rider getRider(Player player)
     {
         Rider rider = null;
@@ -130,7 +175,7 @@ public class RiderManager implements Runnable
 
     public boolean canRide(Player player, Entity entity)
     {
-        return isAllowed(player, entity) && (isOwner(player, entity) || (isWinner(player, entity) && isWithdrawSuccess(player, entity)));
+        return isAllowed(player, entity) && ((player.isOp() || isOwner(player, entity) || (isWinner(player, entity)) && isWithdrawSuccess(player, entity)));
     }
 
     private boolean isAllowed(Player player, Entity entity)
