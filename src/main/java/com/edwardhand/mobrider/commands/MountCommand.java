@@ -1,7 +1,6 @@
 package com.edwardhand.mobrider.commands;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -40,7 +39,7 @@ public class MountCommand extends BasicCommand
             Entity vehicle = player.getVehicle();
 
             if (vehicle instanceof LivingEntity) {
-                ((CraftPlayer) player).getHandle().setPassengerOf(null);
+                riderManager.removeRider(player);
             }
             else {
                 LivingEntity target = MRUtil.getNearByTarget(player, (int) configManager.MOUNT_RANGE);

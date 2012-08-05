@@ -59,6 +59,9 @@ permissions:
     mobrider.monsters:
         description: Player can mount monster
         default: op
+    mobrider.spawnegg:
+        description: Player receives a spawn egg on dismount
+        default: op
     mobrider.admin.reload:
         description: Reload config
         default: op

@@ -60,7 +60,7 @@ public class RiderPlayerListener implements Listener
                 riderManager.feedRide(riderManager.getRider(player));
             }
             else {
-                ((CraftPlayer) player).getHandle().setPassengerOf(null);
+                riderManager.removeRider(player);
             }
 
             if (vehicle instanceof CraftPig) {
