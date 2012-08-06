@@ -61,7 +61,7 @@ public class MobRider extends JavaPlugin
     private Residence residencePlugin;
     private RegiosAPI regiosAPI;
     private Towny townyPlugin;
-
+    private Plugin factionsPlugin;
     private Citizens citizensPlugin;
     private Plugin spoutPlugin;
 
@@ -199,6 +199,11 @@ public class MobRider extends JavaPlugin
         return townyPlugin != null;
     }
 
+    public boolean hasFactions()
+    {
+        return factionsPlugin != null;
+    }
+
     public static MRLogger getMRLogger()
     {
         return log;
@@ -249,6 +254,7 @@ public class MobRider extends JavaPlugin
         residencePlugin = (Residence) getPlugin("Residence", "com.bekvon.bukkit.residence.Residence");
         citizensPlugin = (Citizens) getPlugin("Citizens", "net.citizensnpcs.Citizens");
         townyPlugin = (Towny) getPlugin("Towny", "com.palmergames.bukkit.towny.Towny");
+        factionsPlugin = getPlugin("Factions", "com.massivecraft.factions.P");
         spoutPlugin = getPlugin("Spout", "org.getspout.spout.Spout");
 
         Plugin regiosPlugin = getPlugin("Regios", "couk.Adamki11s.Regios.Main.Regios");

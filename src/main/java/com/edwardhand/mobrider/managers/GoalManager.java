@@ -17,6 +17,7 @@ import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.goals.AttackGoal;
+import com.edwardhand.mobrider.goals.FactionGoal;
 import com.edwardhand.mobrider.goals.FollowGoal;
 import com.edwardhand.mobrider.goals.GotoGoal;
 import com.edwardhand.mobrider.goals.LocationGoal;
@@ -27,6 +28,7 @@ import com.edwardhand.mobrider.goals.StopGoal;
 import com.edwardhand.mobrider.goals.TownyGoal;
 import com.edwardhand.mobrider.models.Rider;
 import com.edwardhand.mobrider.utils.MRUtil;
+import com.massivecraft.factions.Factions;
 import com.onarandombox.MultiverseCore.api.MVDestination;
 import com.palmergames.bukkit.towny.object.Town;
 import com.palmergames.bukkit.towny.object.TownyUniverse;
@@ -86,7 +88,7 @@ public class GoalManager
             rider.setGoal(new GotoGoal(plugin, entity));
             messageManager.sendMessage(rider, configManager.goConfirmedMessage);
         }
-        else if (foundPortal(rider, goalName) || foundResidence(rider, goalName) || foundRegion(rider, goalName) || foundRegios(rider, goalName) || foundTown(rider, goalName)) {
+        else if (foundPortal(rider, goalName) || foundResidence(rider, goalName) || foundRegion(rider, goalName) || foundRegios(rider, goalName) || foundTown(rider, goalName) || foundFaction(rider, goalName)) {
             messageManager.sendMessage(rider, configManager.goConfirmedMessage);
         }
         else {
@@ -282,11 +284,26 @@ public class GoalManager
             for (Town town : TownyUniverse.getDataSource().getTowns()) {
                 if (town.getName().equals(townName)) {
                     rider.setGoal(new TownyGoal(plugin, town));
+                    foundTown = true;
                 }
             }
         }
 
         return foundTown;
+    }
+
+    private boolean foundFaction(Rider rider, String factionTag)
+    {
+        boolean foundFaction = false;
+
+        if (plugin.hasFactions()) {
+            if (Factions.i.exists(factionTag)) {
+                rider.setGoal(new FactionGoal(plugin, Factions.i.get(factionTag)));
+                foundFaction = true;
+            }
+        }
+
+        return foundFaction;
     }
 
     private boolean isEntityWithinRange(LivingEntity from, LivingEntity to, double range)
