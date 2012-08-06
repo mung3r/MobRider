@@ -24,9 +24,12 @@ import com.edwardhand.mobrider.goals.RegionGoal;
 import com.edwardhand.mobrider.goals.RegiosGoal;
 import com.edwardhand.mobrider.goals.ResidenceGoal;
 import com.edwardhand.mobrider.goals.StopGoal;
+import com.edwardhand.mobrider.goals.TownyGoal;
 import com.edwardhand.mobrider.models.Rider;
 import com.edwardhand.mobrider.utils.MRUtil;
 import com.onarandombox.MultiverseCore.api.MVDestination;
+import com.palmergames.bukkit.towny.object.Town;
+import com.palmergames.bukkit.towny.object.TownyUniverse;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 import couk.Adamki11s.Regios.Regions.Region;
@@ -83,7 +86,7 @@ public class GoalManager
             rider.setGoal(new GotoGoal(plugin, entity));
             messageManager.sendMessage(rider, configManager.goConfirmedMessage);
         }
-        else if (foundPortal(rider, goalName) || foundResidence(rider, goalName) || foundRegion(rider, goalName) || foundRegios(rider, goalName)) {
+        else if (foundPortal(rider, goalName) || foundResidence(rider, goalName) || foundRegion(rider, goalName) || foundRegios(rider, goalName) || foundTown(rider, goalName)) {
             messageManager.sendMessage(rider, configManager.goConfirmedMessage);
         }
         else {
@@ -269,6 +272,21 @@ public class GoalManager
         }
 
         return foundRegion;
+    }
+
+    private boolean foundTown(Rider rider, String townName)
+    {
+        boolean foundTown = false;
+
+        if (plugin.hasTowny()) {
+            for (Town town : TownyUniverse.getDataSource().getTowns()) {
+                if (town.getName().equals(townName)) {
+                    rider.setGoal(new TownyGoal(plugin, town));
+                }
+            }
+        }
+
+        return foundTown;
     }
 
     private boolean isEntityWithinRange(LivingEntity from, LivingEntity to, double range)

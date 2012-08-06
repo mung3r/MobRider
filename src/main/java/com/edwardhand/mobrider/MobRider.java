@@ -26,6 +26,7 @@ import com.edwardhand.mobrider.utils.MRLogger;
 import com.edwardhand.mobrider.utils.MRUpdate;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiverseCore.destination.DestinationFactory;
+import com.palmergames.bukkit.towny.Towny;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 
@@ -59,6 +60,7 @@ public class MobRider extends JavaPlugin
     private DestinationFactory destinationFactory;
     private Residence residencePlugin;
     private RegiosAPI regiosAPI;
+    private Towny townyPlugin;
 
     private Citizens citizensPlugin;
     private Plugin spoutPlugin;
@@ -192,6 +194,11 @@ public class MobRider extends JavaPlugin
         return spoutPlugin != null;
     }
 
+    public boolean hasTowny()
+    {
+        return townyPlugin != null;
+    }
+
     public static MRLogger getMRLogger()
     {
         return log;
@@ -241,6 +248,7 @@ public class MobRider extends JavaPlugin
         worldGuardPlugin = (WorldGuardPlugin) getPlugin("WorldGuard", "com.sk89q.worldguard.bukkit.WorldGuardPlugin");
         residencePlugin = (Residence) getPlugin("Residence", "com.bekvon.bukkit.residence.Residence");
         citizensPlugin = (Citizens) getPlugin("Citizens", "net.citizensnpcs.Citizens");
+        townyPlugin = (Towny) getPlugin("Towny", "com.palmergames.bukkit.towny.Towny");
         spoutPlugin = getPlugin("Spout", "org.getspout.spout.Spout");
 
         Plugin regiosPlugin = getPlugin("Regios", "couk.Adamki11s.Regios.Main.Regios");
