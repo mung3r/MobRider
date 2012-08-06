@@ -20,7 +20,7 @@ MobRider - Finally a proper use for saddles!
 * Travel at much faster speeds than walking (speeds configurable)
 * Receive a Spawn Egg on dismount (configurable)
 * Enable random chance to mount and/or associated coin cost (configurable)
-* Your mob will chat with to you :)
+* Your mob will chat with you :)
 * Permissions-friendly
 
 ## Resources:
