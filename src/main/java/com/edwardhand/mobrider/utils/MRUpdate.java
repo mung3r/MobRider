@@ -84,7 +84,7 @@ public class MRUpdate implements Runnable
     {
         if (isOutOfDate()) {
             MobRider.getMRLogger().warning(pluginName + " " + latestVersion + " is out! You are running: " + pluginName + " " + pluginVersion);
-            MobRider.getMRLogger().warning("Update ecoCreature at: " + DEV_BUKKIT_URL);
+            MobRider.getMRLogger().warning("Update MobRider at: " + DEV_BUKKIT_URL);
         }
     }
 }
