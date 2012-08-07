@@ -23,8 +23,6 @@ import org.bukkit.entity.Slime;
 import org.bukkit.entity.Squid;
 import org.bukkit.entity.Tameable;
 import org.bukkit.entity.Villager;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.SpawnEgg;
 
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.models.RideType;
@@ -37,6 +35,7 @@ public class RiderManager implements Runnable
     private static final long MAX_UPDATE_PERIOD = 20L;
     private static Random random = new Random();
 
+    private MobRider plugin;
     private Permission permission;
     private Economy economy;
     private MetricsManager metrics;
@@ -47,6 +46,7 @@ public class RiderManager implements Runnable
 
     public RiderManager(MobRider plugin)
     {
+        this.plugin = plugin;
         permission = plugin.getPermission();
         economy = plugin.getEconomy();
         metrics = plugin.getMetricsManager();
@@ -103,8 +103,8 @@ public class RiderManager implements Runnable
             LivingEntity target = (LivingEntity) entity;
             ((CraftPlayer) player).getHandle().setPassengerOf(null);
             if (permission.has(player, "mobrider.spawnegg") && hasSpawnEgg(target)) {
-                target.remove();
-                player.getWorld().dropItemNaturally(player.getLocation(), getSpawnEgg((LivingEntity) target));
+                SpawnEggTask spawnEggTask = new SpawnEggTask(target);
+                spawnEggTask.setTaskId(Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, spawnEggTask, 0, 1));
             }
         }
     }
@@ -129,12 +129,6 @@ public class RiderManager implements Runnable
         }
 
         return hasSpawnEgg;
-    }
-
-    private ItemStack getSpawnEgg(LivingEntity entity)
-    {
-        SpawnEgg egg = new SpawnEgg(entity.getType());
-        return new ItemStack(egg.getItemType(), 1, egg.getData());
     }
 
     public Rider getRider(Player player)
