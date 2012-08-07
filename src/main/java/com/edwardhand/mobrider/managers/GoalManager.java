@@ -28,6 +28,7 @@ import com.edwardhand.mobrider.goals.StopGoal;
 import com.edwardhand.mobrider.goals.TownyGoal;
 import com.edwardhand.mobrider.models.Rider;
 import com.edwardhand.mobrider.utils.MRUtil;
+import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.Factions;
 import com.onarandombox.MultiverseCore.api.MVDestination;
 import com.palmergames.bukkit.towny.object.Town;
@@ -297,8 +298,9 @@ public class GoalManager
         boolean foundFaction = false;
 
         if (plugin.hasFactions()) {
-            if (Factions.i.exists(factionTag)) {
-                rider.setGoal(new FactionGoal(plugin, Factions.i.get(factionTag)));
+            Faction faction = Factions.i.getByTag(factionTag);
+            if (faction != null) {
+                rider.setGoal(new FactionGoal(plugin, faction));
                 foundFaction = true;
             }
         }
