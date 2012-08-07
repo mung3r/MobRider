@@ -1,5 +1,6 @@
 package com.edwardhand.mobrider.commands;
 
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -43,7 +44,7 @@ public class MountCommand extends BasicCommand
             }
             else {
                 LivingEntity target = MRUtil.getNearByTarget(player, (int) configManager.MOUNT_RANGE);
-                if (riderManager.canRide(player, target)) {
+                if (player.getItemInHand().getType() == Material.SADDLE && riderManager.canRide(player, target)) {
                     target.setPassenger(player);
                     Rider rider = riderManager.addRider(player);
                     goalManager.setStopGoal(rider);
