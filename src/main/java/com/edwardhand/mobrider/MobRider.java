@@ -217,22 +217,22 @@ public class MobRider extends JavaPlugin
             RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
             if (permissionProvider != null) {
                 permission = permissionProvider.getProvider();
-                log.info("Found permissions provider.");
+                log.info("Found permission provider " + permission.getName());
             }
 
             RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
             if (economyProvider != null) {
                 economy = economyProvider.getProvider();
-                log.info("Economy enabled.");
+                log.info("Found economy provider " + economy.getName());
             }
         }
 
         if (permission == null) {
-            log.warning("Missing permissions - everything is allowed!");
+            log.warning("Did not find permission provider");
         }
 
         if (economy == null) {
-            log.warning("Economy disabled.");
+            log.warning("Did not find economy provider");
         }
     }
 
