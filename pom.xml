@@ -106,7 +106,7 @@
   <description>Finally a proper use for saddles! A mod for riding and controlling mobs.</description>
   <issueManagement>
     <url>https://github.com/mung3r/ecoCreature/issues</url>
-    <system>Bukkit Dev</system>
+    <system>GitHub</system>
   </issueManagement>
   <ciManagement>
     <system>jenkins</system>
