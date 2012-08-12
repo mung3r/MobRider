@@ -1,4 +1,4 @@
-package com.edwardhand.mobrider.managers;
+package com.edwardhand.mobrider.metrics;
 
 import java.io.IOException;
 import java.util.Hashtable;
@@ -7,7 +7,6 @@ import java.util.Map;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 
-import com.edwardhand.mobrider.Metrics;
 
 public class MetricsManager extends Metrics
 {

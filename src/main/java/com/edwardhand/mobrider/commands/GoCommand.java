@@ -4,13 +4,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.edwardhand.mobrider.MobRider;
+import com.edwardhand.mobrider.commons.Utils;
 import com.edwardhand.mobrider.managers.ConfigManager;
 import com.edwardhand.mobrider.managers.GoalManager;
 import com.edwardhand.mobrider.managers.MessageManager;
 import com.edwardhand.mobrider.managers.RiderManager;
 import com.edwardhand.mobrider.models.DirectionType;
 import com.edwardhand.mobrider.models.Rider;
-import com.edwardhand.mobrider.utils.MRUtil;
 
 public class GoCommand extends BasicCommand
 {
@@ -45,7 +45,7 @@ public class GoCommand extends BasicCommand
                 if (args.length == 1 && DirectionType.fromName(args[0]) != null) {
                     goalManager.setDirection(rider, DirectionType.fromName(args[0]).getDirection());
                 }
-                else if (args.length == 2 && DirectionType.fromName(args[0]) != null && MRUtil.isInteger(args[1])) {
+                else if (args.length == 2 && DirectionType.fromName(args[0]) != null && Utils.isInteger(args[1])) {
                     goalManager.setDirection(rider, DirectionType.fromName(args[0]).getDirection(), Integer.parseInt(args[1]));
                 }
                 else {

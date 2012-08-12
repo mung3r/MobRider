@@ -16,8 +16,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Squid;
 import org.getspout.spoutapi.keyboard.Keyboard;
 
+import com.edwardhand.mobrider.commons.Utils;
 import com.edwardhand.mobrider.goals.Goal;
-import com.edwardhand.mobrider.utils.MRUtil;
 
 public class Rider
 {
@@ -76,7 +76,7 @@ public class Rider
 
         if (ride != null) {
             if (ride instanceof CraftCreature) {
-                if (MRUtil.hasNewAI(ride)) {
+                if (Utils.hasNewAI(ride)) {
                     ((CraftCreature) ride).getHandle().b(target instanceof CraftLivingEntity ? ((CraftLivingEntity) target).getHandle() : null);
                 }
                 else {

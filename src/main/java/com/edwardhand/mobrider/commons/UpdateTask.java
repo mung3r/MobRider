@@ -1,4 +1,4 @@
-package com.edwardhand.mobrider.utils;
+package com.edwardhand.mobrider.commons;
 
 import java.net.URL;
 
@@ -12,7 +12,7 @@ import org.w3c.dom.NodeList;
 
 import com.edwardhand.mobrider.MobRider;
 
-public class MRUpdate implements Runnable
+public class UpdateTask implements Runnable
 {
     private static final String DEV_BUKKIT_URL = "http://dev.bukkit.org/server-mods/mobrider";
     private static final long CHECK_DELAY = 0;
@@ -22,7 +22,7 @@ public class MRUpdate implements Runnable
     private String pluginVersion;
     private String latestVersion;
 
-    public MRUpdate(MobRider plugin)
+    public UpdateTask(MobRider plugin)
     {
         pluginName = plugin.getName();
         pluginVersion = plugin.getDescription().getVersion().split("-")[0];

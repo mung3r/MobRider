@@ -1,4 +1,4 @@
-package com.edwardhand.mobrider;
+package com.edwardhand.mobrider.metrics;
 /*
  * Copyright 2011 Tyler Blair. All rights reserved.
  *

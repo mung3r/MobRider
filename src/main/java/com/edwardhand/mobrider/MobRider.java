@@ -13,6 +13,8 @@ import com.edwardhand.mobrider.commands.HelpCommand;
 import com.edwardhand.mobrider.commands.MountCommand;
 import com.edwardhand.mobrider.commands.ReloadCommand;
 import com.edwardhand.mobrider.commands.StopCommand;
+import com.edwardhand.mobrider.commons.MRLogger;
+import com.edwardhand.mobrider.commons.UpdateTask;
 import com.edwardhand.mobrider.input.RiderControlDelegate;
 import com.edwardhand.mobrider.listeners.RiderDamageListener;
 import com.edwardhand.mobrider.listeners.RiderTargetListener;
@@ -20,10 +22,8 @@ import com.edwardhand.mobrider.listeners.RiderPlayerListener;
 import com.edwardhand.mobrider.managers.ConfigManager;
 import com.edwardhand.mobrider.managers.GoalManager;
 import com.edwardhand.mobrider.managers.MessageManager;
-import com.edwardhand.mobrider.managers.MetricsManager;
 import com.edwardhand.mobrider.managers.RiderManager;
-import com.edwardhand.mobrider.utils.MRLogger;
-import com.edwardhand.mobrider.utils.MRUpdate;
+import com.edwardhand.mobrider.metrics.MetricsManager;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiverseCore.destination.DestinationFactory;
 import com.palmergames.bukkit.towny.Towny;
@@ -83,7 +83,7 @@ public class MobRider extends JavaPlugin
         registerKeyBindings();
         registerEvents();
 
-        new MRUpdate(this);
+        new UpdateTask(this);
 
         log.info(getDescription().getVersion() + " enabled.");
     }

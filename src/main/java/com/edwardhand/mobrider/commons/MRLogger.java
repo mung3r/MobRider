@@ -1,4 +1,4 @@
-package com.edwardhand.mobrider.utils;
+package com.edwardhand.mobrider.commons;
 
 import java.util.logging.Logger;
 

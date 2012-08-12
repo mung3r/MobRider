@@ -7,11 +7,11 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.edwardhand.mobrider.MobRider;
+import com.edwardhand.mobrider.commons.Utils;
 import com.edwardhand.mobrider.managers.ConfigManager;
 import com.edwardhand.mobrider.managers.GoalManager;
 import com.edwardhand.mobrider.managers.RiderManager;
 import com.edwardhand.mobrider.models.Rider;
-import com.edwardhand.mobrider.utils.MRUtil;
 
 public class MountCommand extends BasicCommand
 {
@@ -43,7 +43,7 @@ public class MountCommand extends BasicCommand
                 riderManager.removeRider(player);
             }
             else {
-                LivingEntity target = MRUtil.getNearByTarget(player, (int) configManager.MOUNT_RANGE);
+                LivingEntity target = Utils.getNearByTarget(player, (int) configManager.MOUNT_RANGE);
                 if (player.getItemInHand().getType() == Material.SADDLE && riderManager.canRide(player, target)) {
                     target.setPassenger(player);
                     Rider rider = riderManager.addRider(player);

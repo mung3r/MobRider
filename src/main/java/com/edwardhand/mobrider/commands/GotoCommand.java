@@ -5,12 +5,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.edwardhand.mobrider.MobRider;
+import com.edwardhand.mobrider.commons.Utils;
 import com.edwardhand.mobrider.managers.ConfigManager;
 import com.edwardhand.mobrider.managers.GoalManager;
 import com.edwardhand.mobrider.managers.MessageManager;
 import com.edwardhand.mobrider.managers.RiderManager;
 import com.edwardhand.mobrider.models.Rider;
-import com.edwardhand.mobrider.utils.MRUtil;
 
 public class GotoCommand extends BasicCommand
 {
@@ -45,7 +45,7 @@ public class GotoCommand extends BasicCommand
                 if (args.length == 1) {
                     goalManager.setGotoGoal(rider, args[0]);
                 }
-                else if (args.length == 2 && MRUtil.isInteger(args[0]) && MRUtil.isInteger(args[1])) {
+                else if (args.length == 2 && Utils.isInteger(args[0]) && Utils.isInteger(args[1])) {
                     goalManager.setDestination(rider, new Location(rider.getWorld(), Integer.parseInt(args[0]), 64.0D, Integer.parseInt(args[1])));
                 }
                 else {

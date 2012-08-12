@@ -16,6 +16,7 @@ import org.bukkit.util.Vector;
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.edwardhand.mobrider.MobRider;
+import com.edwardhand.mobrider.commons.Utils;
 import com.edwardhand.mobrider.goals.AttackGoal;
 import com.edwardhand.mobrider.goals.FactionGoal;
 import com.edwardhand.mobrider.goals.FollowGoal;
@@ -27,7 +28,6 @@ import com.edwardhand.mobrider.goals.ResidenceGoal;
 import com.edwardhand.mobrider.goals.StopGoal;
 import com.edwardhand.mobrider.goals.TownyGoal;
 import com.edwardhand.mobrider.models.Rider;
-import com.edwardhand.mobrider.utils.MRUtil;
 import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.Factions;
 import com.onarandombox.MultiverseCore.api.MVDestination;
@@ -104,7 +104,7 @@ public class GoalManager
 
     public void setAttackGoal(Rider rider, LivingEntity entity)
     {
-        if (MRUtil.isAggressive(rider.getRide())) {
+        if (Utils.isAggressive(rider.getRide())) {
             rider.setGoal(new AttackGoal(plugin, entity));
             messageManager.sendMessage(rider, configManager.attackConfirmedMessage);
         }
@@ -159,7 +159,7 @@ public class GoalManager
 
         if (player != null) {
             // find entity by entity ID
-            if (foundEntity == null && MRUtil.isInteger(searchTerm)) {
+            if (foundEntity == null && Utils.isInteger(searchTerm)) {
                 net.minecraft.server.Entity entity = ((CraftWorld) player.getWorld()).getHandle().getEntity(Integer.valueOf(searchTerm));
                 if (entity instanceof LivingEntity) {
                     if (isEntityWithinRange((LivingEntity) entity, player, searchRange)) {

@@ -1,4 +1,4 @@
-package com.edwardhand.mobrider.utils;
+package com.edwardhand.mobrider.commons;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-public class MRUtil
+public class Utils
 {
     public static boolean isInteger(final String s)
     {

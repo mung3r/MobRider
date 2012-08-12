@@ -16,9 +16,9 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
 
 import com.edwardhand.mobrider.MobRider;
+import com.edwardhand.mobrider.commons.Utils;
 import com.edwardhand.mobrider.managers.ConfigManager;
 import com.edwardhand.mobrider.models.Rider;
-import com.edwardhand.mobrider.utils.MRUtil;
 
 public abstract class BasicGoal implements Goal
 {
@@ -68,7 +68,7 @@ public abstract class BasicGoal implements Goal
         if (ride instanceof CraftCreature) {
             CraftCreature creature = (CraftCreature) ride;
 
-            if (MRUtil.hasNewAI(ride)) {
+            if (Utils.hasNewAI(ride)) {
                 Location interimLocation = getInterimLocation(ride, destination);
                 getNavigation(creature.getHandle()).a(interimLocation.getX(), interimLocation.getY(), interimLocation.getZ(), rider.getSpeed());
             }

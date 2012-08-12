@@ -25,9 +25,10 @@ import org.bukkit.entity.Tameable;
 import org.bukkit.entity.Villager;
 
 import com.edwardhand.mobrider.MobRider;
+import com.edwardhand.mobrider.commons.Utils;
+import com.edwardhand.mobrider.metrics.MetricsManager;
 import com.edwardhand.mobrider.models.RideType;
 import com.edwardhand.mobrider.models.Rider;
-import com.edwardhand.mobrider.utils.MRUtil;
 
 public class RiderManager implements Runnable
 {
@@ -163,7 +164,7 @@ public class RiderManager implements Runnable
         }
         else {
             rider.setHealth(Math.min(rider.getHealth() + 5, rider.getMaxHealth()));
-            MRUtil.removeItemInHand(rider.getPlayer());
+            Utils.removeItemInHand(rider.getPlayer());
             messageManager.sendMessage(rider, configManager.fedConfirmedMessage);
         }
     }
@@ -189,7 +190,7 @@ public class RiderManager implements Runnable
         }
 
         if (entity instanceof Animals || entity instanceof Squid || entity instanceof Golem || entity instanceof Villager) {
-            if (permission.playerHas(player, "mobrider.animals") || permission.playerHas(player, "mobrider.animals." + MRUtil.getCreatureName(entity).toLowerCase()))
+            if (permission.playerHas(player, "mobrider.animals") || permission.playerHas(player, "mobrider.animals." + Utils.getCreatureName(entity).toLowerCase()))
                 return true;
             else {
                 player.sendMessage("You do not have permission to ride that animal.");
@@ -198,7 +199,7 @@ public class RiderManager implements Runnable
         }
 
         if (entity instanceof Monster || entity instanceof Ghast || entity instanceof Slime || entity instanceof EnderDragon) {
-            if (permission.playerHas(player, "mobrider.monsters") || permission.playerHas(player, "mobrider.monsters." + MRUtil.getCreatureName(entity).toLowerCase()))
+            if (permission.playerHas(player, "mobrider.monsters") || permission.playerHas(player, "mobrider.monsters." + Utils.getCreatureName(entity).toLowerCase()))
                 return true;
             else {
                 player.sendMessage("You do not have permission to ride that monster.");
