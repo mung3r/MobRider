@@ -38,7 +38,8 @@ public class SpawnEggTask implements Runnable
         }
         else {
             if (ticks < EFFECT_TICKS && target != null) {
-                target.getWorld().playEffect(target.getLocation(), Effect.SMOKE, 4);
+                target.getWorld().playEffect(target.getLocation(), Effect.EXTINGUISH, 4, 10);
+                target.getWorld().playEffect(target.getLocation(), Effect.SMOKE, 4, 10);
                 ticks++;
             }
             else {
