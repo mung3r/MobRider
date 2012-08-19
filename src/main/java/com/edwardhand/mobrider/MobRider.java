@@ -268,12 +268,12 @@ public class MobRider extends JavaPlugin
         }
     }
 
-    private Plugin getPlugin(String pluginName, String className)
+    private static Plugin getPlugin(String pluginName, String className)
     {
-        Plugin plugin = this.getServer().getPluginManager().getPlugin(pluginName);
+        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin(pluginName);
         try {
             Class<?> testClass = Class.forName(className);
-            if (testClass.isInstance(plugin)) {
+            if (testClass.isInstance(plugin) && plugin.isEnabled()) {
                 log.info("Found plugin " + plugin.getDescription().getName());
                 return plugin;
             }
