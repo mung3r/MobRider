@@ -102,11 +102,21 @@ public class Utils
 
     public static boolean isAggressive(LivingEntity livingEntity)
     {
-        return livingEntity != null && (livingEntity.getType() == EntityType.CREEPER
+        return livingEntity != null && (livingEntity.getType() == EntityType.BLAZE
+          || livingEntity.getType() == EntityType.CAVE_SPIDER
+          || livingEntity.getType() == EntityType.ENDER_DRAGON
+          || livingEntity.getType() == EntityType.ENDERMAN
+          || livingEntity.getType() == EntityType.GHAST
+          || livingEntity.getType() == EntityType.GIANT
           || livingEntity.getType() == EntityType.IRON_GOLEM
+          || livingEntity.getType() == EntityType.MAGMA_CUBE
           || livingEntity.getType() == EntityType.OCELOT
+          || livingEntity.getType() == EntityType.PIG_ZOMBIE
+          || livingEntity.getType() == EntityType.SILVERFISH
           || livingEntity.getType() == EntityType.SKELETON
+          || livingEntity.getType() == EntityType.SLIME
           || livingEntity.getType() == EntityType.SNOWMAN
+          || livingEntity.getType() == EntityType.SPIDER
           || livingEntity.getType() == EntityType.WOLF
           || livingEntity.getType() == EntityType.ZOMBIE);
     }
