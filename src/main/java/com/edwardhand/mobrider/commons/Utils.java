@@ -1,13 +1,18 @@
 package com.edwardhand.mobrider.commons;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.minecraft.server.AxisAlignedBB;
 import net.minecraft.server.EntityLiving;
 import net.minecraft.server.EntityPlayer;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
@@ -19,6 +24,8 @@ import org.bukkit.inventory.PlayerInventory;
 
 public class Utils
 {
+    private static final Set<Material> transparentBlocks = new HashSet<Material>(Arrays.asList(Material.AIR, Material.WATER));
+
     public static boolean isInteger(final String s)
     {
         try {
@@ -61,6 +68,13 @@ public class Utils
             if ((entities.size() == 1) && ((entities.get(0) instanceof EntityLiving))) {
                 EntityLiving entity = (EntityLiving) entities.get(0);
                 livingEntity = (LivingEntity) (entity.getBukkitEntity());
+                
+                List<Block> blocks = player.getLineOfSight(null, (int) player.getLocation().distance(livingEntity.getLocation()));
+                for (Block block : blocks) {
+                    if (!transparentBlocks.contains(block.getType())) {
+                        livingEntity = null;
+                    }
+                }
             }
         }
 
