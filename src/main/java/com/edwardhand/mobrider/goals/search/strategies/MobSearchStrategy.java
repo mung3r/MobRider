@@ -16,7 +16,7 @@ public class MobSearchStrategy extends LivingEntitySearchStrategy
         LivingEntity foundEntity = null;
 
         LivingEntity ride = rider.getRide();
-        if (foundEntity == null && ride != null) {
+        if (ride != null) {
             double lastDistance = Double.MAX_VALUE;
 
             for (Entity entity : player.getNearbyEntities(2 * searchRange, 2 * searchRange, 2 * searchRange)) {
