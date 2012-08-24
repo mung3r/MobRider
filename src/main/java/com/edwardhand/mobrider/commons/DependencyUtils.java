@@ -123,7 +123,35 @@ public class DependencyUtils
 
     public static boolean hasCitizens()
     {
-        return citizensPlugin != null;
+        boolean hasCitizens = false;
+
+        try {
+            hasCitizens = citizensPlugin != null && Double.parseDouble(citizensPlugin.getDescription().getVersion()) < 2.0;
+        }
+        catch (NumberFormatException e) {
+            // do nothing
+        }
+
+        return hasCitizens;
+    }
+
+    public static boolean hasCitizens2()
+    {
+        boolean hasCitizens2 = false;
+
+        try {
+            hasCitizens2 = citizensPlugin != null && Double.parseDouble(citizensPlugin.getDescription().getVersion()) >= 2.0;
+        }
+        catch (NumberFormatException e) {
+            // do nothing
+        }
+
+        return hasCitizens2;
+    }
+
+    public static Plugin getCitizens()
+    {
+        return citizensPlugin;
     }
 
     public static boolean hasResidence()

@@ -13,7 +13,8 @@ import com.edwardhand.mobrider.commons.EntityUtils;
 import com.edwardhand.mobrider.commons.MessageUtils;
 import com.edwardhand.mobrider.goals.search.LivingEntitySearch;
 import com.edwardhand.mobrider.goals.search.LocationSearch;
-import com.edwardhand.mobrider.goals.search.strategies.CitizenSearchStrategy;
+import com.edwardhand.mobrider.goals.search.strategies.Citizens2SearchStrategy;
+import com.edwardhand.mobrider.goals.search.strategies.CitizensSearchStrategy;
 import com.edwardhand.mobrider.goals.search.strategies.EntityIdSearchStrategy;
 import com.edwardhand.mobrider.goals.search.strategies.FactionSearchStrategy;
 import com.edwardhand.mobrider.goals.search.strategies.MobSearchStrategy;
@@ -38,7 +39,8 @@ public class GoalManager
         findEntityStrategies = new ArrayList<LivingEntitySearch>();
         findEntityStrategies.add(new EntityIdSearchStrategy());
         findEntityStrategies.add(new PlayerSearchStrategy());
-        findEntityStrategies.add(new CitizenSearchStrategy());
+        findEntityStrategies.add(new CitizensSearchStrategy());
+        findEntityStrategies.add(new Citizens2SearchStrategy());
         findEntityStrategies.add(new MobSearchStrategy());
 
         findLocationStrategies = new ArrayList<LocationSearch>();

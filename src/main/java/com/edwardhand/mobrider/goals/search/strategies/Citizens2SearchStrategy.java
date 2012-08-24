@@ -1,8 +1,9 @@
 package com.edwardhand.mobrider.goals.search.strategies;
 
-import net.citizensnpcs.api.CitizensManager;
-import net.citizensnpcs.resources.npclib.HumanNPC;
-import net.citizensnpcs.resources.npclib.NPCList;
+import java.util.Iterator;
+
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
 
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -10,7 +11,7 @@ import org.bukkit.entity.Player;
 import com.edwardhand.mobrider.commons.DependencyUtils;
 import com.edwardhand.mobrider.rider.Rider;
 
-public class CitizenSearchStrategy extends LivingEntitySearchStrategy
+public class Citizens2SearchStrategy extends LivingEntitySearchStrategy
 {
     @Override
     public LivingEntity find(Rider rider, String searchTerm, double searchRange)
@@ -18,13 +19,13 @@ public class CitizenSearchStrategy extends LivingEntitySearchStrategy
         Player player = rider.getPlayer();
         LivingEntity foundEntity = null;
 
-        if (DependencyUtils.hasCitizens()) {
-            NPCList npcList = CitizensManager.getList();
-            for (HumanNPC npc : npcList.values()) {
+        if (DependencyUtils.hasCitizens2()) {
+            Iterator<NPC> NPCIterator = CitizensAPI.getNPCRegistry().iterator();
+            while (NPCIterator.hasNext()) {
+                NPC npc = NPCIterator.next();
                 if (npc.getName().equalsIgnoreCase(searchTerm)) {
-                    if (isEntityWithinRange(player, npc.getPlayer(), searchRange)) {
-                        foundEntity = npc.getPlayer();
-                        break;
+                    if (isEntityWithinRange(player, npc.getBukkitEntity(), searchRange)) {
+                        foundEntity = npc.getBukkitEntity();
                     }
                 }
             }
