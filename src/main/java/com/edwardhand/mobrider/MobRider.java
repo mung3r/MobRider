@@ -39,8 +39,6 @@ public class MobRider extends JavaPlugin
     @Override
     public void onEnable()
     {
-        MRLogger.getInstance().setName(this.getDescription().getName());
-
         DependencyUtils.init();
         initMetrics();
 

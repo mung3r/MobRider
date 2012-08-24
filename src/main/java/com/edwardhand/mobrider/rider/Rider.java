@@ -17,6 +17,7 @@ import org.bukkit.entity.Squid;
 import org.getspout.spoutapi.keyboard.Keyboard;
 
 import com.edwardhand.mobrider.commons.EntityUtils;
+import com.edwardhand.mobrider.commons.MRLogger;
 import com.edwardhand.mobrider.goals.Goal;
 
 public class Rider
@@ -85,12 +86,15 @@ public class Rider
             }
             else if (ride instanceof CraftSlime) {
                 // TODO: implement setTarget for slime
+                MRLogger.getInstance().debug("setTaret not implemented for Slime");
             }
             else if (ride instanceof CraftGhast) {
                 // TODO: implement setTarget for ghast
+                MRLogger.getInstance().debug("setTaret not implemented for Ghast");
             }
             else if (ride instanceof CraftEnderDragon) {
                 // TODO: implement setTarget for enderdragon
+                MRLogger.getInstance().debug("setTaret not implemented for EnderDragon");
             }
         }
     }

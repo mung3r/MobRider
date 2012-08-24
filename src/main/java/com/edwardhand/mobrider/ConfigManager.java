@@ -52,6 +52,7 @@ public class ConfigManager
         config = getConfig(configFile);
 
         ConfigurationSection general = config.getConfigurationSection("general");
+        MRLogger.getInstance().setDebug(general.getBoolean("debug", false));
         controlItem = Material.matchMaterial(general.getString("control_item"));
         updatePeriod = general.getLong("update_period");
 

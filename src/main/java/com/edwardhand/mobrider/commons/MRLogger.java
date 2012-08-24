@@ -9,16 +9,28 @@ public class MRLogger
 
     private Logger logger;
     private String name;
-
-    private MRLogger()
-    {
-        logger = Logger.getLogger("Minecraft");
-        name = LOG_NAME;
-    }
+    private boolean isDebug;
 
     public static MRLogger getInstance()
     {
         return instance;
+    }
+
+    private MRLogger()
+    {
+        logger = Logger.getLogger("Minecraft");
+        isDebug = false;
+        name = LOG_NAME;
+    }
+
+    public boolean isDebug()
+    {
+        return isDebug;
+    }
+
+    public void setDebug(boolean isDebug)
+    {
+        this.isDebug = isDebug;
     }
 
     public String getName()
@@ -48,7 +60,9 @@ public class MRLogger
 
     public void debug(String msg)
     {
-        logger.info("DEBUG: " + msg);
+        if (isDebug) {
+            logger.info(format("DEBUG: " + msg));
+        }
     }
 
     public String format(String msg)
