@@ -181,8 +181,9 @@ public class RiderManager implements Runnable
         }
 
         if (entity instanceof Animals || entity instanceof Squid || entity instanceof Golem || entity instanceof Villager) {
-            if (DependencyUtils.hasPermission(player, "mobrider.animals") || DependencyUtils.hasPermission(player, "mobrider.animals." + EntityUtils.getCreatureName(entity).toLowerCase()))
+            if (DependencyUtils.hasPermission(player, "mobrider.animals") || DependencyUtils.hasPermission(player, "mobrider.animals." + EntityUtils.getCreatureName(entity).toLowerCase())) {
                 return true;
+            }
             else {
                 player.sendMessage("You do not have permission to ride that animal.");
                 return false;
@@ -190,8 +191,9 @@ public class RiderManager implements Runnable
         }
 
         if (entity instanceof Monster || entity instanceof Ghast || entity instanceof Slime || entity instanceof EnderDragon) {
-            if (DependencyUtils.hasPermission(player, "mobrider.monsters") || DependencyUtils.hasPermission(player, "mobrider.monsters." + EntityUtils.getCreatureName(entity).toLowerCase()))
+            if (DependencyUtils.hasPermission(player, "mobrider.monsters") || DependencyUtils.hasPermission(player, "mobrider.monsters." + EntityUtils.getCreatureName(entity).toLowerCase())) {
                 return true;
+            }
             else {
                 player.sendMessage("You do not have permission to ride that monster.");
                 return false;
@@ -199,8 +201,9 @@ public class RiderManager implements Runnable
         }
 
         if (entity instanceof Player) {
-            if (DependencyUtils.hasPermission(player, "mobrider.players") || DependencyUtils.hasPermission(player, "mobrider.players." + ((Player) entity).getName().toLowerCase()))
+            if (DependencyUtils.hasPermission(player, "mobrider.players") || DependencyUtils.hasPermission(player, "mobrider.players." + ((Player) entity).getName().toLowerCase())) {
                 return true;
+            }
             else {
                 player.sendMessage("You do not have permission to ride that player.");
                 return false;
