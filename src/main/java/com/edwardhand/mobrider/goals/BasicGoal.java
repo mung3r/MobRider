@@ -15,24 +15,23 @@ import org.bukkit.craftbukkit.entity.CraftSlime;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
 
-import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.commons.Utils;
-import com.edwardhand.mobrider.managers.ConfigManager;
-import com.edwardhand.mobrider.models.Rider;
+import com.edwardhand.mobrider.ConfigManager;
+import com.edwardhand.mobrider.commons.EntityUtils;
+import com.edwardhand.mobrider.rider.Rider;
 
 public abstract class BasicGoal implements Goal
 {
     protected static final double NEWAI_DISTANCE_LIMIT_SQUARED = 64.0D;
     protected static final long HYSTERESIS_THRESHOLD = 250; // quarter second
-                                                          // in milliseconds
+                                                            // in milliseconds
     protected ConfigManager configManager;
     protected double rangeSquared;
     protected long timeCreated;
     protected boolean isGoalDone;
 
-    public BasicGoal(MobRider plugin)
+    public BasicGoal(ConfigManager configManager)
     {
-        configManager = plugin.getConfigManager();
+        this.configManager = configManager;
         rangeSquared = configManager.MOUNT_RANGE * configManager.MOUNT_RANGE;
         timeCreated = System.currentTimeMillis();
         isGoalDone = false;
@@ -68,7 +67,7 @@ public abstract class BasicGoal implements Goal
         if (ride instanceof CraftCreature) {
             CraftCreature creature = (CraftCreature) ride;
 
-            if (Utils.hasNewAI(ride)) {
+            if (EntityUtils.hasNewAI(ride)) {
                 Location interimLocation = getInterimLocation(ride, destination);
                 getNavigation(creature.getHandle()).a(interimLocation.getX(), interimLocation.getY(), interimLocation.getZ(), rider.getSpeed());
             }

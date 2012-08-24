@@ -1,6 +1,6 @@
 package com.edwardhand.mobrider.goals;
 
-import com.edwardhand.mobrider.models.Rider;
+import com.edwardhand.mobrider.rider.Rider;
 
 
 public interface Goal

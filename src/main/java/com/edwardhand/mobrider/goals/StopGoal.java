@@ -2,14 +2,14 @@ package com.edwardhand.mobrider.goals;
 
 import org.bukkit.entity.LivingEntity;
 
-import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.models.Rider;
+import com.edwardhand.mobrider.ConfigManager;
+import com.edwardhand.mobrider.rider.Rider;
 
-public class StopGoal extends BasicGoal implements Goal
+public class StopGoal extends BasicGoal
 {
-    public StopGoal(MobRider plugin)
+    public StopGoal(ConfigManager configManager)
     {
-        super(plugin);
+        super(configManager);
     }
 
     @Override

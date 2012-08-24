@@ -1,17 +1,17 @@
-package com.edwardhand.mobrider.managers;
+package com.edwardhand.mobrider.commons;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import com.edwardhand.mobrider.models.Rider;
+import com.edwardhand.mobrider.rider.Rider;
 
-public class MessageManager
+public class MessageUtils
 {
     private static final int HEALTH_BARS = 6;
 
-    public void sendMessage(Rider rider, String suffix)
+    public static void sendMessage(Rider rider, String suffix)
     {
         Player player = rider.getPlayer();
         LivingEntity ride = rider.getRide();
@@ -21,7 +21,7 @@ public class MessageManager
         }
     }
 
-    private String getHealthString(Rider rider)
+    private static String getHealthString(Rider rider)
     {
         double percentHealth = (rider.getHealth() * 100) / (double) rider.getMaxHealth();
 

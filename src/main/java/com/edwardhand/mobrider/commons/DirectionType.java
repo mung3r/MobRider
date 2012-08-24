@@ -1,4 +1,4 @@
-package com.edwardhand.mobrider.models;
+package com.edwardhand.mobrider.commons;
 
 import java.util.Arrays;
 import java.util.HashMap;

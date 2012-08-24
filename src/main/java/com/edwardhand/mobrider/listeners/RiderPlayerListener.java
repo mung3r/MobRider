@@ -13,11 +13,11 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 
+import com.edwardhand.mobrider.ConfigManager;
 import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.managers.ConfigManager;
-import com.edwardhand.mobrider.managers.GoalManager;
-import com.edwardhand.mobrider.managers.RiderManager;
-import com.edwardhand.mobrider.models.Rider;
+import com.edwardhand.mobrider.goals.GoalManager;
+import com.edwardhand.mobrider.rider.Rider;
+import com.edwardhand.mobrider.rider.RiderManager;
 
 public class RiderPlayerListener implements Listener
 {

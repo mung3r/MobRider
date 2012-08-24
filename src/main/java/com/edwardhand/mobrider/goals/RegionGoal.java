@@ -6,8 +6,9 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 
-import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.models.Rider;
+import com.edwardhand.mobrider.ConfigManager;
+import com.edwardhand.mobrider.commons.DependencyUtils;
+import com.edwardhand.mobrider.rider.Rider;
 import com.sk89q.worldedit.BlockVector;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -17,11 +18,11 @@ public class RegionGoal extends LocationGoal
     protected ProtectedRegion region;
     protected RegionManager regionManager;
 
-    public RegionGoal(MobRider plugin, ProtectedRegion region, World world)
+    public RegionGoal(ConfigManager configManager, ProtectedRegion region, World world)
     {
-        super(plugin, getDestination(region, world));
+        super(configManager, getDestination(region, world));
         this.region = region;
-        regionManager = plugin.getRegionManager(world);
+        regionManager = DependencyUtils.getRegionManager(world);
     }
 
     @Override

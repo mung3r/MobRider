@@ -1,4 +1,4 @@
-package com.edwardhand.mobrider.models;
+package com.edwardhand.mobrider.rider;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -4,9 +4,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.managers.GoalManager;
-import com.edwardhand.mobrider.managers.RiderManager;
-import com.edwardhand.mobrider.models.Rider;
+import com.edwardhand.mobrider.goals.GoalManager;
+import com.edwardhand.mobrider.rider.Rider;
+import com.edwardhand.mobrider.rider.RiderManager;
 
 public class StopCommand extends BasicCommand
 {

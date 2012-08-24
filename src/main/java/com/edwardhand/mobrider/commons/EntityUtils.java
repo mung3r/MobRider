@@ -22,7 +22,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-public class Utils
+public class EntityUtils
 {
     private static final Set<Material> transparentBlocks = new HashSet<Material>(Arrays.asList(Material.AIR, Material.WATER));
 

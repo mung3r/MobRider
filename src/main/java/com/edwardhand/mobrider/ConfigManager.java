@@ -1,4 +1,4 @@
-package com.edwardhand.mobrider.managers;
+package com.edwardhand.mobrider;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,8 +14,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 
-import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.models.RideType;
+import com.edwardhand.mobrider.commons.MRLogger;
+import com.edwardhand.mobrider.rider.RideType;
 
 public class ConfigManager
 {
@@ -91,7 +91,7 @@ public class ConfigManager
             config.save(configFile);
         }
         catch (IOException e) {
-            MobRider.getMRLogger().severe(e.getMessage());
+            MRLogger.getInstance().severe(e.getMessage());
         }
     }
 
@@ -120,7 +120,7 @@ public class ConfigManager
                 inputStream.close();
                 outputStream.close();
 
-                MobRider.getMRLogger().info("Default config created successfully!");
+                MRLogger.getInstance().info("Default config created successfully!");
             }
 
             config = plugin.getConfig();
@@ -128,7 +128,7 @@ public class ConfigManager
             config.options().copyDefaults(true);
         }
         catch (Exception e) {
-            MobRider.getMRLogger().warning("Default config could not be created!");
+            MRLogger.getInstance().warning("Default config could not be created!");
         }
 
         return config;

@@ -4,12 +4,21 @@ import java.util.logging.Logger;
 
 public class MRLogger
 {
-    private String name = "MobRider";
-    private Logger logger;
+    private static final String LOG_NAME = "MobRider";
+    private static MRLogger instance = new MRLogger();
 
-    public MRLogger()
+    private Logger logger;
+    private String name;
+
+    private MRLogger()
     {
         logger = Logger.getLogger("Minecraft");
+        name = LOG_NAME;
+    }
+
+    public static MRLogger getInstance()
+    {
+        return instance;
     }
 
     public String getName()

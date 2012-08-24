@@ -2,16 +2,16 @@ package com.edwardhand.mobrider.goals;
 
 import org.bukkit.entity.LivingEntity;
 
-import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.models.Rider;
+import com.edwardhand.mobrider.ConfigManager;
+import com.edwardhand.mobrider.rider.Rider;
 
 public class GotoGoal extends LocationGoal
 {
     protected LivingEntity target;
 
-    public GotoGoal(MobRider plugin, LivingEntity target)
+    public GotoGoal(ConfigManager configManager, LivingEntity target)
     {
-        super(plugin, target.getLocation());
+        super(configManager, target.getLocation());
         this.target = target;
     }
 

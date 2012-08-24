@@ -11,9 +11,9 @@ import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.managers.GoalManager;
-import com.edwardhand.mobrider.managers.RiderManager;
-import com.edwardhand.mobrider.models.Rider;
+import com.edwardhand.mobrider.goals.GoalManager;
+import com.edwardhand.mobrider.rider.Rider;
+import com.edwardhand.mobrider.rider.RiderManager;
 
 public class RiderDamageListener implements Listener
 {

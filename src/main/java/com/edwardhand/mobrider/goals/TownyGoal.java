@@ -3,8 +3,9 @@ package com.edwardhand.mobrider.goals;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
-import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.models.Rider;
+import com.edwardhand.mobrider.ConfigManager;
+import com.edwardhand.mobrider.commons.MRLogger;
+import com.edwardhand.mobrider.rider.Rider;
 import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
 import com.palmergames.bukkit.towny.exceptions.TownyException;
 import com.palmergames.bukkit.towny.object.Town;
@@ -15,9 +16,9 @@ public class TownyGoal extends LocationGoal
 {
     Town town;
 
-    public TownyGoal(MobRider plugin, Town town)
+    public TownyGoal(ConfigManager configManager, Town town)
     {
-        super(plugin, getDestination(town));
+        super(configManager, getDestination(town));
         this.town = town;
     }
 
@@ -51,7 +52,7 @@ public class TownyGoal extends LocationGoal
             }
         }
         catch (NotRegisteredException e) {
-            MobRider.getMRLogger().warning("Town not registered");
+            MRLogger.getInstance().warning("Town not registered");
         }
 
         return isWithinTown;
@@ -65,7 +66,7 @@ public class TownyGoal extends LocationGoal
             spawn = town.getSpawn();
         }
         catch (TownyException e) {
-            MobRider.getMRLogger().warning("Town spawn not found");
+            MRLogger.getInstance().warning("Town spawn not found");
         }
         return spawn;
     }

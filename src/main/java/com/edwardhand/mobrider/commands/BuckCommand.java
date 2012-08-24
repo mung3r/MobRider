@@ -1,7 +1,5 @@
 package com.edwardhand.mobrider.commands;
 
-import net.milkbowl.vault.permission.Permission;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
@@ -9,15 +7,13 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import com.edwardhand.mobrider.MobRider;
+import com.edwardhand.mobrider.commons.DependencyUtils;
 
 public class BuckCommand extends BasicCommand
 {
-    private Permission permission;
-
     public BuckCommand(MobRider plugin)
     {
         super("Buck");
-        permission = plugin.getPermission();
         setDescription("Buck a player riding you");
         setUsage("/mob buck");
         setArgumentRange(0, 0);
@@ -32,7 +28,7 @@ public class BuckCommand extends BasicCommand
             Player player = (Player) sender;
             Entity rider = player.getPassenger();
 
-            if (rider instanceof LivingEntity && permission.has(player, "mobrider.command.buck")) {
+            if (rider instanceof LivingEntity && DependencyUtils.hasPermission(player, "mobrider.command.buck")) {
                 ((CraftLivingEntity) rider).getHandle().setPassengerOf(null);
             }
         }

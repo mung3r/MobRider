@@ -20,6 +20,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.edwardhand.mobrider.MobRider;
+import com.edwardhand.mobrider.commons.DependencyUtils;
 
 public class CommandHandler {
 
@@ -27,7 +28,7 @@ public class CommandHandler {
     protected Map<String, Command> commands;
 
     public CommandHandler(MobRider plugin) {
-        permission = plugin.getPermission();
+        permission = DependencyUtils.getPermission();
         commands = new LinkedHashMap<String, Command>();
     }
 

@@ -3,21 +3,19 @@ package com.edwardhand.mobrider.goals;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
-import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.models.Rider;
+import com.edwardhand.mobrider.ConfigManager;
+import com.edwardhand.mobrider.rider.Rider;
 import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FLocation;
 import com.massivecraft.factions.Faction;
 
 public class FactionGoal extends LocationGoal
 {
-    MobRider plugin;
     Faction faction;
 
-    public FactionGoal(MobRider plugin, Faction faction)
+    public FactionGoal(ConfigManager configManager, Faction faction)
     {
-        super(plugin, getDestination(faction));
-        this.plugin = plugin;
+        super(configManager, getDestination(faction));
         this.faction = faction;
     }
 

@@ -6,16 +6,16 @@ import org.bukkit.entity.LivingEntity;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.bekvon.bukkit.residence.protection.CuboidArea;
-import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.models.Rider;
+import com.edwardhand.mobrider.ConfigManager;
+import com.edwardhand.mobrider.rider.Rider;
 
 public class ResidenceGoal extends LocationGoal
 {
     private ClaimedResidence residence;
 
-    public ResidenceGoal(MobRider plugin, ClaimedResidence residence, World world)
+    public ResidenceGoal(ConfigManager configManager, ClaimedResidence residence, World world)
     {
-        super(plugin, getDestination(residence));
+        super(configManager, getDestination(residence));
         this.residence = residence;
     }
 

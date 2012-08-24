@@ -3,21 +3,20 @@ package com.edwardhand.mobrider.commands;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.edwardhand.mobrider.ConfigManager;
 import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.commons.Utils;
-import com.edwardhand.mobrider.managers.ConfigManager;
-import com.edwardhand.mobrider.managers.GoalManager;
-import com.edwardhand.mobrider.managers.MessageManager;
-import com.edwardhand.mobrider.managers.RiderManager;
-import com.edwardhand.mobrider.models.DirectionType;
-import com.edwardhand.mobrider.models.Rider;
+import com.edwardhand.mobrider.commons.DirectionType;
+import com.edwardhand.mobrider.commons.EntityUtils;
+import com.edwardhand.mobrider.commons.MessageUtils;
+import com.edwardhand.mobrider.goals.GoalManager;
+import com.edwardhand.mobrider.rider.Rider;
+import com.edwardhand.mobrider.rider.RiderManager;
 
 public class GoCommand extends BasicCommand
 {
     private ConfigManager configManager;
     private RiderManager riderManager;
     private GoalManager goalManager;
-    private MessageManager messageManager;
 
     public GoCommand(MobRider plugin)
     {
@@ -25,7 +24,6 @@ public class GoCommand extends BasicCommand
         configManager = plugin.getConfigManager();
         riderManager = plugin.getRiderManager();
         goalManager = plugin.getGoalManager();
-        messageManager = plugin.getMessageManager();
         setDescription("Travel a direction with optional distance");
         setUsage("/mob go §9<direction> [distance]");
         setArgumentRange(1, 2);
@@ -45,11 +43,11 @@ public class GoCommand extends BasicCommand
                 if (args.length == 1 && DirectionType.fromName(args[0]) != null) {
                     goalManager.setDirection(rider, DirectionType.fromName(args[0]).getDirection());
                 }
-                else if (args.length == 2 && DirectionType.fromName(args[0]) != null && Utils.isInteger(args[1])) {
+                else if (args.length == 2 && DirectionType.fromName(args[0]) != null && EntityUtils.isInteger(args[1])) {
                     goalManager.setDirection(rider, DirectionType.fromName(args[0]).getDirection(), Integer.parseInt(args[1]));
                 }
                 else {
-                    messageManager.sendMessage(rider, configManager.goConfusedMessage);
+                    MessageUtils.sendMessage(rider, configManager.goConfusedMessage);
                 }
             }
             else {

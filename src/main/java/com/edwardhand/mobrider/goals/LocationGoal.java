@@ -4,16 +4,16 @@ import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
 
-import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.models.Rider;
+import com.edwardhand.mobrider.ConfigManager;
+import com.edwardhand.mobrider.rider.Rider;
 
 public class LocationGoal extends BasicGoal
 {
     protected Location destination;
 
-    public LocationGoal(MobRider plugin, Location destination)
+    public LocationGoal(ConfigManager configManager, Location destination)
     {
-        super(plugin);
+        super(configManager);
         this.destination = destination;
     }
 

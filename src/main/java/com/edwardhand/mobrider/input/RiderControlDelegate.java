@@ -9,9 +9,10 @@ import org.getspout.spoutapi.keyboard.BindingExecutionDelegate;
 import org.getspout.spoutapi.keyboard.Keyboard;
 
 import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.managers.GoalManager;
-import com.edwardhand.mobrider.managers.RiderManager;
-import com.edwardhand.mobrider.models.Rider;
+import com.edwardhand.mobrider.commons.MRLogger;
+import com.edwardhand.mobrider.goals.GoalManager;
+import com.edwardhand.mobrider.rider.Rider;
+import com.edwardhand.mobrider.rider.RiderManager;
 
 public class RiderControlDelegate implements BindingExecutionDelegate
 {
@@ -72,7 +73,7 @@ public class RiderControlDelegate implements BindingExecutionDelegate
                 yaw += 45;
                 break;
             default:
-                MobRider.getMRLogger().warning("Unrecognized key pressed");
+                MRLogger.getInstance().warning("Unrecognized key pressed");
                 break;
         }
 

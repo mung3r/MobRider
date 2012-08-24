@@ -4,20 +4,19 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.edwardhand.mobrider.ConfigManager;
 import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.commons.Utils;
-import com.edwardhand.mobrider.managers.ConfigManager;
-import com.edwardhand.mobrider.managers.GoalManager;
-import com.edwardhand.mobrider.managers.MessageManager;
-import com.edwardhand.mobrider.managers.RiderManager;
-import com.edwardhand.mobrider.models.Rider;
+import com.edwardhand.mobrider.commons.EntityUtils;
+import com.edwardhand.mobrider.commons.MessageUtils;
+import com.edwardhand.mobrider.goals.GoalManager;
+import com.edwardhand.mobrider.rider.Rider;
+import com.edwardhand.mobrider.rider.RiderManager;
 
 public class GotoCommand extends BasicCommand
 {
     private ConfigManager configManager;
     private RiderManager riderManager;
     private GoalManager goalManager;
-    private MessageManager messageManager;
 
     public GotoCommand(MobRider plugin)
     {
@@ -25,7 +24,6 @@ public class GotoCommand extends BasicCommand
         configManager = plugin.getConfigManager();
         riderManager = plugin.getRiderManager();
         goalManager = plugin.getGoalManager();
-        messageManager = plugin.getMessageManager();
         setDescription("Go to a player, mob or location");
         setUsage("/mob goto §9<player|mob> | <x> <z>");
         setArgumentRange(1, 2);
@@ -45,11 +43,11 @@ public class GotoCommand extends BasicCommand
                 if (args.length == 1) {
                     goalManager.setGotoGoal(rider, args[0]);
                 }
-                else if (args.length == 2 && Utils.isInteger(args[0]) && Utils.isInteger(args[1])) {
+                else if (args.length == 2 && EntityUtils.isInteger(args[0]) && EntityUtils.isInteger(args[1])) {
                     goalManager.setDestination(rider, new Location(rider.getWorld(), Integer.parseInt(args[0]), 64.0D, Integer.parseInt(args[1])));
                 }
                 else {
-                    messageManager.sendMessage(rider, configManager.goConfusedMessage);
+                    MessageUtils.sendMessage(rider, configManager.goConfusedMessage);
                 }
             }
             else {

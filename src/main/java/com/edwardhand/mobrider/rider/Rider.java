@@ -1,4 +1,4 @@
-package com.edwardhand.mobrider.models;
+package com.edwardhand.mobrider.rider;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Squid;
 import org.getspout.spoutapi.keyboard.Keyboard;
 
-import com.edwardhand.mobrider.commons.Utils;
+import com.edwardhand.mobrider.commons.EntityUtils;
 import com.edwardhand.mobrider.goals.Goal;
 
 public class Rider
@@ -76,7 +76,7 @@ public class Rider
 
         if (ride != null) {
             if (ride instanceof CraftCreature) {
-                if (Utils.hasNewAI(ride)) {
+                if (EntityUtils.hasNewAI(ride)) {
                     ((CraftCreature) ride).getHandle().b(target instanceof CraftLivingEntity ? ((CraftLivingEntity) target).getHandle() : null);
                 }
                 else {

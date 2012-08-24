@@ -1,4 +1,4 @@
-package com.edwardhand.mobrider.managers;
+package com.edwardhand.mobrider.rider;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -6,7 +6,6 @@ import java.util.Random;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
-import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
@@ -24,11 +23,14 @@ import org.bukkit.entity.Squid;
 import org.bukkit.entity.Tameable;
 import org.bukkit.entity.Villager;
 
+import com.edwardhand.mobrider.ConfigManager;
 import com.edwardhand.mobrider.MobRider;
-import com.edwardhand.mobrider.commons.Utils;
+import com.edwardhand.mobrider.commons.DependencyUtils;
+import com.edwardhand.mobrider.commons.EntityUtils;
+import com.edwardhand.mobrider.commons.MRLogger;
+import com.edwardhand.mobrider.commons.MessageUtils;
+import com.edwardhand.mobrider.goals.GoalManager;
 import com.edwardhand.mobrider.metrics.MetricsManager;
-import com.edwardhand.mobrider.models.RideType;
-import com.edwardhand.mobrider.models.Rider;
 
 public class RiderManager implements Runnable
 {
@@ -37,29 +39,25 @@ public class RiderManager implements Runnable
     private static Random random = new Random();
 
     private MobRider plugin;
-    private Permission permission;
     private Economy economy;
     private MetricsManager metrics;
     private ConfigManager configManager;
     private GoalManager goalManager;
-    private MessageManager messageManager;
     private Map<String, Rider> riders;
 
     public RiderManager(MobRider plugin)
     {
         this.plugin = plugin;
-        permission = plugin.getPermission();
-        economy = plugin.getEconomy();
+        economy = DependencyUtils.getEconomy();
         metrics = plugin.getMetricsManager();
         configManager = plugin.getConfigManager();
         goalManager = plugin.getGoalManager();
-        messageManager = plugin.getMessageManager();
 
         riders = new Hashtable<String, Rider>();
 
         if (Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, UPDATE_DELAY, Math.min(configManager.updatePeriod, MAX_UPDATE_PERIOD)) < 0) {
             Bukkit.getPluginManager().disablePlugin(plugin);
-            MobRider.getMRLogger().severe("Failed to schedule RiderManager task.");
+            MRLogger.getInstance().severe("Failed to schedule RiderManager task.");
         }
     }
 
@@ -103,7 +101,7 @@ public class RiderManager implements Runnable
         if (entity instanceof LivingEntity) {
             LivingEntity target = (LivingEntity) entity;
             ((CraftPlayer) player).getHandle().setPassengerOf(null);
-            if (permission.has(player, "mobrider.spawnegg") && hasSpawnEgg(target)) {
+            if (DependencyUtils.hasPermission(player, "mobrider.spawnegg") && hasSpawnEgg(target)) {
                 SpawnEggTask spawnEggTask = new SpawnEggTask(target);
                 spawnEggTask.setTaskId(Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, spawnEggTask, 0, 1));
             }
@@ -160,12 +158,12 @@ public class RiderManager implements Runnable
     public void feedRide(Rider rider)
     {
         if (rider.isFullHealth()) {
-            messageManager.sendMessage(rider, configManager.fedConfusedMessage);
+            MessageUtils.sendMessage(rider, configManager.fedConfusedMessage);
         }
         else {
             rider.setHealth(Math.min(rider.getHealth() + 5, rider.getMaxHealth()));
-            Utils.removeItemInHand(rider.getPlayer());
-            messageManager.sendMessage(rider, configManager.fedConfirmedMessage);
+            EntityUtils.removeItemInHand(rider.getPlayer());
+            MessageUtils.sendMessage(rider, configManager.fedConfirmedMessage);
         }
     }
 
@@ -185,12 +183,8 @@ public class RiderManager implements Runnable
             return false;
         }
 
-        if (permission == null) {
-            return true;
-        }
-
         if (entity instanceof Animals || entity instanceof Squid || entity instanceof Golem || entity instanceof Villager) {
-            if (permission.playerHas(player, "mobrider.animals") || permission.playerHas(player, "mobrider.animals." + Utils.getCreatureName(entity).toLowerCase()))
+            if (DependencyUtils.hasPermission(player, "mobrider.animals") || DependencyUtils.hasPermission(player, "mobrider.animals." + EntityUtils.getCreatureName(entity).toLowerCase()))
                 return true;
             else {
                 player.sendMessage("You do not have permission to ride that animal.");
@@ -199,7 +193,7 @@ public class RiderManager implements Runnable
         }
 
         if (entity instanceof Monster || entity instanceof Ghast || entity instanceof Slime || entity instanceof EnderDragon) {
-            if (permission.playerHas(player, "mobrider.monsters") || permission.playerHas(player, "mobrider.monsters." + Utils.getCreatureName(entity).toLowerCase()))
+            if (DependencyUtils.hasPermission(player, "mobrider.monsters") || DependencyUtils.hasPermission(player, "mobrider.monsters." + EntityUtils.getCreatureName(entity).toLowerCase()))
                 return true;
             else {
                 player.sendMessage("You do not have permission to ride that monster.");
@@ -208,7 +202,7 @@ public class RiderManager implements Runnable
         }
 
         if (entity instanceof Player) {
-            if (permission.playerHas(player, "mobrider.players") || permission.playerHas(player, "mobrider.players." + ((Player) entity).getName().toLowerCase()))
+            if (DependencyUtils.hasPermission(player, "mobrider.players") || DependencyUtils.hasPermission(player, "mobrider.players." + ((Player) entity).getName().toLowerCase()))
                 return true;
             else {
                 player.sendMessage("You do not have permission to ride that player.");

@@ -1,4 +1,4 @@
-package com.edwardhand.mobrider.managers;
+package com.edwardhand.mobrider.rider;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -37,7 +37,7 @@ public class SpawnEggTask implements Runnable
             Bukkit.getScheduler().cancelTask(taskId);
         }
         else {
-            if (ticks < EFFECT_TICKS && target != null) {
+            if (ticks < EFFECT_TICKS) {
                 target.getWorld().playEffect(target.getLocation(), Effect.EXTINGUISH, 4, 10);
                 target.getWorld().playEffect(target.getLocation(), Effect.SMOKE, 4, 10);
                 ticks++;
