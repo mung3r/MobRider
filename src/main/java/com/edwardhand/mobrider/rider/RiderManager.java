@@ -4,7 +4,6 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Random;
 
-import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 
 import org.bukkit.Bukkit;
@@ -39,7 +38,6 @@ public class RiderManager implements Runnable
     private static Random random = new Random();
 
     private MobRider plugin;
-    private Economy economy;
     private MetricsManager metrics;
     private ConfigManager configManager;
     private GoalManager goalManager;
@@ -48,7 +46,6 @@ public class RiderManager implements Runnable
     public RiderManager(MobRider plugin)
     {
         this.plugin = plugin;
-        economy = DependencyUtils.getEconomy();
         metrics = plugin.getMetricsManager();
         configManager = plugin.getConfigManager();
         goalManager = plugin.getGoalManager();
@@ -226,7 +223,7 @@ public class RiderManager implements Runnable
 
     private boolean isWithdrawSuccess(Player player, Entity entity)
     {
-        if (economy == null) {
+        if (!DependencyUtils.hasEconomy()) {
             return true;
         }
 
@@ -240,9 +237,9 @@ public class RiderManager implements Runnable
             return true;
         }
 
-        EconomyResponse response = economy.withdrawPlayer(player.getName(), cost);
+        EconomyResponse response = DependencyUtils.getEconomy().withdrawPlayer(player.getName(), cost);
         if (response.transactionSuccess()) {
-            player.sendMessage("You were charged " + economy.format(response.amount) + " for riding this creature.");
+            player.sendMessage("You were charged " + DependencyUtils.getEconomy().format(response.amount) + " for riding this creature.");
         }
         else {
             player.sendMessage("You have insufficient funds to ride that creature.");
