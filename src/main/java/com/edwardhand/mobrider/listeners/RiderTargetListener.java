@@ -16,13 +16,15 @@ public class RiderTargetListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onEntityTarget(EntityTargetEvent event)
     {
-        if (event.isCancelled())
+        if (event.isCancelled()) {
             return;
+        }
 
         net.minecraft.server.Entity passenger = ((CraftEntity) event.getEntity()).getHandle().passenger;
         Entity target = event.getTarget();
 
-        if ((passenger != null) && (target != null) && (target.equals(passenger.getBukkitEntity())))
+        if ((passenger != null) && (target != null) && (target.equals(passenger.getBukkitEntity()))) {
             event.setCancelled(true);
+        }
     }
 }

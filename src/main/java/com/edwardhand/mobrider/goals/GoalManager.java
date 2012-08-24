@@ -72,7 +72,7 @@ public class GoalManager
 
     public void setFollowGoal(Rider rider, String entityName)
     {
-        LivingEntity entity = findLivingEntity(rider, entityName, configManager.MAX_SEARCH_RANGE);
+        LivingEntity entity = findLivingEntity(rider, entityName, configManager.maxSearchRange);
 
         if (entity != null) {
             rider.setGoal(new FollowGoal(configManager, entity));
@@ -87,7 +87,7 @@ public class GoalManager
     {
         LivingEntity entity;
 
-        if ((entity = findLivingEntity(rider, goalName, configManager.MAX_SEARCH_RANGE)) != null) {
+        if ((entity = findLivingEntity(rider, goalName, configManager.maxSearchRange)) != null) {
             rider.setGoal(new GotoGoal(configManager, entity));
             MessageUtils.sendMessage(rider, configManager.goConfirmedMessage);
         }
@@ -101,7 +101,7 @@ public class GoalManager
 
     public void setAttackGoal(Rider rider, String entityName)
     {
-        setAttackGoal(rider, findLivingEntity(rider, entityName, configManager.ATTACK_RANGE));
+        setAttackGoal(rider, findLivingEntity(rider, entityName, configManager.attackRange));
     }
 
     public void setAttackGoal(Rider rider, LivingEntity entity)
@@ -117,13 +117,13 @@ public class GoalManager
 
     public void setDirection(Rider rider, Vector direction)
     {
-        setDirection(rider, direction, configManager.MAX_TRAVEL_DISTANCE);
+        setDirection(rider, direction, configManager.maxTravelDistance);
     }
 
     public void setDirection(Rider rider, Vector direction, int distance)
     {
         if (direction != null) {
-            setDestination(rider, convertDirectionToLocation(rider, direction.normalize().multiply(Math.min(configManager.MAX_TRAVEL_DISTANCE, distance))));
+            setDestination(rider, convertDirectionToLocation(rider, direction.normalize().multiply(Math.min(configManager.maxTravelDistance, distance))));
         }
         else {
             MessageUtils.sendMessage(rider, configManager.goConfusedMessage);

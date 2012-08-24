@@ -42,8 +42,8 @@ public class FactionGoal extends LocationGoal
     {
         boolean isWithinFaction = false;
 
-        Faction faction = Board.getFactionAt(new FLocation(currentLocation));
-        if (faction.getId().equals(this.faction.getId())) {
+        Faction testFaction = Board.getFactionAt(new FLocation(currentLocation));
+        if (testFaction.getId().equals(faction.getId())) {
             isWithinFaction = true;
         }
 

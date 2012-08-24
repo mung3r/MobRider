@@ -88,8 +88,9 @@ public class RiderPlayerListener implements Listener
             int prevSlot = event.getPreviousSlot();
             boolean increase = (prevSlot - newSlot) > 0;
 
-            if (((prevSlot == 0) && (newSlot == 8)) || ((prevSlot == 8) && (newSlot == 0)))
+            if (((prevSlot == 0) && (newSlot == 8)) || ((prevSlot == 8) && (newSlot == 0))) {
                 increase = !increase;
+            }
 
             Rider rider = riderManager.getRider(player);
             rider.setSpeed(increase ? rider.getSpeed() + 0.05F : rider.getSpeed() - 0.05F);

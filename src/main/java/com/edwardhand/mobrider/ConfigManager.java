@@ -22,10 +22,10 @@ public class ConfigManager
     public final Material controlItem;
     public final long updatePeriod;
 
-    public final int MAX_TRAVEL_DISTANCE;
-    public final double MAX_SEARCH_RANGE;
-    public final double ATTACK_RANGE;
-    public final double MOUNT_RANGE;
+    public final int maxTravelDistance;
+    public final double maxSearchRange;
+    public final double attackRange;
+    public final double mountRange;
 
     public final String attackConfirmedMessage;
     public final String attackConfusedMessage;
@@ -57,10 +57,10 @@ public class ConfigManager
         updatePeriod = general.getLong("update_period");
 
         ConfigurationSection range = config.getConfigurationSection("range");
-        MAX_TRAVEL_DISTANCE = Double.valueOf(range.getDouble("max_travel_distance")).intValue();
-        MAX_SEARCH_RANGE = range.getDouble("max_search_distance");
-        ATTACK_RANGE = range.getDouble("attack_range");
-        MOUNT_RANGE = range.getDouble("mount_range");
+        maxTravelDistance = Double.valueOf(range.getDouble("max_travel_distance")).intValue();
+        maxSearchRange = range.getDouble("max_search_distance");
+        attackRange = range.getDouble("attack_range");
+        mountRange = range.getDouble("mount_range");
 
         ConfigurationSection messageSuffix = config.getConfigurationSection("noise_suffix");
         attackConfirmedMessage = messageSuffix.getString("attack_confirmed");
@@ -103,7 +103,7 @@ public class ConfigManager
 
     private FileConfiguration getConfig(File file)
     {
-        FileConfiguration config = null;
+        FileConfiguration newConfig = null;
 
         try {
             if (!file.exists()) {
@@ -124,14 +124,14 @@ public class ConfigManager
                 MRLogger.getInstance().info("Default config created successfully!");
             }
 
-            config = plugin.getConfig();
-            config.setDefaults(YamlConfiguration.loadConfiguration(plugin.getResource(file.getName())));
-            config.options().copyDefaults(true);
+            newConfig = plugin.getConfig();
+            newConfig.setDefaults(YamlConfiguration.loadConfiguration(plugin.getResource(file.getName())));
+            newConfig.options().copyDefaults(true);
         }
         catch (Exception e) {
             MRLogger.getInstance().warning("Default config could not be created!");
         }
 
-        return config;
+        return newConfig;
     }
 }

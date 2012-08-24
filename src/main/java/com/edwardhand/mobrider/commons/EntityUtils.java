@@ -24,7 +24,11 @@ import org.bukkit.inventory.PlayerInventory;
 
 public class EntityUtils
 {
-    private static final Set<Material> transparentBlocks = new HashSet<Material>(Arrays.asList(Material.AIR, Material.WATER));
+    private static final Set<Material> TRANSPARENT_BLOCKS = new HashSet<Material>(Arrays.asList(Material.AIR, Material.WATER));
+
+    private EntityUtils()
+    {
+    }
 
     public static boolean isInteger(final String s)
     {
@@ -71,7 +75,7 @@ public class EntityUtils
                 
                 List<Block> blocks = player.getLineOfSight(null, (int) player.getLocation().distance(livingEntity.getLocation()));
                 for (Block block : blocks) {
-                    if (!transparentBlocks.contains(block.getType())) {
+                    if (!TRANSPARENT_BLOCKS.contains(block.getType())) {
                         livingEntity = null;
                     }
                 }

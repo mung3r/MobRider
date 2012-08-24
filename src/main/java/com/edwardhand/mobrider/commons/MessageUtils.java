@@ -11,6 +11,10 @@ public class MessageUtils
 {
     private static final int HEALTH_BARS = 6;
 
+    private MessageUtils()
+    {
+    }
+
     public static void sendMessage(Rider rider, String suffix)
     {
         Player player = rider.getPlayer();

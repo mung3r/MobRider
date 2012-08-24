@@ -20,9 +20,9 @@ public class Citizens2SearchStrategy extends LivingEntitySearchStrategy
         LivingEntity foundEntity = null;
 
         if (DependencyUtils.hasCitizens2()) {
-            Iterator<NPC> NPCIterator = CitizensAPI.getNPCRegistry().iterator();
-            while (NPCIterator.hasNext()) {
-                NPC npc = NPCIterator.next();
+            Iterator<NPC> npcIterator = CitizensAPI.getNPCRegistry().iterator();
+            while (npcIterator.hasNext()) {
+                NPC npc = npcIterator.next();
                 if (npc.getName().equalsIgnoreCase(searchTerm)) {
                     if (isEntityWithinRange(player, npc.getBukkitEntity(), searchRange)) {
                         foundEntity = npc.getBukkitEntity();

@@ -1,7 +1,6 @@
 package com.edwardhand.mobrider.goals;
 
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
@@ -13,7 +12,7 @@ public class ResidenceGoal extends LocationGoal
 {
     private ClaimedResidence residence;
 
-    public ResidenceGoal(ConfigManager configManager, ClaimedResidence residence, World world)
+    public ResidenceGoal(ConfigManager configManager, ClaimedResidence residence)
     {
         super(configManager, getDestination(residence));
         this.residence = residence;

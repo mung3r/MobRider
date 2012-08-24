@@ -29,8 +29,9 @@ public class RiderDamageListener implements Listener
     @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
     {
-        if (event.isCancelled())
+        if (event.isCancelled()) {
             return;
+        }
 
         Entity entity = event.getEntity();
         Entity damager = event.getDamager();

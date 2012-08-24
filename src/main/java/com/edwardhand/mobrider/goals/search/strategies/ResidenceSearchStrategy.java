@@ -22,7 +22,7 @@ public class ResidenceSearchStrategy extends LocationSearchStrategy
         if (DependencyUtils.hasResidence()) {
             ClaimedResidence residence = Residence.getResidenceManager().getByName(residenceName);
             if (residence != null && residence.getWorld().equals(rider.getWorld().getName())) {
-                rider.setGoal(new ResidenceGoal(configManager, residence, rider.getWorld()));
+                rider.setGoal(new ResidenceGoal(configManager, residence));
                 foundResidence = true;
             }
         }

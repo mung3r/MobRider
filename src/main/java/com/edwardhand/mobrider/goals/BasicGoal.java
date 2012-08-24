@@ -33,7 +33,7 @@ public abstract class BasicGoal implements Goal
     public BasicGoal(ConfigManager configManager)
     {
         this.configManager = configManager;
-        rangeSquared = configManager.MOUNT_RANGE * configManager.MOUNT_RANGE;
+        rangeSquared = configManager.mountRange * configManager.mountRange;
         timeCreated = System.currentTimeMillis();
         isGoalDone = false;
     }
