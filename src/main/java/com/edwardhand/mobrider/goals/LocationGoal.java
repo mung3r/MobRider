@@ -17,6 +17,11 @@ public class LocationGoal extends BasicGoal
         this.destination = destination;
     }
 
+    public LocationGoal(ConfigManager configManager, LivingEntity livingEntity)
+    {
+        this(configManager, livingEntity.getLocation());
+    }
+
     @Override
     public void update(Rider rider)
     {

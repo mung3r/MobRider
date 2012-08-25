@@ -11,7 +11,7 @@ public class FollowGoal extends LocationGoal
 
     public FollowGoal(ConfigManager configManager, LivingEntity target)
     {
-        super(configManager, target.getLocation());
+        super(configManager, target);
         this.target = target;
     }
 
