@@ -101,7 +101,13 @@ public class GoalManager
 
     public void setAttackGoal(Rider rider, String entityName)
     {
-        setAttackGoal(rider, findLivingEntity(rider, entityName, configManager.attackRange));
+        LivingEntity entity = findLivingEntity(rider, entityName, configManager.attackRange);
+        if (entity != null) {
+            setAttackGoal(rider, entity);
+        }
+        else {
+            MessageUtils.sendMessage(rider, configManager.attackConfusedMessage);
+        }
     }
 
     public void setAttackGoal(Rider rider, LivingEntity entity)
