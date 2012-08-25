@@ -10,9 +10,11 @@ MobRider - Finally a proper use for saddles!
 * Command mobs to goto the following destinations
     * Local players and mobs
     * Citizen NPCs (requires Citizens plugin)
+	* Factions regions (requires Factions plugin)
     * Multiverse portals (requires Multiverse-Portal plugin)
     * Regios regions (requires Regios plugin)
     * Residence regions (requires Residence plugin)
+	* Towny regions (requires Towny plugin)
     * WorldGuard regions (requires WorldGuard plugin)
 * Your mob will automatically protect you from anything causing you harm
 * If you attack anyone, your mob will automatically lend a hand
