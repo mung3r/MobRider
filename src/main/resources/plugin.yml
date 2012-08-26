@@ -7,6 +7,7 @@ softdepend: [Citizens,WorldGuard,Residence,Regios,Multiverse-Core,SpoutPlugin,Va
 commands:
   mob:
     description: MobRider commands
+    aliases: mr
     usage: |
            Usage:
            /<command> mount <player|mob> - mount a nearby player or mob
