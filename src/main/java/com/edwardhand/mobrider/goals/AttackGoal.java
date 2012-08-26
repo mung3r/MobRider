@@ -13,7 +13,7 @@ public class AttackGoal extends FollowGoal
     }
 
     @Override
-    public void update(Rider rider)
+    public void update(Rider rider, double range)
     {
         if (rider != null) {
             LivingEntity ride = rider.getRide();
@@ -28,7 +28,7 @@ public class AttackGoal extends FollowGoal
                     isGoalDone = true;
                 }
                 else {
-                    if (isWithinRange(ride.getLocation(), target.getLocation(), NEWAI_DISTANCE_LIMIT_SQUARED)) {
+                    if (isWithinRange(ride.getLocation(), target.getLocation(), NEW_AI_DISTANCE_LIMIT)) {
                         rider.setTarget(target);
                     }
                     else {

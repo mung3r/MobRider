@@ -3,7 +3,6 @@ package com.edwardhand.mobrider.goals;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
-import com.edwardhand.mobrider.ConfigManager;
 import com.edwardhand.mobrider.rider.Rider;
 import com.massivecraft.factions.Board;
 import com.massivecraft.factions.FLocation;
@@ -13,21 +12,21 @@ public class FactionGoal extends LocationGoal
 {
     Faction faction;
 
-    public FactionGoal(ConfigManager configManager, Faction faction)
+    public FactionGoal(Faction faction)
     {
-        super(configManager, getDestination(faction));
+        super(getDestination(faction));
         this.faction = faction;
     }
 
     @Override
-    public void update(Rider rider)
+    public void update(Rider rider, double range)
     {
         if (rider != null) {
             rider.setTarget(null);
             LivingEntity ride = rider.getRide();
 
             if (ride != null) {
-                if (isWithinRange(ride.getLocation(), destination, rangeSquared) || isWithinFaction(ride.getLocation())) {
+                if (isWithinRange(ride.getLocation(), destination, range) || isWithinFaction(ride.getLocation())) {
                     isGoalDone = true;
                 }
                 else {

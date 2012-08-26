@@ -5,28 +5,27 @@ import org.bukkit.entity.LivingEntity;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.bekvon.bukkit.residence.protection.CuboidArea;
-import com.edwardhand.mobrider.ConfigManager;
 import com.edwardhand.mobrider.rider.Rider;
 
 public class ResidenceGoal extends LocationGoal
 {
     private ClaimedResidence residence;
 
-    public ResidenceGoal(ConfigManager configManager, ClaimedResidence residence)
+    public ResidenceGoal(ClaimedResidence residence)
     {
-        super(configManager, getDestination(residence));
+        super(getDestination(residence));
         this.residence = residence;
     }
 
     @Override
-    public void update(Rider rider)
+    public void update(Rider rider, double range)
     {
         if (rider != null) {
             rider.setTarget(null);
             LivingEntity ride = rider.getRide();
 
             if (ride != null) {
-                if (isWithinRange(ride.getLocation(), destination, rangeSquared) || isWithinResidence(ride.getLocation())) {
+                if (isWithinRange(ride.getLocation(), destination, range) || isWithinResidence(ride.getLocation())) {
                     isGoalDone = true;
                 }
                 else {

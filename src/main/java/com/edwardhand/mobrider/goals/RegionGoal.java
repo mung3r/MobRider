@@ -6,7 +6,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 
-import com.edwardhand.mobrider.ConfigManager;
 import com.edwardhand.mobrider.commons.DependencyUtils;
 import com.edwardhand.mobrider.rider.Rider;
 import com.sk89q.worldedit.BlockVector;
@@ -18,22 +17,22 @@ public class RegionGoal extends LocationGoal
     protected ProtectedRegion region;
     protected RegionManager regionManager;
 
-    public RegionGoal(ConfigManager configManager, ProtectedRegion region, World world)
+    public RegionGoal(ProtectedRegion region, World world)
     {
-        super(configManager, getDestination(region, world));
+        super(getDestination(region, world));
         this.region = region;
         regionManager = DependencyUtils.getRegionManager(world);
     }
 
     @Override
-    public void update(Rider rider)
+    public void update(Rider rider, double range)
     {
         if (rider != null) {
             rider.setTarget(null);
             LivingEntity ride = rider.getRide();
 
             if (ride != null) {
-                if (isWithinRange(ride.getLocation(), destination, rangeSquared) || isWithinRegion(ride.getLocation())) {
+                if (isWithinRange(ride.getLocation(), destination, range) || isWithinRegion(ride.getLocation())) {
                     isGoalDone = true;
                 }
                 else {

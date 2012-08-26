@@ -44,12 +44,12 @@ public class GoalManager
         findEntityStrategies.add(new MobSearchStrategy());
 
         findLocationStrategies = new ArrayList<LocationSearch>();
-        findLocationStrategies.add(new PortalSearchStrategy(configManager));
-        findLocationStrategies.add(new ResidenceSearchStrategy(configManager));
-        findLocationStrategies.add(new RegionSearchStrategy(configManager));
-        findLocationStrategies.add(new RegiosSearchStrategy(configManager));
-        findLocationStrategies.add(new TownSearchStrategy(configManager));
-        findLocationStrategies.add(new FactionSearchStrategy(configManager));
+        findLocationStrategies.add(new PortalSearchStrategy());
+        findLocationStrategies.add(new ResidenceSearchStrategy());
+        findLocationStrategies.add(new RegionSearchStrategy());
+        findLocationStrategies.add(new RegiosSearchStrategy());
+        findLocationStrategies.add(new TownSearchStrategy());
+        findLocationStrategies.add(new FactionSearchStrategy());
     }
 
     public void update(Rider rider)
@@ -58,14 +58,14 @@ public class GoalManager
             if (rider.getGoal().isGoalDone()) {
                 setStopGoal(rider);
             }
-            rider.getGoal().update(rider);
+            rider.getGoal().update(rider, configManager.goalRange);
         }
     }
 
     public void setStopGoal(Rider rider)
     {
         if (!(rider.getGoal() instanceof StopGoal)) {
-            rider.setGoal(new StopGoal(configManager));
+            rider.setGoal(new StopGoal());
             MessageUtils.sendMessage(rider, configManager.stopConfirmedMessage);
         }
     }
@@ -88,7 +88,7 @@ public class GoalManager
         LivingEntity entity;
 
         if ((entity = findLivingEntity(rider, goalName, configManager.maxSearchRange)) != null) {
-            rider.setGoal(new GotoGoal(configManager, entity));
+            rider.setGoal(new GotoGoal(entity));
             MessageUtils.sendMessage(rider, configManager.goConfirmedMessage);
         }
         else if (findLocation(rider, goalName)) {
@@ -139,7 +139,7 @@ public class GoalManager
     public void setDestination(Rider rider, Location location)
     {
         if (location.getWorld().equals(rider.getWorld())) {
-            rider.setGoal(new LocationGoal(configManager, location));
+            rider.setGoal(new LocationGoal(location));
             //MessageUtils.sendMessage(rider, configManager.goConfirmedMessage);
         }
         else {

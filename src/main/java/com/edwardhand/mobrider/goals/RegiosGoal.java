@@ -5,7 +5,6 @@ import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import com.edwardhand.mobrider.ConfigManager;
 import com.edwardhand.mobrider.rider.Rider;
 
 import couk.Adamki11s.Regios.Regions.Region;
@@ -14,21 +13,21 @@ public class RegiosGoal extends LocationGoal
 {
     private Region region;
 
-    public RegiosGoal(ConfigManager configManager, Region region, World world)
+    public RegiosGoal(Region region, World world)
     {
-        super(configManager, getDestination(region, world));
+        super(getDestination(region, world));
         this.region = region;
     }
 
     @Override
-    public void update(Rider rider)
+    public void update(Rider rider, double range)
     {
         if (rider != null) {
             rider.setTarget(null);
             LivingEntity ride = rider.getRide();
 
             if (ride != null) {
-                if (isWithinRange(ride.getLocation(), destination, rangeSquared) || isWithinRegion(rider.getPlayer())) {
+                if (isWithinRange(ride.getLocation(), destination, range) || isWithinRegion(rider.getPlayer())) {
                     isGoalDone = true;
                 }
                 else {

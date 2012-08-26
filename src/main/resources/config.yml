@@ -7,6 +7,7 @@ range:
     max_search_distance: 75.0
     attack_range: 50.0
     mount_range: 3.0
+    goal_range: 3.0
 
 noise_suffix:
     attack_confirmed: '!'

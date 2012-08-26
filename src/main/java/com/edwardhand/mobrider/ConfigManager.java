@@ -26,6 +26,7 @@ public class ConfigManager
     public final double maxSearchRange;
     public final double attackRange;
     public final double mountRange;
+    public final double goalRange;
 
     public final String attackConfirmedMessage;
     public final String attackConfusedMessage;
@@ -61,6 +62,7 @@ public class ConfigManager
         maxSearchRange = range.getDouble("max_search_distance");
         attackRange = range.getDouble("attack_range");
         mountRange = range.getDouble("mount_range");
+        goalRange = range.getDouble("goal_range");
 
         ConfigurationSection messageSuffix = config.getConfigurationSection("noise_suffix");
         attackConfirmedMessage = messageSuffix.getString("attack_confirmed");

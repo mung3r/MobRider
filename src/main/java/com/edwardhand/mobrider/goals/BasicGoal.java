@@ -15,25 +15,20 @@ import org.bukkit.craftbukkit.entity.CraftSlime;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
 
-import com.edwardhand.mobrider.ConfigManager;
 import com.edwardhand.mobrider.commons.EntityUtils;
 import com.edwardhand.mobrider.commons.MRLogger;
 import com.edwardhand.mobrider.rider.Rider;
 
 public abstract class BasicGoal implements Goal
 {
-    protected static final double NEWAI_DISTANCE_LIMIT_SQUARED = 64.0D;
+    protected static final double NEW_AI_DISTANCE_LIMIT = 8.0D;
     protected static final long HYSTERESIS_THRESHOLD = 250; // quarter second
                                                             // in milliseconds
-    protected ConfigManager configManager;
-    protected double rangeSquared;
     protected long timeCreated;
     protected boolean isGoalDone;
 
-    public BasicGoal(ConfigManager configManager)
+    public BasicGoal()
     {
-        this.configManager = configManager;
-        rangeSquared = configManager.mountRange * configManager.mountRange;
         timeCreated = System.currentTimeMillis();
         isGoalDone = false;
     }
@@ -57,7 +52,7 @@ public abstract class BasicGoal implements Goal
     }
 
     @Override
-    public void update(Rider rider)
+    public void update(Rider rider, double range)
     {
     }
 
@@ -113,7 +108,7 @@ public abstract class BasicGoal implements Goal
     {
         Location interimTarget = null;
 
-        if (ride != null && ride.getLocation().getWorld().equals(destination.getWorld()) && ride.getLocation().distanceSquared(destination) > NEWAI_DISTANCE_LIMIT_SQUARED) {
+        if (ride != null && ride.getLocation().getWorld().equals(destination.getWorld()) && ride.getLocation().distanceSquared(destination) > (NEW_AI_DISTANCE_LIMIT * NEW_AI_DISTANCE_LIMIT)) {
             interimTarget = ride.getLocation().clone().add(new Vector(destination.getX() - ride.getLocation().getX(), destination.getY() - ride.getLocation().getY(), destination.getZ() - ride.getLocation().getZ()).normalize().multiply(8));
         }
         else {

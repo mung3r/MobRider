@@ -2,21 +2,20 @@ package com.edwardhand.mobrider.goals;
 
 import org.bukkit.entity.LivingEntity;
 
-import com.edwardhand.mobrider.ConfigManager;
 import com.edwardhand.mobrider.rider.Rider;
 
 public class GotoGoal extends LocationGoal
 {
     protected LivingEntity target;
 
-    public GotoGoal(ConfigManager configManager, LivingEntity target)
+    public GotoGoal(LivingEntity target)
     {
-        super(configManager, target);
+        super(target);
         this.target = target;
     }
 
     @Override
-    public void update(Rider rider)
+    public void update(Rider rider, double range)
     {
         if (rider != null) {
             rider.setTarget(null);
@@ -31,7 +30,7 @@ public class GotoGoal extends LocationGoal
                     isGoalDone = true;
                 }
                 else {
-                    if (isWithinRange(ride.getLocation(), target.getLocation(), rangeSquared)) {
+                    if (isWithinRange(ride.getLocation(), target.getLocation(), range)) {
                         isGoalDone = true;
                     }
                     else {

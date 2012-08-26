@@ -3,7 +3,6 @@ package com.edwardhand.mobrider.goals;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
-import com.edwardhand.mobrider.ConfigManager;
 import com.edwardhand.mobrider.commons.MRLogger;
 import com.edwardhand.mobrider.rider.Rider;
 import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
@@ -16,21 +15,21 @@ public class TownyGoal extends LocationGoal
 {
     Town town;
 
-    public TownyGoal(ConfigManager configManager, Town town)
+    public TownyGoal(Town town)
     {
-        super(configManager, getDestination(town));
+        super(getDestination(town));
         this.town = town;
     }
 
     @Override
-    public void update(Rider rider)
+    public void update(Rider rider, double range)
     {
         if (rider != null) {
             rider.setTarget(null);
             LivingEntity ride = rider.getRide();
 
             if (ride != null) {
-                if (isWithinRange(ride.getLocation(), destination, rangeSquared) || isWithinTown(ride.getLocation())) {
+                if (isWithinRange(ride.getLocation(), destination, range) || isWithinTown(ride.getLocation())) {
                     isGoalDone = true;
                 }
                 else {

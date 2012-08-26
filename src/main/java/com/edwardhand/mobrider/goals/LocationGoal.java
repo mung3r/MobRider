@@ -4,33 +4,31 @@ import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
 
-import com.edwardhand.mobrider.ConfigManager;
 import com.edwardhand.mobrider.rider.Rider;
 
 public class LocationGoal extends BasicGoal
 {
     protected Location destination;
 
-    public LocationGoal(ConfigManager configManager, Location destination)
+    public LocationGoal(Location destination)
     {
-        super(configManager);
         this.destination = destination;
     }
 
-    public LocationGoal(ConfigManager configManager, LivingEntity livingEntity)
+    public LocationGoal(LivingEntity livingEntity)
     {
-        this(configManager, livingEntity.getLocation());
+        this(livingEntity.getLocation());
     }
 
     @Override
-    public void update(Rider rider)
+    public void update(Rider rider, double range)
     {
         if (rider != null) {
             rider.setTarget(null);
             LivingEntity ride = rider.getRide();
 
             if (ride != null) {
-                if (isWithinRange(ride.getLocation(), destination, rangeSquared)) {
+                if (isWithinRange(ride.getLocation(), destination, range)) {
                     isGoalDone = true;
                 }
                 else {
@@ -41,9 +39,9 @@ public class LocationGoal extends BasicGoal
         }
     }
 
-    protected static boolean isWithinRange(Location start, Location end, double distanceSquared)
+    protected static boolean isWithinRange(Location start, Location end, double distance)
     {
-        return !start.getWorld().equals(end.getWorld()) || start.distanceSquared(end) < distanceSquared;
+        return !start.getWorld().equals(end.getWorld()) || start.distanceSquared(end) <= (distance * distance);
     }
 
     protected static void updateSpeed(Rider rider)
