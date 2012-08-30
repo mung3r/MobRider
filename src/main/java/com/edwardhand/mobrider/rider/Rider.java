@@ -215,7 +215,7 @@ public class Rider
         return !keyPressedSet.isEmpty();
     }
 
-    private boolean hasRide(Player player)
+    private static boolean hasRide(Player player)
     {
         return player != null && player.getVehicle() instanceof LivingEntity;
     }

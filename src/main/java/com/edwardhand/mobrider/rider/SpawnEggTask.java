@@ -50,7 +50,7 @@ public class SpawnEggTask implements Runnable
         }
     }
 
-    private ItemStack getSpawnEgg(LivingEntity entity)
+    private static ItemStack getSpawnEgg(LivingEntity entity)
     {
         SpawnEgg egg = new SpawnEgg(entity.getType());
         return new ItemStack(egg.getItemType(), 1, egg.getData());

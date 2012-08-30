@@ -1,7 +1,5 @@
 package com.edwardhand.mobrider;
 
-import java.io.IOException;
-
 import com.edwardhand.mobrider.commands.BuckCommand;
 import com.edwardhand.mobrider.commands.CommandHandler;
 import com.edwardhand.mobrider.commands.AttackCommand;
@@ -40,8 +38,8 @@ public class MobRider extends JavaPlugin
     public void onEnable()
     {
         DependencyUtils.init();
-        initMetrics();
 
+        metrics = new MetricsManager(this);
         config = new ConfigManager(this);
         goalManager = new GoalManager(this);
         riderManager = new RiderManager(this);
@@ -99,19 +97,6 @@ public class MobRider extends JavaPlugin
     public CommandHandler getCommandHandler()
     {
         return commandHandler;
-    }
-
-
-    private void initMetrics()
-    {
-        try {
-            metrics = new MetricsManager(this);
-            metrics.setupGraphs();
-            metrics.start();
-        }
-        catch (IOException e) {
-            MRLogger.getInstance().warning("Metrics failed to load.");
-        }
     }
 
     private void addCommands()

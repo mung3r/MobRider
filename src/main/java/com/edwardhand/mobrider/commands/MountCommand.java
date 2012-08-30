@@ -44,7 +44,7 @@ public class MountCommand extends BasicCommand
             }
             else {
                 LivingEntity target = EntityUtils.getNearByTarget(player, (int) configManager.mountRange);
-                if (player.getItemInHand().getType() == Material.SADDLE && riderManager.canRide(player, target)) {
+                if (player.getItemInHand().getType() == Material.SADDLE && RiderManager.canRide(player, target)) {
                     target.setPassenger(player);
                     Rider rider = riderManager.addRider(player);
                     goalManager.setStopGoal(rider);

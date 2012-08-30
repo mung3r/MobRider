@@ -66,11 +66,11 @@ public class RiderPlayerListener implements Listener
                 event.setCancelled(true);
             }
         }
-        else if (player.getItemInHand().getType() == Material.SADDLE && riderManager.canRide(player, target)) {
+        else if (player.getItemInHand().getType() == Material.SADDLE && RiderManager.canRide(player, target)) {
             target.setPassenger(player);
             goalManager.setStopGoal(riderManager.addRider(player));
         }
-        else if (target instanceof CraftPig && ((CraftPig) target).hasSaddle() && riderManager.canRide(player, target)) {
+        else if (target instanceof CraftPig && ((CraftPig) target).hasSaddle() && RiderManager.canRide(player, target)) {
             target.setPassenger(player);
             goalManager.setStopGoal(riderManager.addRider(player));
             event.setCancelled(true);

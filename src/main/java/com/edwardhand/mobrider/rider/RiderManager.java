@@ -105,7 +105,7 @@ public class RiderManager implements Runnable
         }
     }
 
-    private boolean hasSpawnEgg(Entity entity)
+    private static boolean hasSpawnEgg(Entity entity)
     {
         boolean hasSpawnEgg = false;
 
@@ -164,12 +164,12 @@ public class RiderManager implements Runnable
         }
     }
 
-    public boolean canRide(Player player, Entity entity)
+    public static boolean canRide(Player player, Entity entity)
     {
         return isAllowed(player, entity) && ((player.isOp() || isOwner(player, entity) || (isWinner(player, entity)) && isWithdrawSuccess(player, entity)));
     }
 
-    private boolean isAllowed(Player player, Entity entity)
+    private static boolean isAllowed(Player player, Entity entity)
     {
         if (player == null || entity == null) {
             return false;
@@ -224,7 +224,7 @@ public class RiderManager implements Runnable
         return isWinner;
     }
 
-    private boolean isWithdrawSuccess(Player player, Entity entity)
+    private static boolean isWithdrawSuccess(Player player, Entity entity)
     {
         if (!DependencyUtils.hasEconomy()) {
             return true;

@@ -7,17 +7,20 @@ import java.util.Map;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 
+import com.edwardhand.mobrider.commons.MRLogger;
+import com.edwardhand.mobrider.metrics.Metrics.Graph;
+import com.edwardhand.mobrider.metrics.Metrics.Plotter;
 
-public class MetricsManager extends Metrics
+
+public class MetricsManager
 {
+    private Metrics metrics;
     private Map<EntityType, Integer> rideTypeCount;
 
-    public MetricsManager(Plugin plugin) throws IOException
+    @SuppressWarnings("serial")
+    public MetricsManager(Plugin plugin)
     {
-        super(plugin);
         rideTypeCount = new Hashtable<EntityType, Integer>() {
-            private static final long serialVersionUID = 1L;
-
             @Override
             public synchronized Integer get(Object key)
             {
@@ -27,11 +30,21 @@ public class MetricsManager extends Metrics
                 return super.get(key);
             };
         };
+
+        try {
+            metrics = new Metrics(plugin);
+            setupGraphs();
+            metrics.start();
+        }
+        catch (IOException e) {
+            MRLogger.getInstance().warning("Metrics failed to load.");
+        }
+
     }
 
-    public void setupGraphs()
+    private void setupGraphs()
     {
-        Graph graph = createGraph("Ride Types");
+        Graph graph = metrics.createGraph("Ride Types");
 
         for (EntityType rideType : EntityType.values()) {
             String name = rideType == EntityType.PLAYER ? "Player" : rideType.getName();
