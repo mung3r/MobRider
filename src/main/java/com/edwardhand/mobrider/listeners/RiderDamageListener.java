@@ -48,7 +48,7 @@ public class RiderDamageListener implements Listener
             if (rider.isValid()) {
                 LivingEntity ride = rider.getRide();
 
-                if (damager.equals(ride)) {
+                if (damager.equals(ride) && !(damager instanceof Player)) {
                     event.setCancelled(true); // riders get in the way of
                                               // skeleton arrows
                 }
