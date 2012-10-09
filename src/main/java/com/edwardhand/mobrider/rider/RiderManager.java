@@ -1,8 +1,9 @@
 package com.edwardhand.mobrider.rider;
 
-import java.util.Hashtable;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.milkbowl.vault.economy.EconomyResponse;
 
@@ -50,7 +51,7 @@ public class RiderManager implements Runnable
         configManager = plugin.getConfigManager();
         goalManager = plugin.getGoalManager();
 
-        riders = new Hashtable<String, Rider>();
+        riders = new ConcurrentHashMap<String, Rider>();
 
         if (Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, UPDATE_DELAY, Math.min(configManager.updatePeriod, MAX_UPDATE_PERIOD)) < 0) {
             Bukkit.getPluginManager().disablePlugin(plugin);
@@ -61,8 +62,10 @@ public class RiderManager implements Runnable
     @Override
     public void run()
     {
-        for (String playerName : riders.keySet()) {
-            Rider rider = riders.get(playerName);
+        for (Entry<String, Rider> entry : riders.entrySet()) {
+            String playerName = entry.getKey();
+            Rider rider = entry.getValue();
+
             if (rider.isValid()) {
                 goalManager.update(rider);
             }
