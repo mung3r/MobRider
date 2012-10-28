@@ -3,10 +3,32 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.edwardhand.mobrider</groupId>
   <artifactId>MobRider</artifactId>
+  <name>MobRider</name>
   <version>0.47.1-SNAPSHOT</version>
+  <description>Finally a proper use for saddles! A mod for riding and controlling mobs.</description>
+  <url>http://dev.bukkit.org/server-mods/mobrider/</url>
+  <inceptionYear>2011</inceptionYear>
+  <organization>
+    <name>R. Ramos</name>
+    <url>http://github.com/mung3r</url>
+  </organization>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <currentYear>2012</currentYear>
   </properties>
+  <scm>
+    <url>https://github.com/mung3r/MobRider</url>
+    <connection>scm:git:git://github.com:mung3r/MobRider.git</connection>
+    <developerConnection>scm:git:git://github.com:mung3r/MobRider.git</developerConnection>
+  </scm>
+  <issueManagement>
+    <url>https://github.com/mung3r/MobRider/issues</url>
+    <system>GitHub</system>
+  </issueManagement>
+  <ciManagement>
+    <system>jenkins</system>
+    <url>http://ci.bighatchet.com/job/MobRider/</url>
+  </ciManagement>
   <repositories>
     <repository>
       <id>bukkit-repo</id>
@@ -103,22 +125,6 @@
       <systemPath>${project.basedir}/lib/Factions.jar</systemPath>
     </dependency>
   </dependencies>
-  <name>MobRider</name>
-  <url>http://dev.bukkit.org/server-mods/mobrider/</url>
-  <scm>
-    <url>https://github.com/mung3r/MobRider</url>
-    <connection>scm:git:git://github.com:mung3r/MobRider.git</connection>
-    <developerConnection>scm:git:git://github.com:mung3r/MobRider.git</developerConnection>
-  </scm>
-  <description>Finally a proper use for saddles! A mod for riding and controlling mobs.</description>
-  <issueManagement>
-    <url>https://github.com/mung3r/ecoCreature/issues</url>
-    <system>GitHub</system>
-  </issueManagement>
-  <ciManagement>
-    <system>jenkins</system>
-    <url>http://ci.bighatchet.com/job/MobRider/</url>
-  </ciManagement>
   <build>
     <defaultGoal>clean install</defaultGoal>
     <resources>
@@ -136,6 +142,45 @@
           <source>1.6</source>
           <target>1.6</target>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.mycila.maven-license-plugin</groupId>
+        <artifactId>maven-license-plugin</artifactId>
+        <version>1.10.b1</version>
+        <executions>
+          <execution>
+            <configuration>
+              <properties>
+                <name>${project.name}</name>
+                <url>${project.organization.url}</url>
+                <copyright>Copyright (c) ${project.inceptionYear}-${currentYear}, ${project.organization.name}</copyright>
+              </properties>
+              <quiet>true</quiet>
+              <encoding>UTF-8</encoding>
+              <strictCheck>true</strictCheck>
+              <header>${basedir}/HEADER.txt</header>
+              <mapping>
+                <java>SLASHSTAR_STYLE</java>
+              </mapping>
+              <keywords>
+                <keyword>${project.name}</keyword>
+                <keyword>license</keyword>
+              </keywords>
+              <includes>
+                <include>src/main/java/**</include>
+                <include>src/test/java/**</include>
+              </includes>
+              <excludes>
+                <exclude>src/main/java/**/CommandHandler.java</exclude>
+                <exclude>src/main/java/**/Metrics.java</exclude>
+              </excludes>
+            </configuration>
+            <phase>clean</phase>
+            <goals>
+              <goal>format</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
