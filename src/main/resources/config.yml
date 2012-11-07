@@ -161,6 +161,16 @@ mobs:
         noise: 'Grrr'
         chance: 100.0
         cost: 0.0
+    Witch:
+        speed: 0.3
+        noise: 'Ha ha, ha, ha, haaaa!'
+        chance: 100.0
+        cost: 0.0
+    Wither:
+        speed: 0.7F
+        noise: '*silence*'
+        chance: 100.0
+        cost: 0.0
     Wolf:
         speed: 0.6
         noise: 'Woof'
