@@ -41,6 +41,11 @@ food:
     - sugar_cane
 
 mobs:
+    Bat:
+        speed: 0.2
+        noise: 'Squeeek'
+        chance: 100.0
+        cost: 0.0
     Blaze:
         speed: 0.4
         noise: 'Kaboom'
@@ -166,8 +171,13 @@ mobs:
         noise: 'Ha ha, ha, ha, haaaa!'
         chance: 100.0
         cost: 0.0
-    Wither:
+    WitherBoss:
         speed: 0.7F
+        noise: '*silence*'
+        chance: 100.0
+        cost: 0.0
+    WitherSkull:
+        speed: 0.2
         noise: '*silence*'
         chance: 100.0
         cost: 0.0

@@ -29,6 +29,7 @@ import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Animals;
+import org.bukkit.entity.Bat;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -202,7 +203,7 @@ public class RiderManager implements Runnable
             return false;
         }
 
-        if (entity instanceof Animals || entity instanceof Squid || entity instanceof Golem || entity instanceof Villager) {
+        if (entity instanceof Animals || entity instanceof Squid || entity instanceof Golem || entity instanceof Villager || entity instanceof Bat) {
             if (DependencyUtils.hasPermission(player, "mobrider.animals") || DependencyUtils.hasPermission(player, "mobrider.animals." + EntityUtils.getCreatureName(entity).toLowerCase())) {
                 return true;
             }
