@@ -173,7 +173,7 @@ mobs:
         cost: 0.0
     WitherBoss:
         speed: 0.7F
-        noise: '*silence*'
+        noise: 'Raaaooora'
         chance: 100.0
         cost: 0.0
     WitherSkull:
