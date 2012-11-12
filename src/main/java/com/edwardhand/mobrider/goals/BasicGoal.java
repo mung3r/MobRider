@@ -43,13 +43,13 @@ public abstract class BasicGoal implements Goal
     protected static final double NEW_AI_DISTANCE_LIMIT = 8.0D;
     protected static final long HYSTERESIS_THRESHOLD = 250; // quarter second
                                                             // in milliseconds
-    protected long timeCreated;
-    protected boolean isGoalDone;
+    private long timeCreated;
+    private boolean goalDone;
 
     public BasicGoal()
     {
         timeCreated = System.currentTimeMillis();
-        isGoalDone = false;
+        goalDone = false;
     }
 
     @Override
@@ -67,7 +67,13 @@ public abstract class BasicGoal implements Goal
     @Override
     public boolean isGoalDone()
     {
-        return isGoalDone;
+        return goalDone;
+    }
+
+    @Override
+    public void setGoalDone(boolean goalDone)
+    {
+        this.goalDone = goalDone;
     }
 
     @Override

@@ -29,7 +29,7 @@ import com.massivecraft.factions.Faction;
 
 public class FactionGoal extends LocationGoal
 {
-    Faction faction;
+    private Faction faction;
 
     public FactionGoal(Faction faction)
     {
@@ -46,7 +46,7 @@ public class FactionGoal extends LocationGoal
 
             if (ride != null) {
                 if (isWithinRange(ride.getLocation(), destination, range) || isWithinFaction(ride.getLocation())) {
-                    isGoalDone = true;
+                    setGoalDone(true);
                 }
                 else {
                     setPathEntity(rider, destination);

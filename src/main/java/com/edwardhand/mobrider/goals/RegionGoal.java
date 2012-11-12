@@ -33,8 +33,8 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 public class RegionGoal extends LocationGoal
 {
-    protected ProtectedRegion region;
-    protected RegionManager regionManager;
+    private ProtectedRegion region;
+    private RegionManager regionManager;
 
     public RegionGoal(ProtectedRegion region, World world)
     {
@@ -52,7 +52,7 @@ public class RegionGoal extends LocationGoal
 
             if (ride != null) {
                 if (isWithinRange(ride.getLocation(), destination, range) || isWithinRegion(ride.getLocation())) {
-                    isGoalDone = true;
+                    setGoalDone(true);
                 }
                 else {
                     setPathEntity(rider, destination);

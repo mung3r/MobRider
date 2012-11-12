@@ -42,12 +42,12 @@ public class FollowGoal extends LocationGoal
             LivingEntity ride = rider.getRide();
 
             if (target == null) {
-                isGoalDone = true;
+                setGoalDone(true);
             }
             else {
                 if (target.isDead()) {
                     target = null;
-                    isGoalDone = true;
+                    setGoalDone(true);
                 }
                 else {
                     if (isWithinRange(ride.getLocation(), target.getLocation(), range)) {

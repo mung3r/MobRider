@@ -45,7 +45,7 @@ public class ResidenceGoal extends LocationGoal
 
             if (ride != null) {
                 if (isWithinRange(ride.getLocation(), destination, range) || isWithinResidence(ride.getLocation())) {
-                    isGoalDone = true;
+                    setGoalDone(true);
                 }
                 else {
                     setPathEntity(rider, destination);

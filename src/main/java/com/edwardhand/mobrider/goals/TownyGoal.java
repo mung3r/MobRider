@@ -32,7 +32,7 @@ import com.palmergames.bukkit.towny.object.TownyUniverse;
 
 public class TownyGoal extends LocationGoal
 {
-    Town town;
+    private Town town;
 
     public TownyGoal(Town town)
     {
@@ -49,7 +49,7 @@ public class TownyGoal extends LocationGoal
 
             if (ride != null) {
                 if (isWithinRange(ride.getLocation(), destination, range) || isWithinTown(ride.getLocation())) {
-                    isGoalDone = true;
+                    setGoalDone(true);
                 }
                 else {
                     setPathEntity(rider, destination);

@@ -38,13 +38,13 @@ public class AttackGoal extends FollowGoal
             LivingEntity ride = rider.getRide();
 
             if (target == null) {
-                isGoalDone = true;
+                setGoalDone(true);
                 rider.setTarget(null);
             }
             else {
                 if (target.isDead()) {
                     target = null;
-                    isGoalDone = true;
+                    setGoalDone(true);
                 }
                 else {
                     if (isWithinRange(ride.getLocation(), target.getLocation(), NEW_AI_DISTANCE_LIMIT)) {

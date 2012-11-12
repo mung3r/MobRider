@@ -48,7 +48,7 @@ public class LocationGoal extends BasicGoal
 
             if (ride != null) {
                 if (isWithinRange(ride.getLocation(), destination, range)) {
-                    isGoalDone = true;
+                    setGoalDone(true);
                 }
                 else {
                     setPathEntity(rider, destination);

@@ -28,4 +28,5 @@ public interface Goal
     long getTimeCreated();
     boolean isWithinHysteresisThreshold();
     boolean isGoalDone();
+    void setGoalDone(boolean goalDone);
 }

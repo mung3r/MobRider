@@ -47,7 +47,7 @@ public class RegiosGoal extends LocationGoal
 
             if (ride != null) {
                 if (isWithinRange(ride.getLocation(), destination, range) || isWithinRegion(rider.getPlayer())) {
-                    isGoalDone = true;
+                    setGoalDone(true);
                 }
                 else {
                     setPathEntity(rider, destination);

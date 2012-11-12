@@ -25,7 +25,7 @@ import com.edwardhand.mobrider.rider.Rider;
 
 public class GotoGoal extends LocationGoal
 {
-    protected LivingEntity target;
+    private LivingEntity target;
 
     public GotoGoal(LivingEntity target)
     {
@@ -41,16 +41,16 @@ public class GotoGoal extends LocationGoal
             LivingEntity ride = rider.getRide();
 
             if (target == null) {
-                isGoalDone = true;
+                setGoalDone(true);
             }
             else {
                 if (target.isDead()) {
                     target = null;
-                    isGoalDone = true;
+                    setGoalDone(true);
                 }
                 else {
                     if (isWithinRange(ride.getLocation(), target.getLocation(), range)) {
-                        isGoalDone = true;
+                        setGoalDone(true);
                     }
                     else {
                         setPathEntity(rider, target.getLocation());
