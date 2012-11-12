@@ -20,10 +20,8 @@
 package com.edwardhand.mobrider.commons;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
 
 import net.minecraft.server.AxisAlignedBB;
 import net.minecraft.server.EntityLiving;
@@ -41,9 +39,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-public class EntityUtils
+public final class EntityUtils
 {
-    private static final Set<Material> TRANSPARENT_BLOCKS = new HashSet<Material>(Arrays.asList(Material.AIR, Material.WATER));
+    private static final EnumSet<Material> TRANSPARENT_BLOCKS = EnumSet.of(Material.AIR, Material.WATER);
+
+    private static final EnumSet<EntityType> NEW_AI_MOBS = EnumSet.of(EntityType.CHICKEN, EntityType.COW, EntityType.CREEPER, EntityType.IRON_GOLEM,
+            EntityType.MUSHROOM_COW, EntityType.OCELOT, EntityType.PIG, EntityType.SHEEP, EntityType.SKELETON, EntityType.SNOWMAN, EntityType.VILLAGER,
+            EntityType.WITCH, EntityType.WOLF, EntityType.ZOMBIE);
+
+    private static final EnumSet<EntityType> AGGRESSIVE_MOBS = EnumSet.of(EntityType.BLAZE, EntityType.CAVE_SPIDER, EntityType.ENDER_DRAGON,
+            EntityType.ENDERMAN, EntityType.GHAST, EntityType.GIANT, EntityType.IRON_GOLEM, EntityType.MAGMA_CUBE, EntityType.OCELOT, EntityType.PIG_ZOMBIE,
+            EntityType.SILVERFISH, EntityType.SKELETON, EntityType.SLIME, EntityType.SNOWMAN, EntityType.SPIDER, EntityType.WITCH, EntityType.WITHER,
+            EntityType.WOLF, EntityType.ZOMBIE);
 
     private EntityUtils()
     {
@@ -91,7 +98,7 @@ public class EntityUtils
             if ((entities.size() == 1) && ((entities.get(0) instanceof EntityLiving))) {
                 EntityLiving entity = (EntityLiving) entities.get(0);
                 livingEntity = (LivingEntity) (entity.getBukkitEntity());
-                
+
                 List<Block> blocks = player.getLineOfSight(null, (int) player.getLocation().distance(livingEntity.getLocation()));
                 for (Block block : blocks) {
                     if (!TRANSPARENT_BLOCKS.contains(block.getType())) {
@@ -122,39 +129,11 @@ public class EntityUtils
 
     public static boolean hasNewAI(LivingEntity livingEntity)
     {
-        return livingEntity != null && (livingEntity.getType() == EntityType.CHICKEN
-          || livingEntity.getType() == EntityType.COW
-          || livingEntity.getType() == EntityType.CREEPER
-          || livingEntity.getType() == EntityType.IRON_GOLEM
-          || livingEntity.getType() == EntityType.MUSHROOM_COW
-          || livingEntity.getType() == EntityType.OCELOT
-          || livingEntity.getType() == EntityType.PIG
-          || livingEntity.getType() == EntityType.SHEEP
-          || livingEntity.getType() == EntityType.SKELETON
-          || livingEntity.getType() == EntityType.SNOWMAN
-          || livingEntity.getType() == EntityType.VILLAGER
-          || livingEntity.getType() == EntityType.WOLF
-          || livingEntity.getType() == EntityType.ZOMBIE);
+        return livingEntity != null && NEW_AI_MOBS.contains(livingEntity.getType());
     }
 
     public static boolean isAggressive(LivingEntity livingEntity)
     {
-        return livingEntity != null && (livingEntity.getType() == EntityType.BLAZE
-          || livingEntity.getType() == EntityType.CAVE_SPIDER
-          || livingEntity.getType() == EntityType.ENDER_DRAGON
-          || livingEntity.getType() == EntityType.ENDERMAN
-          || livingEntity.getType() == EntityType.GHAST
-          || livingEntity.getType() == EntityType.GIANT
-          || livingEntity.getType() == EntityType.IRON_GOLEM
-          || livingEntity.getType() == EntityType.MAGMA_CUBE
-          || livingEntity.getType() == EntityType.OCELOT
-          || livingEntity.getType() == EntityType.PIG_ZOMBIE
-          || livingEntity.getType() == EntityType.SILVERFISH
-          || livingEntity.getType() == EntityType.SKELETON
-          || livingEntity.getType() == EntityType.SLIME
-          || livingEntity.getType() == EntityType.SNOWMAN
-          || livingEntity.getType() == EntityType.SPIDER
-          || livingEntity.getType() == EntityType.WOLF
-          || livingEntity.getType() == EntityType.ZOMBIE);
+        return livingEntity != null && AGGRESSIVE_MOBS.contains(livingEntity.getType());
     }
 }
