@@ -120,7 +120,7 @@ public class MobRider extends JavaPlugin
 
     private void addCommands()
     {
-        commandHandler = new CommandHandler(this);
+        commandHandler = new CommandHandler();
 
         commandHandler.addCommand(new AttackCommand(this));
         commandHandler.addCommand(new FollowCommand(this));

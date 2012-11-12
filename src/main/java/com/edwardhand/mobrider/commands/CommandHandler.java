@@ -17,14 +17,13 @@ import java.util.Map;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.commons.DependencyUtils;
 
 public class CommandHandler {
 
-    protected Map<String, Command> commands;
+    private Map<String, Command> commands;
 
-    public CommandHandler(MobRider plugin) {
+    public CommandHandler() {
         commands = new LinkedHashMap<String, Command>();
     }
 
@@ -45,7 +44,6 @@ public class CommandHandler {
     }
 
     public boolean dispatch(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-      
     	String[] arguments;
         if (args.length < 1) {
         	arguments = new String[]{ command.getName() };
@@ -59,7 +57,7 @@ public class CommandHandler {
             	identifierBuilder.append(' ').append(arguments[i]);
             }
             
-            String identifier = identifierBuilder.toString().trim();            
+            String identifier = identifierBuilder.toString().trim();
             for (Command cmd : commands.values()) {
                 if (cmd.isIdentifier(sender, identifier)) {
                     String[] realArgs = Arrays.copyOfRange(arguments, argsIncluded, arguments.length);
