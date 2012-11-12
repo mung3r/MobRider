@@ -23,7 +23,7 @@ import org.bukkit.entity.LivingEntity;
 
 import com.edwardhand.mobrider.rider.Rider;
 
-public class StopGoal extends BasicGoal
+public class StopGoal extends AbstractGoal
 {
     @Override
     public void update(Rider rider, double range)

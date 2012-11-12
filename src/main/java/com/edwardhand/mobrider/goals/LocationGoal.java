@@ -25,7 +25,7 @@ import org.bukkit.util.Vector;
 
 import com.edwardhand.mobrider.rider.Rider;
 
-public class LocationGoal extends BasicGoal
+public class LocationGoal extends AbstractGoal
 {
     protected Location destination;
 

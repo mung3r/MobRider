@@ -38,7 +38,7 @@ import com.edwardhand.mobrider.commons.EntityUtils;
 import com.edwardhand.mobrider.commons.MRLogger;
 import com.edwardhand.mobrider.rider.Rider;
 
-public abstract class BasicGoal implements Goal
+public abstract class AbstractGoal implements Goal
 {
     protected static final double NEW_AI_DISTANCE_LIMIT = 8.0D;
     protected static final long HYSTERESIS_THRESHOLD = 250; // quarter second
@@ -46,7 +46,7 @@ public abstract class BasicGoal implements Goal
     private long timeCreated;
     private boolean goalDone;
 
-    public BasicGoal()
+    public AbstractGoal()
     {
         timeCreated = System.currentTimeMillis();
         goalDone = false;
@@ -77,9 +77,7 @@ public abstract class BasicGoal implements Goal
     }
 
     @Override
-    public void update(Rider rider, double range)
-    {
-    }
+    public abstract void update(Rider rider, double range);
 
     protected static void setPathEntity(Rider rider, Location destination)
     {
