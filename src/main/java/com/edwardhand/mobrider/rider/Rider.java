@@ -105,15 +105,15 @@ public class Rider
             }
             else if (ride instanceof CraftSlime) {
                 // TODO: implement setTarget for slime
-                MRLogger.getInstance().debug("setTaret not implemented for Slime");
+                MRLogger.getInstance().debug("setTarget not implemented for Slime");
             }
             else if (ride instanceof CraftGhast) {
                 // TODO: implement setTarget for ghast
-                MRLogger.getInstance().debug("setTaret not implemented for Ghast");
+                MRLogger.getInstance().debug("setTarget not implemented for Ghast");
             }
             else if (ride instanceof CraftEnderDragon) {
                 // TODO: implement setTarget for enderdragon
-                MRLogger.getInstance().debug("setTaret not implemented for EnderDragon");
+                MRLogger.getInstance().debug("setTarget not implemented for EnderDragon");
             }
         }
     }
