@@ -33,7 +33,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 
-import com.edwardhand.mobrider.commons.MRLogger;
+import com.edwardhand.mobrider.commons.LoggerUtil;
 import com.edwardhand.mobrider.rider.RideType;
 
 public class ConfigManager
@@ -72,7 +72,7 @@ public class ConfigManager
         config = getConfig(configFile);
 
         ConfigurationSection general = config.getConfigurationSection("general");
-        MRLogger.getInstance().setDebug(general.getBoolean("debug", false));
+        LoggerUtil.getInstance().setDebug(general.getBoolean("debug", false));
         controlItem = Material.matchMaterial(general.getString("control_item"));
         updatePeriod = general.getLong("update_period");
 
@@ -113,7 +113,7 @@ public class ConfigManager
             config.save(configFile);
         }
         catch (IOException e) {
-            MRLogger.getInstance().severe(e.getMessage());
+            LoggerUtil.getInstance().severe(e.getMessage());
         }
     }
 
@@ -142,7 +142,7 @@ public class ConfigManager
                 inputStream.close();
                 outputStream.close();
 
-                MRLogger.getInstance().info("Default config created successfully!");
+                LoggerUtil.getInstance().info("Default config created successfully!");
             }
 
             newConfig = plugin.getConfig();
@@ -150,7 +150,7 @@ public class ConfigManager
             newConfig.options().copyDefaults(true);
         }
         catch (Exception e) {
-            MRLogger.getInstance().warning("Default config could not be created!");
+            LoggerUtil.getInstance().warning("Default config could not be created!");
         }
 
         return newConfig;

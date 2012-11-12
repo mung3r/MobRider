@@ -46,9 +46,9 @@ public class UpdateTask implements Runnable
         pluginName = plugin.getName();
         pluginVersion = plugin.getDescription().getVersion().split("-")[0];
         latestVersion = pluginVersion;
-        
+
         if (Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, CHECK_DELAY, CHECK_PERIOD) < 0) {
-            MRLogger.getInstance().warning("Failed to schedule MRUpate task.");
+            LoggerUtil.getInstance().warning("Failed to schedule UpdateTask task.");
         }
     }
 
@@ -79,7 +79,7 @@ public class UpdateTask implements Runnable
             }
         }
         catch (Exception e) {
-            MRLogger.getInstance().warning(e.getMessage());
+            LoggerUtil.getInstance().warning(e.getMessage());
         }
     }
 
@@ -92,7 +92,7 @@ public class UpdateTask implements Runnable
             isOutOfDate = Double.parseDouble(pluginVersion.replaceFirst("\\.", "")) < Double.parseDouble(latestVersion.replaceFirst("\\.", ""));
         }
         catch (NumberFormatException e) {
-            MRLogger.getInstance().warning(e.getMessage());
+            LoggerUtil.getInstance().warning(e.getMessage());
         }
 
         return isOutOfDate;
@@ -102,8 +102,8 @@ public class UpdateTask implements Runnable
     public void run()
     {
         if (isOutOfDate()) {
-            MRLogger.getInstance().warning(pluginName + " " + latestVersion + " is out! You are running: " + pluginName + " " + pluginVersion);
-            MRLogger.getInstance().warning("Update MobRider at: " + DEV_BUKKIT_URL);
+            LoggerUtil.getInstance().warning(pluginName + " " + latestVersion + " is out! You are running: " + pluginName + " " + pluginVersion);
+            LoggerUtil.getInstance().warning("Update MobRider at: " + DEV_BUKKIT_URL);
         }
     }
 }

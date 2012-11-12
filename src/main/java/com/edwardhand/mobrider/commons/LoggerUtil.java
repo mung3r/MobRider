@@ -21,21 +21,21 @@ package com.edwardhand.mobrider.commons;
 
 import java.util.logging.Logger;
 
-public class MRLogger
+public class LoggerUtil
 {
     private static final String LOG_NAME = "MobRider";
-    private static MRLogger instance = new MRLogger();
+    private static LoggerUtil instance = new LoggerUtil();
 
     private Logger logger;
     private String name;
     private boolean isDebug;
 
-    public static MRLogger getInstance()
+    public static LoggerUtil getInstance()
     {
         return instance;
     }
 
-    private MRLogger()
+    private LoggerUtil()
     {
         logger = Logger.getLogger("Minecraft");
         isDebug = false;

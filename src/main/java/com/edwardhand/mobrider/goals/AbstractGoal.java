@@ -35,7 +35,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
 
 import com.edwardhand.mobrider.commons.EntityUtils;
-import com.edwardhand.mobrider.commons.MRLogger;
+import com.edwardhand.mobrider.commons.LoggerUtil;
 import com.edwardhand.mobrider.rider.Rider;
 
 public abstract class AbstractGoal implements Goal
@@ -96,15 +96,15 @@ public abstract class AbstractGoal implements Goal
         }
         else if (ride instanceof CraftSlime) {
             // TODO: implement setPathEntity for slime
-            MRLogger.getInstance().debug("setPathEntity not implemented for Slime");
+            LoggerUtil.getInstance().debug("setPathEntity not implemented for Slime");
         }
         else if (ride instanceof CraftGhast) {
             // TODO: implement setPathEntity for ghast
-            MRLogger.getInstance().debug("setPathEntity not implemented for Ghast");
+            LoggerUtil.getInstance().debug("setPathEntity not implemented for Ghast");
         }
         else if (ride instanceof CraftEnderDragon) {
             // TODO: implement setPathEntity for enderdragon
-            MRLogger.getInstance().debug("setPathEntity not implemented for EnderDragon");
+            LoggerUtil.getInstance().debug("setPathEntity not implemented for EnderDragon");
         }
     }
 

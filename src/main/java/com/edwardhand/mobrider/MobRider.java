@@ -30,7 +30,7 @@ import com.edwardhand.mobrider.commands.MountCommand;
 import com.edwardhand.mobrider.commands.ReloadCommand;
 import com.edwardhand.mobrider.commands.StopCommand;
 import com.edwardhand.mobrider.commons.DependencyUtils;
-import com.edwardhand.mobrider.commons.MRLogger;
+import com.edwardhand.mobrider.commons.LoggerUtil;
 import com.edwardhand.mobrider.commons.UpdateTask;
 import com.edwardhand.mobrider.goals.GoalManager;
 import com.edwardhand.mobrider.input.RiderControlDelegate;
@@ -69,7 +69,7 @@ public class MobRider extends JavaPlugin
 
         new UpdateTask(this);
 
-        MRLogger.getInstance().info(getDescription().getVersion() + " enabled.");
+        LoggerUtil.getInstance().info(getDescription().getVersion() + " enabled.");
     }
 
     @Override
@@ -77,7 +77,7 @@ public class MobRider extends JavaPlugin
     {
         getServer().getScheduler().cancelTasks(this);
         config.save();
-        MRLogger.getInstance().info(getDescription().getVersion() + " disabled.");
+        LoggerUtil.getInstance().info(getDescription().getVersion() + " disabled.");
     }
 
     @Override

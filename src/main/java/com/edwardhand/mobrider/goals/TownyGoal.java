@@ -22,7 +22,7 @@ package com.edwardhand.mobrider.goals;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
-import com.edwardhand.mobrider.commons.MRLogger;
+import com.edwardhand.mobrider.commons.LoggerUtil;
 import com.edwardhand.mobrider.rider.Rider;
 import com.palmergames.bukkit.towny.exceptions.NotRegisteredException;
 import com.palmergames.bukkit.towny.exceptions.TownyException;
@@ -70,7 +70,7 @@ public class TownyGoal extends LocationGoal
             }
         }
         catch (NotRegisteredException e) {
-            MRLogger.getInstance().warning("Town not registered");
+            LoggerUtil.getInstance().warning("Town not registered");
         }
 
         return isWithinTown;
@@ -84,7 +84,7 @@ public class TownyGoal extends LocationGoal
             spawn = town.getSpawn();
         }
         catch (TownyException e) {
-            MRLogger.getInstance().warning("Town spawn not found");
+            LoggerUtil.getInstance().warning("Town spawn not found");
         }
         return spawn;
     }

@@ -26,7 +26,7 @@ import java.util.Map;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 
-import com.edwardhand.mobrider.commons.MRLogger;
+import com.edwardhand.mobrider.commons.LoggerUtil;
 import com.edwardhand.mobrider.metrics.Metrics.Graph;
 import com.edwardhand.mobrider.metrics.Metrics.Plotter;
 
@@ -56,7 +56,7 @@ public class MetricsManager
             metrics.start();
         }
         catch (IOException e) {
-            MRLogger.getInstance().warning("Metrics failed to load.");
+            LoggerUtil.getInstance().warning("Metrics failed to load.");
         }
 
     }

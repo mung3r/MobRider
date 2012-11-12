@@ -47,7 +47,7 @@ import com.edwardhand.mobrider.ConfigManager;
 import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.commons.DependencyUtils;
 import com.edwardhand.mobrider.commons.EntityUtils;
-import com.edwardhand.mobrider.commons.MRLogger;
+import com.edwardhand.mobrider.commons.LoggerUtil;
 import com.edwardhand.mobrider.commons.MessageUtils;
 import com.edwardhand.mobrider.goals.GoalManager;
 import com.edwardhand.mobrider.metrics.MetricsManager;
@@ -75,7 +75,7 @@ public class RiderManager implements Runnable
 
         if (Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, UPDATE_DELAY, Math.min(configManager.updatePeriod, MAX_UPDATE_PERIOD)) < 0) {
             Bukkit.getPluginManager().disablePlugin(plugin);
-            MRLogger.getInstance().severe("Failed to schedule RiderManager task.");
+            LoggerUtil.getInstance().severe("Failed to schedule RiderManager task.");
         }
     }
 
