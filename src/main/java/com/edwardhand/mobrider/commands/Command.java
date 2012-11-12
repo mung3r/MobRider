@@ -19,36 +19,38 @@
  */
 package com.edwardhand.mobrider.commands;
 
+import java.util.List;
+
 import org.bukkit.command.CommandSender;
 
 public interface Command {
 
-    public void cancelInteraction(CommandSender executor);
+    void cancelInteraction(CommandSender executor);
 
-    public boolean execute(CommandSender executor, String identifier, String[] args);
+    boolean execute(CommandSender executor, String identifier, String[] args);
 
-    public String getDescription();
+    String getDescription();
 
-    public String[] getIdentifiers();
+    List<String> getIdentifiers();
 
-    public int getMaxArguments();
+    int getMaxArguments();
 
-    public int getMinArguments();
+    int getMinArguments();
 
-    public String getName();
+    String getName();
 
-    public String[] getNotes();
+    List<String> getNotes();
 
-    public String getPermission();
+    String getPermission();
 
-    public String getUsage();
+    String getUsage();
 
-    public boolean isIdentifier(CommandSender executor, String input);
+    boolean isIdentifier(CommandSender executor, String input);
 
-    public boolean isInProgress(CommandSender executor);
+    boolean isInProgress(CommandSender executor);
 
-    public boolean isInteractive();
+    boolean isInteractive();
 
-    public boolean isShownOnHelpMenu();
+    boolean isShownOnHelpMenu();
 
 }
