@@ -41,6 +41,8 @@ import org.bukkit.inventory.PlayerInventory;
 
 public final class EntityUtils
 {
+    private static double ONE_HALF = 0.5D;
+
     private static final EnumSet<Material> TRANSPARENT_BLOCKS = EnumSet.of(Material.AIR, Material.WATER);
 
     private static final EnumSet<EntityType> NEW_AI_MOBS = EnumSet.of(EntityType.CHICKEN, EntityType.COW, EntityType.CREEPER, EntityType.IRON_GOLEM,
@@ -82,17 +84,17 @@ public final class EntityUtils
 
             Location loc = player.getTargetBlock(null, range).getLocation();
             CraftWorld craftWorld = (CraftWorld) player.getWorld();
-            double x1 = loc.getX() + 0.5D;
-            double y1 = loc.getY() + 0.5D;
-            double z1 = loc.getZ() + 0.5D;
+            double x1 = loc.getX() + ONE_HALF;
+            double y1 = loc.getY() + ONE_HALF;
+            double z1 = loc.getZ() + ONE_HALF;
 
             @SuppressWarnings("rawtypes")
             List entities = new ArrayList();
-            double r = 0.5D;
+            double r = ONE_HALF;
             while ((entities.size() == 0) && (r < range)) {
                 AxisAlignedBB bb = AxisAlignedBB.a(x1 - r, y1 - r, z1 - r, x1 + r, y1 + r, z1 + r);
                 entities = craftWorld.getHandle().getEntities(mcPlayer, bb);
-                r += 0.5D;
+                r += ONE_HALF;
             }
 
             if ((entities.size() == 1) && ((entities.get(0) instanceof EntityLiving))) {
