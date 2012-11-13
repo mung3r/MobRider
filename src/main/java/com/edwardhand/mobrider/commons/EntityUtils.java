@@ -41,7 +41,7 @@ import org.bukkit.inventory.PlayerInventory;
 
 public final class EntityUtils
 {
-    private static double ONE_HALF = 0.5D;
+    private static final double ONE_HALF = 0.5D;
 
     private static final EnumSet<Material> TRANSPARENT_BLOCKS = EnumSet.of(Material.AIR, Material.WATER);
 
