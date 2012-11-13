@@ -21,7 +21,7 @@ package com.edwardhand.mobrider.commons;
 
 import java.util.logging.Logger;
 
-public class LoggerUtil
+public final class LoggerUtil
 {
     private static final String LOG_NAME = "MobRider";
     private static LoggerUtil instance = new LoggerUtil();
