@@ -37,7 +37,7 @@ import com.edwardhand.mobrider.input.RiderControlDelegate;
 import com.edwardhand.mobrider.listeners.RiderDamageListener;
 import com.edwardhand.mobrider.listeners.RiderTargetListener;
 import com.edwardhand.mobrider.listeners.RiderPlayerListener;
-import com.edwardhand.mobrider.metrics.MetricsManager;
+import com.edwardhand.mobrider.metrics.RideMetrics;
 import com.edwardhand.mobrider.rider.RiderManager;
 
 import org.bukkit.Bukkit;
@@ -51,14 +51,14 @@ public class MobRider extends JavaPlugin
     private RiderManager riderManager;
     private GoalManager goalManager;
     private ConfigManager config;
-    private MetricsManager metrics;
+    private RideMetrics metrics;
 
     @Override
     public void onEnable()
     {
         DependencyUtils.init();
 
-        metrics = new MetricsManager(this);
+        metrics = new RideMetrics(this);
         config = new ConfigManager(this);
         goalManager = new GoalManager(this);
         riderManager = new RiderManager(this);
@@ -108,7 +108,7 @@ public class MobRider extends JavaPlugin
         return config;
     }
 
-    public MetricsManager getMetricsManager()
+    public RideMetrics getMetricsManager()
     {
         return metrics;
     }

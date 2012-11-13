@@ -30,61 +30,58 @@ import com.edwardhand.mobrider.commons.LoggerUtil;
 import com.edwardhand.mobrider.metrics.Metrics.Graph;
 import com.edwardhand.mobrider.metrics.Metrics.Plotter;
 
-
-public class MetricsManager
+public class RideMetrics
 {
+    private Map<String, Integer> typeCount;
     private Metrics metrics;
-    private Map<EntityType, Integer> rideTypeCount;
+    private Graph graph;
 
-    @SuppressWarnings("serial")
-    public MetricsManager(Plugin plugin)
+    public RideMetrics(Plugin plugin)
     {
-        rideTypeCount = new Hashtable<EntityType, Integer>() {
-            @Override
-            public synchronized Integer get(Object key)
-            {
-                if (!super.containsKey(key)) {
-                    return Integer.valueOf(0);
-                }
-                return super.get(key);
-            };
-        };
-
         try {
             metrics = new Metrics(plugin);
-            setupGraphs();
-            metrics.start();
         }
         catch (IOException e) {
             LoggerUtil.getInstance().warning("Metrics failed to load.");
         }
 
-    }
-
-    private void setupGraphs()
-    {
-        Graph graph = metrics.createGraph("Ride Types");
-
-        for (EntityType rideType : EntityType.values()) {
-            String name = rideType == EntityType.PLAYER ? "Player" : rideType.getName();
-
-            if (rideType.isAlive()) {
-                graph.addPlotter(new Plotter(name) {
-                    @Override
-                    public int getValue()
-                    {
-                        EntityType rideType = "Player".equals(getColumnName()) ? EntityType.PLAYER : EntityType.fromName(getColumnName());
-                        Integer count = rideTypeCount.get(rideType);
-                        rideTypeCount.put(rideType, Integer.valueOf(0));
-                        return count;
-                    }
-                });
-            }
+        if (metrics != null) {
+            typeCount = new Hashtable<String, Integer>();
+            graph = metrics.createGraph("Ride Types");
+            metrics.start();
         }
     }
 
     public void addCount(EntityType rideType)
     {
-        rideTypeCount.put(rideType, rideTypeCount.get(rideType) + 1);
+        addCount(getRideTypeName(rideType));
+    }
+
+    private void addCount(String name)
+    {
+        if (name == null) {
+            LoggerUtil.getInstance().warning("Null type name passed into metrics.");
+            return;
+        }
+
+        if (graph != null) {
+            if (!typeCount.containsKey(name)) {
+                typeCount.put(name, 0);
+                graph.addPlotter(new Plotter(name) {
+                    @Override
+                    public int getValue()
+                    {
+                        return typeCount.get(getColumnName());
+                    }
+                });
+            }
+
+            typeCount.put(name, typeCount.get(name) + 1);
+        }
+    }
+
+    private String getRideTypeName(EntityType rideType)
+    {
+        return rideType.getName() != null ? rideType.getName() : rideType.toString();
     }
 }

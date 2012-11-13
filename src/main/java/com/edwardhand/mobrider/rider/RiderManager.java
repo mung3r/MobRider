@@ -50,7 +50,7 @@ import com.edwardhand.mobrider.commons.EntityUtils;
 import com.edwardhand.mobrider.commons.LoggerUtil;
 import com.edwardhand.mobrider.commons.MessageUtils;
 import com.edwardhand.mobrider.goals.GoalManager;
-import com.edwardhand.mobrider.metrics.MetricsManager;
+import com.edwardhand.mobrider.metrics.RideMetrics;
 
 public class RiderManager implements Runnable
 {
@@ -59,7 +59,7 @@ public class RiderManager implements Runnable
     private static Random random = new Random();
 
     private MobRider plugin;
-    private MetricsManager metrics;
+    private RideMetrics metrics;
     private ConfigManager configManager;
     private GoalManager goalManager;
     private Map<String, Rider> riders;
