@@ -25,5 +25,5 @@ import com.edwardhand.mobrider.rider.Rider;
 
 public interface LivingEntitySearch
 {
-    public LivingEntity find(Rider rider, String searchTerm, double searchRange);
+    LivingEntity find(Rider rider, String searchTerm, double searchRange);
 }

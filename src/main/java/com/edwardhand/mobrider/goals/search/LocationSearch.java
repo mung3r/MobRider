@@ -23,5 +23,5 @@ import com.edwardhand.mobrider.rider.Rider;
 
 public interface LocationSearch
 {
-    public boolean find(Rider rider, String locationName);
+    boolean find(Rider rider, String locationName);
 }
