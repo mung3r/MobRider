@@ -26,7 +26,7 @@ import org.bukkit.entity.Player;
 
 import com.edwardhand.mobrider.rider.Rider;
 
-public class MessageUtils
+public final class MessageUtils
 {
     private static final int HEALTH_BARS = 6;
 
