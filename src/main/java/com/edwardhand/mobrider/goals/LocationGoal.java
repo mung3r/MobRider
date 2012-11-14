@@ -27,7 +27,7 @@ import com.edwardhand.mobrider.rider.Rider;
 
 public class LocationGoal extends AbstractGoal
 {
-    protected Location destination;
+    private Location destination;
 
     public LocationGoal(Location destination)
     {
@@ -37,6 +37,16 @@ public class LocationGoal extends AbstractGoal
     public LocationGoal(LivingEntity livingEntity)
     {
         this(livingEntity.getLocation());
+    }
+
+    public Location getDestination()
+    {
+        return destination;
+    }
+
+    public void setDestination(Location destination)
+    {
+        this.destination = destination;
     }
 
     @Override

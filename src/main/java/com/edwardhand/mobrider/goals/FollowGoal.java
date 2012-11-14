@@ -26,11 +26,21 @@ import com.edwardhand.mobrider.rider.Rider;
 
 public class FollowGoal extends LocationGoal
 {
-    protected LivingEntity target;
+    private LivingEntity target;
 
     public FollowGoal(ConfigManager configManager, LivingEntity target)
     {
         super(target);
+        this.target = target;
+    }
+
+    public LivingEntity getTarget()
+    {
+        return target;
+    }
+
+    public void setTarget(LivingEntity target)
+    {
         this.target = target;
     }
 

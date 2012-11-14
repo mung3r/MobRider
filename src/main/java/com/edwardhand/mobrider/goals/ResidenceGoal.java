@@ -44,11 +44,11 @@ public class ResidenceGoal extends LocationGoal
             LivingEntity ride = rider.getRide();
 
             if (ride != null) {
-                if (isWithinRange(ride.getLocation(), destination, range) || isWithinResidence(ride.getLocation())) {
+                if (isWithinRange(ride.getLocation(), getDestination(), range) || isWithinResidence(ride.getLocation())) {
                     setGoalDone(true);
                 }
                 else {
-                    setPathEntity(rider, destination);
+                    setPathEntity(rider, getDestination());
                     updateSpeed(rider);
                 }
             }

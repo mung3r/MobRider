@@ -48,11 +48,11 @@ public class TownyGoal extends LocationGoal
             LivingEntity ride = rider.getRide();
 
             if (ride != null) {
-                if (isWithinRange(ride.getLocation(), destination, range) || isWithinTown(ride.getLocation())) {
+                if (isWithinRange(ride.getLocation(), getDestination(), range) || isWithinTown(ride.getLocation())) {
                     setGoalDone(true);
                 }
                 else {
-                    setPathEntity(rider, destination);
+                    setPathEntity(rider, getDestination());
                     updateSpeed(rider);
                 }
             }

@@ -51,11 +51,11 @@ public class RegionGoal extends LocationGoal
             LivingEntity ride = rider.getRide();
 
             if (ride != null) {
-                if (isWithinRange(ride.getLocation(), destination, range) || isWithinRegion(ride.getLocation())) {
+                if (isWithinRange(ride.getLocation(), getDestination(), range) || isWithinRegion(ride.getLocation())) {
                     setGoalDone(true);
                 }
                 else {
-                    setPathEntity(rider, destination);
+                    setPathEntity(rider, getDestination());
                     updateSpeed(rider);
                 }
             }
