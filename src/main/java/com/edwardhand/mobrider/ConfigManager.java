@@ -103,7 +103,8 @@ public class ConfigManager
         ConfigurationSection mobs = config.getConfigurationSection("mobs");
         for (String name : mobs.getKeys(false)) {
             ConfigurationSection mob = mobs.getConfigurationSection(name);
-            new RideType(EntityType.fromName(name), Double.valueOf(mob.getDouble("speed")).floatValue(), mob.getString("noise"), mob.getDouble("chance"), mob.getDouble("cost"));
+            new RideType(EntityType.fromName(name), Double.valueOf(mob.getDouble("speed")).floatValue(), mob.getString("noise"), mob.getDouble("chance"),
+                    mob.getDouble("cost"));
         }
     }
 
@@ -133,14 +134,20 @@ public class ConfigManager
                 InputStream inputStream = plugin.getResource(file.getName());
                 FileOutputStream outputStream = new FileOutputStream(file);
 
-                byte[] buffer = new byte[8192];
-                int length = 0;
-                while ((length = inputStream.read(buffer)) > 0) {
-                    outputStream.write(buffer, 0, length);
+                try {
+                    byte[] buffer = new byte[8192];
+                    int length = 0;
+                    while ((length = inputStream.read(buffer)) > 0) {
+                        outputStream.write(buffer, 0, length);
+                    }
                 }
-
-                inputStream.close();
-                outputStream.close();
+                catch (IOException e) {
+                    LoggerUtil.getInstance().warning("Default config could not be read");
+                }
+                finally {
+                    inputStream.close();
+                    outputStream.close();
+                }
 
                 LoggerUtil.getInstance().info("Default config created successfully!");
             }
@@ -149,7 +156,7 @@ public class ConfigManager
             newConfig.setDefaults(YamlConfiguration.loadConfiguration(plugin.getResource(file.getName())));
             newConfig.options().copyDefaults(true);
         }
-        catch (Exception e) {
+        catch (IOException e) {
             LoggerUtil.getInstance().warning("Default config could not be created!");
         }
 
