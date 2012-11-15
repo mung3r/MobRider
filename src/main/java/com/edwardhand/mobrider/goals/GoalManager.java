@@ -94,7 +94,7 @@ public class GoalManager
         LivingEntity entity = findLivingEntity(rider, entityName, configManager.maxSearchRange);
 
         if (entity != null) {
-            rider.setGoal(new FollowGoal(configManager, entity));
+            rider.setGoal(new FollowGoal(entity));
             MessageUtils.sendMessage(rider, configManager.followConfirmedMessage);
         }
         else {
@@ -104,9 +104,9 @@ public class GoalManager
 
     public void setGotoGoal(Rider rider, String goalName)
     {
-        LivingEntity entity;
+        LivingEntity entity = findLivingEntity(rider, goalName, configManager.maxSearchRange);
 
-        if ((entity = findLivingEntity(rider, goalName, configManager.maxSearchRange)) != null) {
+        if (entity != null) {
             rider.setGoal(new GotoGoal(entity));
             MessageUtils.sendMessage(rider, configManager.goConfirmedMessage);
         }
@@ -121,6 +121,7 @@ public class GoalManager
     public void setAttackGoal(Rider rider, String entityName)
     {
         LivingEntity entity = findLivingEntity(rider, entityName, configManager.attackRange);
+
         if (entity != null) {
             setAttackGoal(rider, entity);
         }
@@ -132,7 +133,7 @@ public class GoalManager
     public void setAttackGoal(Rider rider, LivingEntity entity)
     {
         if (EntityUtils.isAggressive(rider.getRide())) {
-            rider.setGoal(new AttackGoal(configManager, entity));
+            rider.setGoal(new AttackGoal(entity));
             MessageUtils.sendMessage(rider, configManager.attackConfirmedMessage);
         }
         else {
@@ -184,7 +185,9 @@ public class GoalManager
         LivingEntity foundEntity = null;
 
         for (LivingEntitySearch strategy : findEntityStrategies) {
-            if ((foundEntity = strategy.find(rider, searchTerm, searchRange)) != null) {
+            foundEntity = strategy.find(rider, searchTerm, searchRange);
+
+            if (foundEntity != null) {
                 return foundEntity;
             }
         }

@@ -58,6 +58,7 @@ public class ConfigManager
     public final String fedConfusedMessage;
 
     private static final String CONFIG_FILE = "config.yml";
+    private static final int BUFFER_SIZE = 8192;
 
     private FileConfiguration config;
     private File configFile;
@@ -135,7 +136,7 @@ public class ConfigManager
                 FileOutputStream outputStream = new FileOutputStream(file);
 
                 try {
-                    byte[] buffer = new byte[8192];
+                    byte[] buffer = new byte[BUFFER_SIZE];
                     int length = 0;
                     while ((length = inputStream.read(buffer)) > 0) {
                         outputStream.write(buffer, 0, length);

@@ -28,6 +28,8 @@ import org.bukkit.material.SpawnEgg;
 public class SpawnEggTask implements Runnable
 {
     private static final int EFFECT_TICKS = 20;
+    private static final int EFFECT_DATA = 4;
+    private static final int EFFECT_RADIUS = 10;
 
     private LivingEntity target;
     private int ticks;
@@ -57,8 +59,8 @@ public class SpawnEggTask implements Runnable
         }
         else {
             if (ticks < EFFECT_TICKS) {
-                target.getWorld().playEffect(target.getLocation(), Effect.EXTINGUISH, 4, 10);
-                target.getWorld().playEffect(target.getLocation(), Effect.SMOKE, 4, 10);
+                target.getWorld().playEffect(target.getLocation(), Effect.EXTINGUISH, EFFECT_DATA, EFFECT_RADIUS);
+                target.getWorld().playEffect(target.getLocation(), Effect.SMOKE, EFFECT_DATA, EFFECT_RADIUS);
                 ticks++;
             }
             else {

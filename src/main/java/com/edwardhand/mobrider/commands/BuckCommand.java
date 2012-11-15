@@ -25,12 +25,11 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
-import com.edwardhand.mobrider.MobRider;
 import com.edwardhand.mobrider.commons.DependencyUtils;
 
 public class BuckCommand extends BasicCommand
 {
-    public BuckCommand(MobRider plugin)
+    public BuckCommand()
     {
         super("Buck");
         setDescription("Buck a player riding you");

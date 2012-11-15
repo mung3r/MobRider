@@ -21,14 +21,13 @@ package com.edwardhand.mobrider.goals;
 
 import org.bukkit.entity.LivingEntity;
 
-import com.edwardhand.mobrider.ConfigManager;
 import com.edwardhand.mobrider.rider.Rider;
 
 public class AttackGoal extends FollowGoal
 {
-    public AttackGoal(ConfigManager configManager, LivingEntity target)
+    public AttackGoal(LivingEntity target)
     {
-        super(configManager, target);
+        super(target);
     }
 
     @Override

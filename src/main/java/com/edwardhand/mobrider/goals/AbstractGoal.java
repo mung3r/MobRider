@@ -43,6 +43,8 @@ public abstract class AbstractGoal implements Goal
     protected static final double NEW_AI_DISTANCE_LIMIT = 8.0D;
     protected static final long HYSTERESIS_THRESHOLD = 250; // quarter second
                                                             // in milliseconds
+    private static final int INTERIM_DISTANCE = 8;
+
     private long timeCreated;
     private boolean goalDone;
 
@@ -132,7 +134,7 @@ public abstract class AbstractGoal implements Goal
         Location interimTarget = null;
 
         if (ride != null && ride.getLocation().getWorld().equals(destination.getWorld()) && ride.getLocation().distanceSquared(destination) > (NEW_AI_DISTANCE_LIMIT * NEW_AI_DISTANCE_LIMIT)) {
-            interimTarget = ride.getLocation().clone().add(new Vector(destination.getX() - ride.getLocation().getX(), destination.getY() - ride.getLocation().getY(), destination.getZ() - ride.getLocation().getZ()).normalize().multiply(8));
+            interimTarget = ride.getLocation().clone().add(new Vector(destination.getX() - ride.getLocation().getX(), destination.getY() - ride.getLocation().getY(), destination.getZ() - ride.getLocation().getZ()).normalize().multiply(INTERIM_DISTANCE));
         }
         else {
             interimTarget = destination;

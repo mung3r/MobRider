@@ -56,10 +56,8 @@ public class HelpCommand extends BasicCommand
 
         // Build list of permitted commands
         for (Command command : sortCommands) {
-            if (command.isShownOnHelpMenu()) {
-                if (plugin.getCommandHandler().hasPermission(sender, command.getPermission())) {
-                    commands.add(command);
-                }
+            if (command.isShownOnHelpMenu() && plugin.getCommandHandler().hasPermission(sender, command.getPermission())) {
+                commands.add(command);
             }
         }
 

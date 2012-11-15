@@ -56,6 +56,7 @@ public class RiderManager implements Runnable
 {
     private static final long UPDATE_DELAY = 0L;
     private static final long MAX_UPDATE_PERIOD = 20L;
+    private static final int HEALTH_INCREMENT = 5;
     private static Random random = new Random();
 
     private MobRider plugin;
@@ -181,7 +182,7 @@ public class RiderManager implements Runnable
             MessageUtils.sendMessage(rider, configManager.fedConfusedMessage);
         }
         else {
-            rider.setHealth(Math.min(rider.getHealth() + 5, rider.getMaxHealth()));
+            rider.setHealth(Math.min(rider.getHealth() + HEALTH_INCREMENT, rider.getMaxHealth()));
             EntityUtils.removeItemInHand(rider.getPlayer());
             MessageUtils.sendMessage(rider, configManager.fedConfirmedMessage);
         }
@@ -277,8 +278,10 @@ public class RiderManager implements Runnable
     private static boolean isOwner(Player player, Entity entity)
     {
         if (entity instanceof Tameable) {
-            if (((Tameable) entity).isTamed() && ((Tameable) entity).getOwner() instanceof Player) {
-                Player owner = (Player) ((Tameable) entity).getOwner();
+            Tameable tameable = (Tameable) entity;
+
+            if (tameable.isTamed() && tameable.getOwner() instanceof Player) {
+                Player owner = (Player) tameable.getOwner();
                 if (owner.getName().equals(player.getName())) {
                     return true;
                 }

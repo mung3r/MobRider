@@ -40,6 +40,10 @@ import com.edwardhand.mobrider.rider.RiderManager;
 
 public class RiderPlayerListener implements Listener
 {
+    private static final int FIRST_SLOT = 0;
+    private static final int LAST_SLOT = 8;
+    private static final float SPEED_INCREMENT = 0.05F;
+    
     private ConfigManager configManager;
     private RiderManager riderManager;
     private GoalManager goalManager;
@@ -107,12 +111,12 @@ public class RiderPlayerListener implements Listener
             int prevSlot = event.getPreviousSlot();
             boolean increase = (prevSlot - newSlot) > 0;
 
-            if (((prevSlot == 0) && (newSlot == 8)) || ((prevSlot == 8) && (newSlot == 0))) {
+            if (((prevSlot == FIRST_SLOT) && (newSlot == LAST_SLOT)) || ((prevSlot == LAST_SLOT) && (newSlot == FIRST_SLOT))) {
                 increase = !increase;
             }
 
             Rider rider = riderManager.getRider(player);
-            rider.setSpeed(increase ? rider.getSpeed() + 0.05F : rider.getSpeed() - 0.05F);
+            rider.setSpeed(increase ? rider.getSpeed() + SPEED_INCREMENT : rider.getSpeed() - SPEED_INCREMENT);
         }
     }
 }

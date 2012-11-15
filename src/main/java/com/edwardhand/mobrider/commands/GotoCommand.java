@@ -33,6 +33,8 @@ import com.edwardhand.mobrider.rider.RiderManager;
 
 public class GotoCommand extends BasicCommand
 {
+    private static final double INTERIM_DISTANCE_SQUARED = 64.0D;
+
     private ConfigManager configManager;
     private RiderManager riderManager;
     private GoalManager goalManager;
@@ -63,7 +65,7 @@ public class GotoCommand extends BasicCommand
                     goalManager.setGotoGoal(rider, args[0]);
                 }
                 else if (args.length == 2 && EntityUtils.isInteger(args[0]) && EntityUtils.isInteger(args[1])) {
-                    goalManager.setDestination(rider, new Location(rider.getWorld(), Integer.parseInt(args[0]), 64.0D, Integer.parseInt(args[1])));
+                    goalManager.setDestination(rider, new Location(rider.getWorld(), Integer.parseInt(args[0]), INTERIM_DISTANCE_SQUARED, Integer.parseInt(args[1])));
                 }
                 else {
                     MessageUtils.sendMessage(rider, configManager.goConfusedMessage);

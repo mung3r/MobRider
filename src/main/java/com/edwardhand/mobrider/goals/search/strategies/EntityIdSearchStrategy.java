@@ -36,10 +36,8 @@ public class EntityIdSearchStrategy extends LivingEntitySearchStrategy
 
         if (EntityUtils.isInteger(searchTerm)) {
             net.minecraft.server.Entity entity = ((CraftWorld) player.getWorld()).getHandle().getEntity(Integer.valueOf(searchTerm));
-            if (entity instanceof LivingEntity) {
-                if (isEntityWithinRange((LivingEntity) entity, player, searchRange)) {
-                    foundEntity = (LivingEntity) entity;
-                }
+            if (entity instanceof LivingEntity && isEntityWithinRange((LivingEntity) entity, player, searchRange)) {
+                foundEntity = (LivingEntity) entity;
             }
         }
 

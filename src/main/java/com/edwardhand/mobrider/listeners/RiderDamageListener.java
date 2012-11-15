@@ -98,10 +98,8 @@ public class RiderDamageListener implements Listener
             Player player = (Player) entity.getPassenger();
             Rider rider = riderManager.getRider((Player) entity.getPassenger());
 
-            if (rider.isValid()) {
-                if (!damager.equals(player)) {
-                    goalManager.setAttackGoal(rider, (LivingEntity) damager);
-                }
+            if (rider.isValid() && !damager.equals(player)) {
+                goalManager.setAttackGoal(rider, (LivingEntity) damager);
             }
         }
     }

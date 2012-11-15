@@ -129,7 +129,7 @@ public class MobRider extends JavaPlugin
         commandHandler.addCommand(new StopCommand(this));
         commandHandler.addCommand(new HelpCommand(this));
         commandHandler.addCommand(new MountCommand(this));
-        commandHandler.addCommand(new BuckCommand(this));
+        commandHandler.addCommand(new BuckCommand());
         commandHandler.addCommand(new ReloadCommand(this));
     }
 

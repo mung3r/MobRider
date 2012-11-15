@@ -40,11 +40,9 @@ public class CitizensSearchStrategy extends LivingEntitySearchStrategy
         if (DependencyUtils.hasCitizens()) {
             NPCList npcList = CitizensManager.getList();
             for (HumanNPC npc : npcList.values()) {
-                if (npc.getName().equalsIgnoreCase(searchTerm)) {
-                    if (isEntityWithinRange(player, npc.getPlayer(), searchRange)) {
-                        foundEntity = npc.getPlayer();
-                        break;
-                    }
+                if (npc.getName().equalsIgnoreCase(searchTerm) && isEntityWithinRange(player, npc.getPlayer(), searchRange)) {
+                    foundEntity = npc.getPlayer();
+                    break;
                 }
             }
         }
