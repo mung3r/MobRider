@@ -29,12 +29,12 @@ import com.edwardhand.mobrider.MobRider;
 public class HelpCommand extends BasicCommand
 {
     private static final int CMDS_PER_PAGE = 8;
-    private MobRider plugin;
+    private CommandHandler commandHandler;
 
     public HelpCommand(MobRider plugin)
     {
         super("Help");
-        this.plugin = plugin;
+        this.commandHandler = plugin.getCommandHandler();
         setDescription("Displays the help menu");
         setUsage("/mob help §8[page#]");
         setArgumentRange(0, 1);
@@ -48,18 +48,12 @@ public class HelpCommand extends BasicCommand
         if (args.length != 0) {
             try {
                 page = Integer.parseInt(args[0]) - 1;
-            } catch (NumberFormatException e) {}
-        }
-
-        List<Command> sortCommands = plugin.getCommandHandler().getCommands();
-        List<Command> commands = new ArrayList<Command>();
-
-        // Build list of permitted commands
-        for (Command command : sortCommands) {
-            if (command.isShownOnHelpMenu() && plugin.getCommandHandler().hasPermission(sender, command.getPermission())) {
-                commands.add(command);
+            }
+            catch (NumberFormatException e) {
             }
         }
+
+        List<Command> commands = getCommandsForSender(sender);
 
         int numPages = commands.size() / CMDS_PER_PAGE;
         if (commands.size() % CMDS_PER_PAGE != 0) {
@@ -69,6 +63,7 @@ public class HelpCommand extends BasicCommand
         if (page >= numPages || page < 0) {
             page = 0;
         }
+
         sender.sendMessage("§c-----[ " + "§fMobRider Help <" + (page + 1) + "/" + numPages + ">§c ]-----");
         int start = page * CMDS_PER_PAGE;
         int end = start + CMDS_PER_PAGE;
@@ -85,4 +80,17 @@ public class HelpCommand extends BasicCommand
         return true;
     }
 
+    private List<Command> getCommandsForSender(CommandSender sender)
+    {
+        List<Command> commands = new ArrayList<Command>();
+
+        // Build list of permitted commands
+        for (Command command : commandHandler.getCommands()) {
+            if (command.isShownOnHelpMenu() && commandHandler.hasPermission(sender, command.getPermission())) {
+                commands.add(command);
+            }
+        }
+
+        return commands;
+    }
 }
