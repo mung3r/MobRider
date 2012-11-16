@@ -46,7 +46,7 @@ public class GotoCommand extends BasicCommand
         riderManager = plugin.getRiderManager();
         goalManager = plugin.getGoalManager();
         setDescription("Go to a player, mob or location");
-        setUsage("/mob goto §9<player|mob> | <x> <z>");
+        setUsage("/mob goto §9<player|mob|location> | <x> <z>");
         setArgumentRange(1, 2);
         setIdentifiers("goto");
         setPermission("mobrider.command.goto");
