@@ -30,7 +30,7 @@ import org.bukkit.entity.Player;
 import com.edwardhand.mobrider.commons.DependencyUtils;
 import com.edwardhand.mobrider.rider.Rider;
 
-public class Citizens2SearchStrategy extends LivingEntitySearchStrategy
+public class Citizens2SearchStrategy extends AbstractLivingEntitySearchStrategy
 {
     @Override
     public LivingEntity find(Rider rider, String searchTerm, double searchRange)

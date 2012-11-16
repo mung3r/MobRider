@@ -25,7 +25,7 @@ import com.edwardhand.mobrider.rider.Rider;
 
 import couk.Adamki11s.Regios.Regions.Region;
 
-public class RegiosSearchStrategy extends LocationSearchStrategy
+public class RegiosSearchStrategy extends AbstractLocationSearchStrategy
 {
     @Override
     public boolean find(Rider rider, String regionName)

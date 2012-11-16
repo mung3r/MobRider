@@ -25,7 +25,7 @@ import com.edwardhand.mobrider.commons.DependencyUtils;
 import com.edwardhand.mobrider.goals.ResidenceGoal;
 import com.edwardhand.mobrider.rider.Rider;
 
-public class ResidenceSearchStrategy extends LocationSearchStrategy
+public class ResidenceSearchStrategy extends AbstractLocationSearchStrategy
 {
     @Override
     public boolean find(Rider rider, String residenceName)

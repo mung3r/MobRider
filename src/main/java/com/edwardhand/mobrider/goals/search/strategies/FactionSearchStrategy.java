@@ -25,7 +25,7 @@ import com.edwardhand.mobrider.rider.Rider;
 import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.Factions;
 
-public class FactionSearchStrategy extends LocationSearchStrategy
+public class FactionSearchStrategy extends AbstractLocationSearchStrategy
 {
     @Override
     public boolean find(Rider rider, String factionTag)

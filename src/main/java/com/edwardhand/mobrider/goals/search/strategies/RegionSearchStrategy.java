@@ -24,7 +24,7 @@ import com.edwardhand.mobrider.goals.RegionGoal;
 import com.edwardhand.mobrider.rider.Rider;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
-public class RegionSearchStrategy extends LocationSearchStrategy
+public class RegionSearchStrategy extends AbstractLocationSearchStrategy
 {
     @Override
     public boolean find(Rider rider, String regionName)

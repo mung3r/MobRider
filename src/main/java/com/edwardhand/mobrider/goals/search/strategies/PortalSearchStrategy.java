@@ -26,7 +26,7 @@ import com.edwardhand.mobrider.goals.LocationGoal;
 import com.edwardhand.mobrider.rider.Rider;
 import com.onarandombox.MultiverseCore.api.MVDestination;
 
-public class PortalSearchStrategy extends LocationSearchStrategy
+public class PortalSearchStrategy extends AbstractLocationSearchStrategy
 {
     @Override
     public boolean find(Rider rider, String portalName)

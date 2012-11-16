@@ -25,7 +25,7 @@ import com.edwardhand.mobrider.rider.Rider;
 import com.palmergames.bukkit.towny.object.Town;
 import com.palmergames.bukkit.towny.object.TownyUniverse;
 
-public class TownSearchStrategy extends LocationSearchStrategy
+public class TownSearchStrategy extends AbstractLocationSearchStrategy
 {
     @Override
     public boolean find(Rider rider, String townName)

@@ -24,13 +24,10 @@ import org.bukkit.entity.LivingEntity;
 import com.edwardhand.mobrider.goals.search.LivingEntitySearch;
 import com.edwardhand.mobrider.rider.Rider;
 
-public class LivingEntitySearchStrategy implements LivingEntitySearch
+public abstract class AbstractLivingEntitySearchStrategy implements LivingEntitySearch
 {
     @Override
-    public LivingEntity find(Rider rider, String searchTerm, double searchRange)
-    {
-        return null;
-    }
+    public abstract LivingEntity find(Rider rider, String searchTerm, double searchRange);
 
     protected boolean isEntityWithinRange(LivingEntity from, LivingEntity to, double range)
     {
