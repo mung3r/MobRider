@@ -81,6 +81,26 @@ public abstract class AbstractGoal implements Goal
     @Override
     public abstract void update(Rider rider, double range);
 
+    protected static boolean isWithinRange(Location start, Location end, double distance)
+    {
+        return !start.getWorld().equals(end.getWorld()) || start.distanceSquared(end) <= (distance * distance);
+    }
+
+    protected static void updateSpeed(Rider rider)
+    {
+        if (rider != null) {
+            LivingEntity ride = rider.getRide();
+
+            if (ride != null && rider.getRideType() != null) {
+                Vector velocity = ride.getVelocity();
+                double saveY = velocity.getY();
+                velocity.normalize().multiply(rider.getSpeed());
+                velocity.setY(saveY);
+                ride.setVelocity(velocity);
+            }
+        }
+    }
+
     protected static void setPathEntity(Rider rider, Location destination)
     {
         LivingEntity ride = rider.getRide();

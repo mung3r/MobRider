@@ -23,13 +23,22 @@ import org.bukkit.entity.LivingEntity;
 
 import com.edwardhand.mobrider.rider.Rider;
 
-public class GotoGoal extends LocationGoal
+public class LivingEntityGoal extends AbstractGoal
 {
     private LivingEntity target;
 
-    public GotoGoal(LivingEntity target)
+    public LivingEntityGoal(LivingEntity target)
     {
-        super(target);
+        this.target = target;
+    }
+
+    public LivingEntity getTarget()
+    {
+        return target;
+    }
+
+    public void setTarget(LivingEntity target)
+    {
         this.target = target;
     }
 
@@ -38,26 +47,40 @@ public class GotoGoal extends LocationGoal
     {
         if (rider != null) {
             rider.setTarget(null);
-            LivingEntity ride = rider.getRide();
 
             if (target == null) {
-                setGoalDone(true);
+                handleNoTarget(rider, range);
             }
             else {
                 if (target.isDead()) {
-                    target = null;
-                    setGoalDone(true);
+                    handleDeadTarget(rider, range);
                 }
                 else {
-                    if (isWithinRange(ride.getLocation(), target.getLocation(), range)) {
-                        setGoalDone(true);
-                    }
-                    else {
-                        setPathEntity(rider, target.getLocation());
-                        updateSpeed(rider);
-                    }
+                    handleTravel(rider, range);
                 }
             }
+        }
+    }
+
+    protected void handleNoTarget(Rider rider, double range)
+    {
+        setGoalDone(true);
+    }
+
+    protected void handleDeadTarget(Rider rider, double range)
+    {
+        target = null;
+        setGoalDone(true);
+    }
+
+    protected void handleTravel(Rider rider, double range)
+    {
+        if (isWithinRange(rider.getRide().getLocation(), target.getLocation(), range)) {
+            setGoalDone(true);
+        }
+        else {
+            setPathEntity(rider, target.getLocation());
+            updateSpeed(rider);
         }
     }
 }

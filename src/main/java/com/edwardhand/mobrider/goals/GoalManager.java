@@ -48,27 +48,27 @@ import com.edwardhand.mobrider.rider.Rider;
 public class GoalManager
 {
     private ConfigManager configManager;
-    private List<LivingEntitySearch> findEntityStrategies;
-    private List<LocationSearch> findLocationStrategies;
+    private static final List<LivingEntitySearch> findEntityStrategies = new ArrayList<LivingEntitySearch>();
+    private static final List<LocationSearch> findLocationStrategies = new ArrayList<LocationSearch>();
 
-    public GoalManager(MobRider plugin)
-    {
-        configManager = plugin.getConfigManager();
-
-        findEntityStrategies = new ArrayList<LivingEntitySearch>();
+    static {
         findEntityStrategies.add(new EntityIdSearchStrategy());
         findEntityStrategies.add(new PlayerSearchStrategy());
         findEntityStrategies.add(new CitizensSearchStrategy());
         findEntityStrategies.add(new Citizens2SearchStrategy());
         findEntityStrategies.add(new MobSearchStrategy());
 
-        findLocationStrategies = new ArrayList<LocationSearch>();
         findLocationStrategies.add(new PortalSearchStrategy());
         findLocationStrategies.add(new ResidenceSearchStrategy());
         findLocationStrategies.add(new RegionSearchStrategy());
         findLocationStrategies.add(new RegiosSearchStrategy());
         findLocationStrategies.add(new TownSearchStrategy());
         findLocationStrategies.add(new FactionSearchStrategy());
+    }
+
+    public GoalManager(MobRider plugin)
+    {
+        configManager = plugin.getConfigManager();
     }
 
     public void update(Rider rider)
@@ -107,7 +107,7 @@ public class GoalManager
         LivingEntity entity = findLivingEntity(rider, goalName, configManager.maxSearchRange);
 
         if (entity != null) {
-            rider.setGoal(new GotoGoal(entity));
+            rider.setGoal(new LivingEntityGoal(entity));
             MessageUtils.sendMessage(rider, configManager.goConfirmedMessage);
         }
         else if (findLocation(rider, goalName)) {
@@ -160,27 +160,28 @@ public class GoalManager
     {
         if (location.getWorld().equals(rider.getWorld())) {
             rider.setGoal(new LocationGoal(location));
-            //MessageUtils.sendMessage(rider, configManager.goConfirmedMessage);
+            // MessageUtils.sendMessage(rider, configManager.goConfirmedMessage);
         }
         else {
             MessageUtils.sendMessage(rider, configManager.goConfusedMessage);
         }
     }
 
-    private Location convertDirectionToLocation(Rider rider, Vector direction)
+    private static Location convertDirectionToLocation(Rider rider, Vector direction)
     {
         Location location = null;
         LivingEntity ride = rider.getRide();
 
         if (ride != null) {
             Location rideLocation = ride.getLocation();
-            location = rider.getWorld().getHighestBlockAt(rideLocation.getBlockX() + direction.getBlockX(), rideLocation.getBlockZ() + direction.getBlockZ()).getLocation();
+            location = rider.getWorld().getHighestBlockAt(rideLocation.getBlockX() + direction.getBlockX(), rideLocation.getBlockZ() + direction.getBlockZ())
+                    .getLocation();
         }
 
         return location;
     }
 
-    private LivingEntity findLivingEntity(Rider rider, String searchTerm, double searchRange)
+    private static LivingEntity findLivingEntity(Rider rider, String searchTerm, double searchRange)
     {
         LivingEntity foundEntity = null;
 
@@ -195,7 +196,7 @@ public class GoalManager
         return foundEntity;
     }
 
-    private boolean findLocation(Rider rider, String locationName)
+    private static boolean findLocation(Rider rider, String locationName)
     {
         for (LocationSearch strategy : findLocationStrategies) {
             if (strategy.find(rider, locationName)) {

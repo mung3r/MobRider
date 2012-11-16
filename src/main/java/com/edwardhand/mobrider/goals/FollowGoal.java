@@ -23,51 +23,22 @@ import org.bukkit.entity.LivingEntity;
 
 import com.edwardhand.mobrider.rider.Rider;
 
-public class FollowGoal extends LocationGoal
+public class FollowGoal extends LivingEntityGoal
 {
-    private LivingEntity target;
-
     public FollowGoal(LivingEntity target)
     {
         super(target);
-        this.target = target;
-    }
-
-    public LivingEntity getTarget()
-    {
-        return target;
-    }
-
-    public void setTarget(LivingEntity target)
-    {
-        this.target = target;
     }
 
     @Override
-    public void update(Rider rider, double range)
+    protected void handleTravel(Rider rider, double range)
     {
-        if (rider != null) {
-            rider.setTarget(null);
-            LivingEntity ride = rider.getRide();
-
-            if (target == null) {
-                setGoalDone(true);
-            }
-            else {
-                if (target.isDead()) {
-                    target = null;
-                    setGoalDone(true);
-                }
-                else {
-                    if (isWithinRange(ride.getLocation(), target.getLocation(), range)) {
-                        setPathEntity(rider, ride.getLocation());
-                    }
-                    else {
-                        setPathEntity(rider, target.getLocation());
-                        updateSpeed(rider);
-                    }
-                }
-            }
+        if (isWithinRange(rider.getRide().getLocation(), getTarget().getLocation(), range)) {
+            setPathEntity(rider, rider.getRide().getLocation());
+        }
+        else {
+            setPathEntity(rider, getTarget().getLocation());
+            updateSpeed(rider);
         }
     }
 }
