@@ -29,6 +29,8 @@ import com.edwardhand.mobrider.rider.Rider;
 public final class MessageUtils
 {
     private static final int HEALTH_BARS = 6;
+    private static final int GOOD_HEALTH_THRESHOLD = 66;
+    private static final int BAD_HEALTH_THRESHOLD = 33;
 
     private MessageUtils()
     {
@@ -50,10 +52,10 @@ public final class MessageUtils
 
         ChatColor barColor;
 
-        if (percentHealth > 66) {
+        if (percentHealth > GOOD_HEALTH_THRESHOLD) {
             barColor = ChatColor.GREEN;
         }
-        else if (percentHealth > 33) {
+        else if (percentHealth > BAD_HEALTH_THRESHOLD) {
             barColor = ChatColor.GOLD;
         }
         else {
