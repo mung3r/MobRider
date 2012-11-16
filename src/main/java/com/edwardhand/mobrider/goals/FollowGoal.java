@@ -31,14 +31,8 @@ public class FollowGoal extends LivingEntityGoal
     }
 
     @Override
-    protected void handleTravel(Rider rider, double range)
+    protected void handleTarget(Rider rider)
     {
-        if (isWithinRange(rider.getRide().getLocation(), getTarget().getLocation(), range)) {
-            setPathEntity(rider, rider.getRide().getLocation());
-        }
-        else {
-            setPathEntity(rider, getTarget().getLocation());
-            updateSpeed(rider);
-        }
+        setPathEntity(rider, rider.getRide().getLocation());
     }
 }

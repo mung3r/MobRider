@@ -31,28 +31,22 @@ public class AttackGoal extends LivingEntityGoal
     }
 
     @Override
-    protected void handleNoTarget(Rider rider, double range)
+    protected void handleNoTarget(Rider rider)
     {
         setGoalDone(true);
         rider.setTarget(null);
     }
 
     @Override
-    protected void handleDeadTarget(Rider rider, double range)
+    protected boolean isCloseToTarget(Rider rider, double range)
     {
-        setTarget(null);
-        setGoalDone(true);
+        return isWithinRange(rider.getRide().getLocation(), getTarget().getLocation(), NEW_AI_DISTANCE_LIMIT);
     }
 
     @Override
-    protected void handleTravel(Rider rider, double range)
+    protected void handleTarget(Rider rider)
     {
-        if (isWithinRange(rider.getRide().getLocation(), getTarget().getLocation(), NEW_AI_DISTANCE_LIMIT)) {
-            rider.setTarget(getTarget());
-        }
-        else {
-            setPathEntity(rider, getTarget().getLocation());
-        }
+        rider.setTarget(getTarget());
         updateSpeed(rider);
     }
 }

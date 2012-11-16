@@ -20,7 +20,6 @@
 package com.edwardhand.mobrider.goals;
 
 import org.bukkit.Location;
-import org.bukkit.entity.LivingEntity;
 
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import com.bekvon.bukkit.residence.protection.CuboidArea;
@@ -37,22 +36,9 @@ public class ResidenceGoal extends LocationGoal
     }
 
     @Override
-    public void update(Rider rider, double range)
+    protected boolean isCloseToLocation(Rider rider, double range)
     {
-        if (rider != null) {
-            rider.setTarget(null);
-            LivingEntity ride = rider.getRide();
-
-            if (ride != null) {
-                if (isWithinRange(ride.getLocation(), getDestination(), range) || isWithinResidence(ride.getLocation())) {
-                    setGoalDone(true);
-                }
-                else {
-                    setPathEntity(rider, getDestination());
-                    updateSpeed(rider);
-                }
-            }
-        }
+        return isWithinRange(rider.getRide().getLocation(), getDestination(), range) || isWithinResidence(rider.getRide().getLocation());
     }
 
     private boolean isWithinResidence(Location location)

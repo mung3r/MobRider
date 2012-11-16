@@ -20,7 +20,6 @@
 package com.edwardhand.mobrider.goals;
 
 import org.bukkit.Location;
-import org.bukkit.entity.LivingEntity;
 
 import com.edwardhand.mobrider.rider.Rider;
 
@@ -48,17 +47,31 @@ public class LocationGoal extends AbstractGoal
     {
         if (rider != null) {
             rider.setTarget(null);
-            LivingEntity ride = rider.getRide();
 
-            if (ride != null) {
-                if (isWithinRange(ride.getLocation(), destination, range)) {
-                    setGoalDone(true);
+            if (rider.getRide() != null) {
+                if (isCloseToLocation(rider, range)) {
+                    handleLocation(rider);
                 }
                 else {
-                    setPathEntity(rider, destination);
-                    updateSpeed(rider);
+                    doTravel(rider);
                 }
             }
         }
+    }
+
+    protected boolean isCloseToLocation(Rider rider, double range)
+    {
+        return isWithinRange(rider.getRide().getLocation(), destination, range);
+    }
+
+    protected void handleLocation(Rider rider)
+    {
+        setGoalDone(true);
+    }
+
+    protected void doTravel(Rider rider)
+    {
+        setPathEntity(rider, destination);
+        updateSpeed(rider);
     }
 }

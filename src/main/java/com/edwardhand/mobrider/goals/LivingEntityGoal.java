@@ -49,38 +49,48 @@ public class LivingEntityGoal extends AbstractGoal
             rider.setTarget(null);
 
             if (target == null) {
-                handleNoTarget(rider, range);
+                handleNoTarget(rider);
             }
             else {
                 if (target.isDead()) {
-                    handleDeadTarget(rider, range);
+                    handleDeadTarget(rider);
                 }
                 else {
-                    handleTravel(rider, range);
+                    if (isCloseToTarget(rider, range)) {
+                        handleTarget(rider);
+                    }
+                    else {
+                        doTravel(rider);
+                    }
                 }
             }
         }
     }
 
-    protected void handleNoTarget(Rider rider, double range)
+    protected void handleNoTarget(Rider rider)
     {
         setGoalDone(true);
     }
 
-    protected void handleDeadTarget(Rider rider, double range)
+    protected void handleDeadTarget(Rider rider)
     {
         target = null;
         setGoalDone(true);
     }
 
-    protected void handleTravel(Rider rider, double range)
+    protected boolean isCloseToTarget(Rider rider, double range)
     {
-        if (isWithinRange(rider.getRide().getLocation(), target.getLocation(), range)) {
-            setGoalDone(true);
-        }
-        else {
-            setPathEntity(rider, target.getLocation());
-            updateSpeed(rider);
-        }
+        return isWithinRange(rider.getRide().getLocation(), target.getLocation(), range);
+    }
+
+    protected void handleTarget(Rider rider)
+    {
+        setGoalDone(true);
+    }
+
+    protected void doTravel(Rider rider)
+    {
+        setPathEntity(rider, target.getLocation());
+        updateSpeed(rider);
     }
 }

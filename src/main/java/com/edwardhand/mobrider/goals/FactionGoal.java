@@ -20,7 +20,6 @@
 package com.edwardhand.mobrider.goals;
 
 import org.bukkit.Location;
-import org.bukkit.entity.LivingEntity;
 
 import com.edwardhand.mobrider.rider.Rider;
 import com.massivecraft.factions.Board;
@@ -38,22 +37,9 @@ public class FactionGoal extends LocationGoal
     }
 
     @Override
-    public void update(Rider rider, double range)
+    protected boolean isCloseToLocation(Rider rider, double range)
     {
-        if (rider != null) {
-            rider.setTarget(null);
-            LivingEntity ride = rider.getRide();
-
-            if (ride != null) {
-                if (isWithinRange(ride.getLocation(), getDestination(), range) || isWithinFaction(ride.getLocation())) {
-                    setGoalDone(true);
-                }
-                else {
-                    setPathEntity(rider, getDestination());
-                    updateSpeed(rider);
-                }
-            }
-        }
+        return isWithinRange(rider.getRide().getLocation(), getDestination(), range) || isWithinFaction(rider.getRide().getLocation());
     }
 
     private boolean isWithinFaction(Location currentLocation)

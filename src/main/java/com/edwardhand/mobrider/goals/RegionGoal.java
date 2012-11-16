@@ -23,7 +23,6 @@ import java.util.Iterator;
 
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.LivingEntity;
 
 import com.edwardhand.mobrider.commons.DependencyUtils;
 import com.edwardhand.mobrider.rider.Rider;
@@ -44,22 +43,9 @@ public class RegionGoal extends LocationGoal
     }
 
     @Override
-    public void update(Rider rider, double range)
+    protected boolean isCloseToLocation(Rider rider, double range)
     {
-        if (rider != null) {
-            rider.setTarget(null);
-            LivingEntity ride = rider.getRide();
-
-            if (ride != null) {
-                if (isWithinRange(ride.getLocation(), getDestination(), range) || isWithinRegion(ride.getLocation())) {
-                    setGoalDone(true);
-                }
-                else {
-                    setPathEntity(rider, getDestination());
-                    updateSpeed(rider);
-                }
-            }
-        }
+        return isWithinRange(rider.getRide().getLocation(), getDestination(), range) || isWithinRegion(rider.getRide().getLocation());
     }
 
     private boolean isWithinRegion(Location currentLocation)
