@@ -20,7 +20,7 @@
 package com.edwardhand.mobrider.commands;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_4_6.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
