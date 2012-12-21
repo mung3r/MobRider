@@ -20,7 +20,7 @@
 package com.edwardhand.mobrider.listeners;
 
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.entity.CraftPig;
+import org.bukkit.craftbukkit.v1_4_6.entity.CraftPig;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
