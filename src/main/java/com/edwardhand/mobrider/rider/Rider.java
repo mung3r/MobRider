@@ -24,11 +24,11 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.entity.CraftCreature;
-import org.bukkit.craftbukkit.entity.CraftEnderDragon;
-import org.bukkit.craftbukkit.entity.CraftGhast;
-import org.bukkit.craftbukkit.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.entity.CraftSlime;
+import org.bukkit.craftbukkit.v1_4_6.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_4_6.entity.CraftEnderDragon;
+import org.bukkit.craftbukkit.v1_4_6.entity.CraftGhast;
+import org.bukkit.craftbukkit.v1_4_6.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_4_6.entity.CraftSlime;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
