@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import net.milkbowl.vault.economy.EconomyResponse;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_4_6.entity.CraftPlayer;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Bat;
 import org.bukkit.entity.EnderDragon;
