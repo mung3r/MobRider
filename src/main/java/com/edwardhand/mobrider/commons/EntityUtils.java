@@ -23,15 +23,15 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-import net.minecraft.server.AxisAlignedBB;
-import net.minecraft.server.EntityLiving;
-import net.minecraft.server.EntityPlayer;
+import net.minecraft.server.v1_4_6.AxisAlignedBB;
+import net.minecraft.server.v1_4_6.EntityLiving;
+import net.minecraft.server.v1_4_6.EntityPlayer;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.CraftWorld;
-import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_4_6.CraftWorld;
+import org.bukkit.craftbukkit.v1_4_6.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
