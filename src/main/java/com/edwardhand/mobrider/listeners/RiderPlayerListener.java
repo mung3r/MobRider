@@ -20,9 +20,9 @@
 package com.edwardhand.mobrider.listeners;
 
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_4_6.entity.CraftPig;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -85,7 +85,7 @@ public class RiderPlayerListener implements Listener
                 riderManager.removeRider(player);
             }
 
-            if (vehicle instanceof CraftPig) {
+            if (vehicle instanceof Pig) {
                 event.setCancelled(true);
             }
         }
@@ -93,7 +93,7 @@ public class RiderPlayerListener implements Listener
             target.setPassenger(player);
             goalManager.setStopGoal(riderManager.addRider(player));
         }
-        else if (target instanceof CraftPig && ((CraftPig) target).hasSaddle() && RiderManager.canRide(player, target)) {
+        else if (target instanceof Pig && ((Pig) target).hasSaddle() && RiderManager.canRide(player, target)) {
             target.setPassenger(player);
             goalManager.setStopGoal(riderManager.addRider(player));
             event.setCancelled(true);

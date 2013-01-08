@@ -27,7 +27,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import net.milkbowl.vault.economy.EconomyResponse;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_4_6.entity.CraftPlayer;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Bat;
 import org.bukkit.entity.EnderDragon;
@@ -121,7 +120,7 @@ public class RiderManager implements Runnable
 
         if (entity instanceof LivingEntity) {
             LivingEntity target = (LivingEntity) entity;
-            ((CraftPlayer) player).getHandle().setPassengerOf(null);
+            player.eject();
             if (DependencyUtils.hasPermission(player, "mobrider.spawnegg") && hasSpawnEgg(target)) {
                 SpawnEggTask spawnEggTask = new SpawnEggTask(target);
                 spawnEggTask.setTaskId(Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, spawnEggTask, 0, 1));

@@ -19,7 +19,6 @@
  */
 package com.edwardhand.mobrider.listeners;
 
-import org.bukkit.craftbukkit.v1_4_6.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -39,10 +38,10 @@ public class RiderTargetListener implements Listener
             return;
         }
 
-        net.minecraft.server.v1_4_6.Entity passenger = ((CraftEntity) event.getEntity()).getHandle().passenger;
+        Entity passenger = event.getEntity().getPassenger();
         Entity target = event.getTarget();
 
-        if ((passenger != null) && (target != null) && (target.equals(passenger.getBukkitEntity()))) {
+        if ((passenger != null) && (target != null) && (target.equals(passenger))) {
             event.setCancelled(true);
         }
     }
