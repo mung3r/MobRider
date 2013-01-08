@@ -20,7 +20,6 @@
 package com.edwardhand.mobrider.commands;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -47,7 +46,7 @@ public class BuckCommand extends BasicCommand
             Entity rider = player.getPassenger();
 
             if (rider instanceof LivingEntity && DependencyUtils.hasPermission(player, "mobrider.command.buck")) {
-                ((CraftLivingEntity) rider).getHandle().setPassengerOf(null);
+                player.eject();
             }
         }
         else {

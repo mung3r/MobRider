@@ -19,6 +19,8 @@
  */
 package com.edwardhand.mobrider.goals.search.strategies;
 
+import net.minecraft.server.Entity;
+
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -35,7 +37,7 @@ public class EntityIdSearchStrategy extends AbstractLivingEntitySearchStrategy
         LivingEntity foundEntity = null;
 
         if (EntityUtils.isInteger(searchTerm)) {
-            net.minecraft.server.Entity entity = ((CraftWorld) player.getWorld()).getHandle().getEntity(Integer.valueOf(searchTerm));
+            Entity entity = ((CraftWorld) player.getWorld()).getHandle().getEntity(Integer.valueOf(searchTerm));
             if (entity instanceof LivingEntity && isEntityWithinRange((LivingEntity) entity, player, searchRange)) {
                 foundEntity = (LivingEntity) entity;
             }
