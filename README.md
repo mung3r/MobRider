@@ -27,6 +27,6 @@ MobRider - Finally a proper use for saddles!
 
 ## Resources:
 
-* Official Site http://dev.bukkit.org/server-mods/mobrider/
-* Download Latest Release http://dev.bukkit.org/server-mods/mobrider/files/
-* Download Development Release http://ci.bighatchet.com/job/MobRider/
+* [Official Site](http://dev.bukkit.org/server-mods/mobrider/)
+* [Download Latest Release](http://dev.bukkit.org/server-mods/mobrider/files/)
+* [Download Development Release](http://ci.bighatchet.com/job/MobRider/)
