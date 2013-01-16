@@ -19,9 +19,9 @@
  */
 package com.edwardhand.mobrider.goals.search.strategies;
 
-import net.minecraft.server.Entity;
+import net.minecraft.server.v1_4_6.Entity;
 
-import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.craftbukkit.v1_4_6.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 

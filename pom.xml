@@ -4,7 +4,7 @@
   <groupId>com.edwardhand.mobrider</groupId>
   <artifactId>MobRider</artifactId>
   <name>MobRider</name>
-  <version>0.47.2-SNAPSHOT</version>
+  <version>0.47.3-SNAPSHOT</version>
   <description>Finally a proper use for saddles! A mod for riding and controlling mobs.</description>
   <url>http://dev.bukkit.org/server-mods/mobrider/</url>
   <inceptionYear>2011</inceptionYear>
@@ -15,6 +15,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <currentYear>2012</currentYear>
+    <bukkit.version>1.4.6-R0.1-SNAPSHOT</bukkit.version>
+    <vault.version>1.2.23-SNAPSHOT</vault.version>
   </properties>
   <scm>
     <url>https://github.com/mung3r/MobRider</url>
@@ -55,17 +57,17 @@
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>1.4.4-R0.1-SNAPSHOT</version>
+      <version>${bukkit.version}</version>
     </dependency>
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>craftbukkit</artifactId>
-      <version>1.4.4-R0.1-SNAPSHOT</version>
+      <version>${bukkit.version}</version>
     </dependency>
     <dependency>
       <groupId>net.milkbowl.vault</groupId>
       <artifactId>Vault</artifactId>
-      <version>1.2.20-SNAPSHOT</version>
+      <version>${vault.version}</version>
     </dependency>
     <dependency>
       <groupId>com.sk89q</groupId>
