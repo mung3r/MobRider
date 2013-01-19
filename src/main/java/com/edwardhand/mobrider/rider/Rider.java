@@ -24,11 +24,11 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_4_6.entity.CraftCreature;
-import org.bukkit.craftbukkit.v1_4_6.entity.CraftEnderDragon;
-import org.bukkit.craftbukkit.v1_4_6.entity.CraftGhast;
-import org.bukkit.craftbukkit.v1_4_6.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_4_6.entity.CraftSlime;
+import org.bukkit.craftbukkit.v1_4_R1.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_4_R1.entity.CraftEnderDragon;
+import org.bukkit.craftbukkit.v1_4_R1.entity.CraftGhast;
+import org.bukkit.craftbukkit.v1_4_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_4_R1.entity.CraftSlime;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -97,7 +97,7 @@ public class Rider
         if (ride != null) {
             if (ride instanceof CraftCreature) {
                 if (EntityUtils.hasNewAI(ride)) {
-                    ((CraftCreature) ride).getHandle().b(target instanceof CraftLivingEntity ? ((CraftLivingEntity) target).getHandle() : null);
+                    ((CraftCreature) ride).getHandle().setGoalTarget(target instanceof CraftLivingEntity ? ((CraftLivingEntity) target).getHandle() : null);
                 }
                 else {
                     ((CraftCreature) ride).setTarget(target);
