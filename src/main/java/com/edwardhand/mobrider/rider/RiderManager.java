@@ -41,6 +41,7 @@ import org.bukkit.entity.Slime;
 import org.bukkit.entity.Squid;
 import org.bukkit.entity.Tameable;
 import org.bukkit.entity.Villager;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import com.edwardhand.mobrider.ConfigManager;
 import com.edwardhand.mobrider.MobRider;
@@ -53,6 +54,7 @@ import com.edwardhand.mobrider.metrics.RideMetrics;
 
 public class RiderManager implements Runnable
 {
+    private static final String SPAWNEGG_TAG_MDID = "MobRider.spawnEgg";
     private static final long UPDATE_DELAY = 0L;
     private static final long MAX_UPDATE_PERIOD = 20L;
     private static final int HEALTH_INCREMENT = 5;
@@ -64,6 +66,8 @@ public class RiderManager implements Runnable
     private GoalManager goalManager;
     private Map<String, Rider> riders;
 
+    private final FixedMetadataValue spawnEggTag;
+    
     public RiderManager(MobRider plugin)
     {
         this.plugin = plugin;
@@ -72,6 +76,7 @@ public class RiderManager implements Runnable
         goalManager = plugin.getGoalManager();
 
         riders = new ConcurrentHashMap<String, Rider>();
+        spawnEggTag = new FixedMetadataValue(plugin, true);
 
         if (Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, UPDATE_DELAY, Math.min(configManager.updatePeriod, MAX_UPDATE_PERIOD)) < 0) {
             Bukkit.getPluginManager().disablePlugin(plugin);
@@ -121,7 +126,17 @@ public class RiderManager implements Runnable
         if (entity instanceof LivingEntity) {
             LivingEntity target = (LivingEntity) entity;
             player.eject();
-            if (DependencyUtils.hasPermission(player, "mobrider.spawnegg") && hasSpawnEgg(target)) {
+            if (DependencyUtils.hasPermission(player, "mobrider.spawnegg")) {
+                scheduleSpawnEgg(target);
+            }
+        }
+    }
+
+    private void scheduleSpawnEgg(LivingEntity target)
+    {
+        synchronized (target) {
+            if (hasSpawnEgg(target) && !target.hasMetadata(SPAWNEGG_TAG_MDID)) {
+                target.setMetadata(SPAWNEGG_TAG_MDID, spawnEggTag);
                 SpawnEggTask spawnEggTask = new SpawnEggTask(target);
                 spawnEggTask.setTaskId(Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, spawnEggTask, 0, 1));
             }
