@@ -125,7 +125,7 @@ public class RiderManager implements Runnable
 
         if (entity instanceof LivingEntity) {
             LivingEntity target = (LivingEntity) entity;
-            player.eject();
+            entity.eject();
             if (DependencyUtils.hasPermission(player, "mobrider.spawnegg")) {
                 scheduleSpawnEgg(target);
             }
