@@ -21,16 +21,16 @@ package com.edwardhand.mobrider.goals;
 
 import java.lang.reflect.Method;
 
-import net.minecraft.server.v1_5_R2.EntityCreature;
-import net.minecraft.server.v1_5_R2.Navigation;
-import net.minecraft.server.v1_5_R2.PathEntity;
-import net.minecraft.server.v1_5_R2.PathPoint;
+import net.minecraft.server.v1_5_R3.EntityCreature;
+import net.minecraft.server.v1_5_R3.Navigation;
+import net.minecraft.server.v1_5_R3.PathEntity;
+import net.minecraft.server.v1_5_R3.PathPoint;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_5_R2.entity.CraftCreature;
-import org.bukkit.craftbukkit.v1_5_R2.entity.CraftEnderDragon;
-import org.bukkit.craftbukkit.v1_5_R2.entity.CraftGhast;
-import org.bukkit.craftbukkit.v1_5_R2.entity.CraftSlime;
+import org.bukkit.craftbukkit.v1_5_R3.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_5_R3.entity.CraftEnderDragon;
+import org.bukkit.craftbukkit.v1_5_R3.entity.CraftGhast;
+import org.bukkit.craftbukkit.v1_5_R3.entity.CraftSlime;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
 
