@@ -4,7 +4,7 @@
   <groupId>com.edwardhand.mobrider</groupId>
   <artifactId>MobRider</artifactId>
   <name>MobRider</name>
-  <version>0.47.3-SNAPSHOT</version>
+  <version>0.47.4-SNAPSHOT</version>
   <description>Finally a proper use for saddles! A mod for riding and controlling mobs.</description>
   <url>http://dev.bukkit.org/server-mods/mobrider/</url>
   <inceptionYear>2011</inceptionYear>
@@ -15,8 +15,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <currentYear>2013</currentYear>
-    <bukkit.version>1.5.1-R1.0</bukkit.version>
-    <vault.version>1.2.23-SNAPSHOT</vault.version>
+    <bukkit.version>1.5.2-R0.2-SNAPSHOT</bukkit.version>
+    <vault.version>1.2.25-SNAPSHOT</vault.version>
   </properties>
   <scm>
     <url>https://github.com/mung3r/MobRider</url>
