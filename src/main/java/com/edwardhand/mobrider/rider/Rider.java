@@ -24,11 +24,11 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_5_R3.entity.CraftCreature;
-import org.bukkit.craftbukkit.v1_5_R3.entity.CraftEnderDragon;
-import org.bukkit.craftbukkit.v1_5_R3.entity.CraftGhast;
-import org.bukkit.craftbukkit.v1_5_R3.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_5_R3.entity.CraftSlime;
+import org.bukkit.craftbukkit.v1_6_R1.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_6_R1.entity.CraftEnderDragon;
+import org.bukkit.craftbukkit.v1_6_R1.entity.CraftGhast;
+import org.bukkit.craftbukkit.v1_6_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_6_R1.entity.CraftSlime;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -46,7 +46,7 @@ public class Rider
     private String playerName;
     private Goal goal;
     private final float maxSpeed;
-    private float speed;
+    private double speed;
     private Set<Keyboard> keyPressedSet;
 
     public Rider(String playerName)
@@ -68,12 +68,12 @@ public class Rider
         this.goal = goal;
     }
 
-    public float getSpeed()
+    public double getSpeed()
     {
-        return Math.min(maxSpeed, speed * getMaxHealth() / (float) getHealth());
+        return Math.min(maxSpeed, speed * getMaxHealth() / getHealth());
     }
 
-    public void setSpeed(float speed)
+    public void setSpeed(double speed)
     {
         this.speed = Math.max(Math.min(speed, maxSpeed), MIN_SPEED);
     }
@@ -118,9 +118,9 @@ public class Rider
         }
     }
 
-    public int getHealth()
+    public double getHealth()
     {
-        int health = 0;
+        double health = 0;
         LivingEntity ride = getRide();
         if (ride != null) {
             health = ride.getHealth();
@@ -128,7 +128,7 @@ public class Rider
         return health;
     }
 
-    public void setHealth(int health)
+    public void setHealth(double health)
     {
         LivingEntity ride = getRide();
 
@@ -137,9 +137,9 @@ public class Rider
         }
     }
 
-    public int getMaxHealth()
+    public double getMaxHealth()
     {
-        int maxHealth = 0;
+        double maxHealth = 0;
         LivingEntity ride = getRide();
 
         if (ride != null) {
