@@ -1,10 +1,10 @@
-name: MobRider
+name: ${project.name}
 main: com.edwardhand.mobrider.MobRider
-version: 0.47.4-b${BUILD_NUMBER}
+version: ${project.version}-b${BUILD_NUMBER}
 authors: [edwardhand, mung3r]
-dev-url: http://dev.bukkit.org/server-mods/mobrider
-website: http://dev.bukkit.org/server-mods/mobrider
-description: Finally a proper use for saddles! A mod for riding and controlling mobs.
+dev-url: ${project.url}
+website: ${project.url}
+description: ${project.description}
 softdepend: [Citizens,WorldGuard,Residence,Regios,Multiverse-Core,SpoutPlugin,Vault,Factions,Towny]
 commands:
   mob:
