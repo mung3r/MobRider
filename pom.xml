@@ -48,10 +48,6 @@
       <id>onarandombox</id>
       <url>http://repo.onarandombox.com/content/groups/public</url>
     </repository>
-    <repository>
-      <id>spout-repo</id>
-      <url>http://repo.spout.org</url>
-    </repository>
   </repositories>
   <dependencies>
     <dependency>
@@ -83,6 +79,8 @@
       <groupId>org.getspout</groupId>
       <artifactId>spoutpluginapi</artifactId>
       <version>dev-SNAPSHOT</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/spoutpluginapi-dev-SNAPSHOT.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>net.citizensnpcs.Citizens</groupId>
