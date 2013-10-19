@@ -33,7 +33,6 @@ import com.edwardhand.mobrider.commons.DependencyUtils;
 import com.edwardhand.mobrider.commons.LoggerUtil;
 import com.edwardhand.mobrider.commons.UpdateTask;
 import com.edwardhand.mobrider.goals.GoalManager;
-import com.edwardhand.mobrider.input.RiderControlDelegate;
 import com.edwardhand.mobrider.listeners.RiderDamageListener;
 import com.edwardhand.mobrider.listeners.RiderTargetListener;
 import com.edwardhand.mobrider.listeners.RiderPlayerListener;
@@ -64,7 +63,6 @@ public class MobRider extends JavaPlugin
         riderManager = new RiderManager(this);
 
         addCommands();
-        registerKeyBindings();
         registerEvents();
 
         new UpdateTask(this);
@@ -138,12 +136,5 @@ public class MobRider extends JavaPlugin
         Bukkit.getPluginManager().registerEvents(new RiderPlayerListener(this), this);
         Bukkit.getPluginManager().registerEvents(new RiderTargetListener(), this);
         Bukkit.getPluginManager().registerEvents(new RiderDamageListener(this), this);
-    }
-
-    private void registerKeyBindings()
-    {
-        if (DependencyUtils.hasSpout()) {
-            new RiderControlDelegate(this);
-        }
     }
 }
