@@ -15,8 +15,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <currentYear>2013</currentYear>
-    <bukkit.version>1.6.4-R0.1-SNAPSHOT</bukkit.version>
-    <vault.version>1.2.27</vault.version>
+    <bukkit.version>1.6.2-R0.1-SNAPSHOT</bukkit.version>
+    <vault.version>1.2.26-SNAPSHOT</vault.version>
   </properties>
   <scm>
     <url>https://github.com/mung3r/MobRider</url>
@@ -47,6 +47,10 @@
     <repository>
       <id>onarandombox</id>
       <url>http://repo.onarandombox.com/content/groups/public</url>
+    </repository>
+    <repository>
+      <id>spout-repo</id>
+      <url>http://repo.spout.org</url>
     </repository>
   </repositories>
   <dependencies>
@@ -79,8 +83,6 @@
       <groupId>org.getspout</groupId>
       <artifactId>spoutpluginapi</artifactId>
       <version>dev-SNAPSHOT</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/spoutpluginapi-dev-SNAPSHOT.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>net.citizensnpcs.Citizens</groupId>
