@@ -41,7 +41,7 @@ public final class MessageUtils
         Player player = rider.getPlayer();
         LivingEntity ride = rider.getRide();
 
-        if (player != null && ride != null && !(ride instanceof HumanEntity)) {
+        if (player != null && ride != null && rider.getRideType() != null && !(ride instanceof HumanEntity)) {
             player.sendMessage("<" + getHealthString(rider) + "§e" + ride.getType().getName() + "§f> " + rider.getRideType().getNoise() + suffix);
         }
     }
