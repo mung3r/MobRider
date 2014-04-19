@@ -56,7 +56,7 @@ public class RiderDamageListener implements Listener
         Entity damager = event.getDamager();
 
         if (damager instanceof Projectile) {
-            damager = ((Projectile) damager).getShooter();
+            damager = (Entity) ((Projectile) damager).getShooter();
         }
 
         // rider damaged by entity
