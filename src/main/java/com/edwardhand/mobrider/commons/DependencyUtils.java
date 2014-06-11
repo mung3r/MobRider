@@ -20,6 +20,7 @@
 package com.edwardhand.mobrider.commons;
 
 import net.citizensnpcs.Citizens;
+import net.jzx7.regiosapi.RegiosAPI;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 
@@ -35,8 +36,6 @@ import com.onarandombox.MultiverseCore.destination.DestinationFactory;
 import com.palmergames.bukkit.towny.Towny;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.managers.RegionManager;
-
-import couk.Adamki11s.Regios.API.RegiosAPI;
 
 public final class DependencyUtils
 {
@@ -73,9 +72,9 @@ public final class DependencyUtils
         factionsPlugin = getPlugin("Factions", "com.massivecraft.factions.P");
         spoutPlugin = getPlugin("Spout", "org.getspout.spout.Spout");
 
-        Plugin regiosPlugin = getPlugin("Regios", "couk.Adamki11s.Regios.Main.Regios");
+        Plugin regiosPlugin = getPlugin("Regios", "net.jzx7.regiosapi.RegiosAPI");
         if (regiosPlugin != null) {
-            regiosAPI = new RegiosAPI();
+            regiosAPI = (RegiosAPI) regiosPlugin;
         }
 
         Plugin multiversePlugin = getPlugin("Multiverse-Core", "com.onarandombox.MultiverseCore.MultiverseCore");

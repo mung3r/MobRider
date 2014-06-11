@@ -19,11 +19,11 @@
  */
 package com.edwardhand.mobrider.goals.search.strategies;
 
+import net.jzx7.regiosapi.regions.Region;
+
 import com.edwardhand.mobrider.commons.DependencyUtils;
 import com.edwardhand.mobrider.goals.RegiosGoal;
 import com.edwardhand.mobrider.rider.Rider;
-
-import couk.Adamki11s.Regios.Regions.Region;
 
 public class RegiosSearchStrategy extends AbstractLocationSearchStrategy
 {

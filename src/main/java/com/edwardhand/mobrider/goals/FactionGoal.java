@@ -22,9 +22,9 @@ package com.edwardhand.mobrider.goals;
 import org.bukkit.Location;
 
 import com.edwardhand.mobrider.rider.Rider;
-import com.massivecraft.factions.Board;
-import com.massivecraft.factions.FLocation;
-import com.massivecraft.factions.Faction;
+import com.massivecraft.factions.entity.BoardColls;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.mcore.ps.PS;
 
 public class FactionGoal extends LocationGoal
 {
@@ -46,7 +46,7 @@ public class FactionGoal extends LocationGoal
     {
         boolean isWithinFaction = false;
 
-        Faction testFaction = Board.getFactionAt(new FLocation(currentLocation));
+        Faction testFaction = BoardColls.get().getFactionAt(PS.valueOf(currentLocation));
         if (testFaction.getId().equals(faction.getId())) {
             isWithinFaction = true;
         }
@@ -56,6 +56,6 @@ public class FactionGoal extends LocationGoal
 
     private static Location getDestination(Faction faction)
     {
-        return faction.getHome();
+        return faction.getHome().asBukkitLocation();
     }
 }
