@@ -111,7 +111,7 @@ public final class DependencyUtils
     public static boolean hasPermission(Player player, String perm)
     {
         if (hasPermission()) {
-            return permission.has(player.getWorld(), player.getName(), perm);
+            return permission.has(player, perm);
         }
         else {
             return player.hasPermission(perm);

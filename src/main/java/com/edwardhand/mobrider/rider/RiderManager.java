@@ -278,7 +278,7 @@ public class RiderManager implements Runnable
             return true;
         }
 
-        EconomyResponse response = DependencyUtils.getEconomy().withdrawPlayer(player.getName(), cost);
+        EconomyResponse response = DependencyUtils.getEconomy().withdrawPlayer(Bukkit.getOfflinePlayer(player.getName()), cost);
         if (response.transactionSuccess()) {
             player.sendMessage("You were charged " + DependencyUtils.getEconomy().format(response.amount) + " for riding this creature.");
         }
