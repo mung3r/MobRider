@@ -19,30 +19,19 @@
  */
 package com.edwardhand.mobrider.commons;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.List;
 
-import net.minecraft.server.v1_7_R1.AxisAlignedBB;
-import net.minecraft.server.v1_7_R1.EntityLiving;
-import net.minecraft.server.v1_7_R1.EntityPlayer;
-
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.util.BlockIterator;
 
 public final class EntityUtils
 {
-    private static final double ONE_HALF = 0.5D;
-
     private static final EnumSet<Material> TRANSPARENT_BLOCKS = EnumSet.of(Material.AIR, Material.WATER);
 
     private static final EnumSet<EntityType> NEW_AI_MOBS = EnumSet.of(EntityType.CHICKEN, EntityType.COW, EntityType.CREEPER, EntityType.IRON_GOLEM,
@@ -75,42 +64,37 @@ public final class EntityUtils
         return entity == null || entity.getType().name() == null ? "" : entity.getType().name();
     }
 
-    public static LivingEntity getNearByTarget(Player player, int range)
+    public static LivingEntity getNearByTarget(Player player, double range)
     {
         LivingEntity livingEntity = null;
 
         if (player != null) {
-            EntityPlayer mcPlayer = ((CraftPlayer) player).getHandle();
-
-            Location loc = player.getTargetBlock(null, range).getLocation();
-            CraftWorld craftWorld = (CraftWorld) player.getWorld();
-            double x1 = loc.getX() + ONE_HALF;
-            double y1 = loc.getY() + ONE_HALF;
-            double z1 = loc.getZ() + ONE_HALF;
-
-            @SuppressWarnings("rawtypes")
-            List entities = new ArrayList();
-            double r = ONE_HALF;
-            while ((entities.size() == 0) && (r < range)) {
-                AxisAlignedBB bb = AxisAlignedBB.a(x1 - r, y1 - r, z1 - r, x1 + r, y1 + r, z1 + r);
-                entities = craftWorld.getHandle().getEntities(mcPlayer, bb);
-                r += ONE_HALF;
-            }
-
-            if ((entities.size() == 1) && ((entities.get(0) instanceof EntityLiving))) {
-                EntityLiving entity = (EntityLiving) entities.get(0);
-                livingEntity = (LivingEntity) (entity.getBukkitEntity());
-
-                List<Block> blocks = player.getLineOfSight(null, (int) player.getLocation().distance(livingEntity.getLocation()));
-                for (Block block : blocks) {
-                    if (!TRANSPARENT_BLOCKS.contains(block.getType())) {
-                        livingEntity = null;
-                    }
+            for (Entity entity : player.getNearbyEntities(range, range, range)) {
+                if (entity instanceof LivingEntity && isEntityWithinView(entity, player)) {
+                    livingEntity = (LivingEntity) entity;
+                    break;
                 }
             }
         }
 
         return livingEntity;
+    }
+
+    private static boolean isEntityWithinView(Entity entity, Player player)
+    {
+        boolean withinView = true;
+
+        double distance = player.getLocation().distance(entity.getLocation());
+        BlockIterator blocks = new BlockIterator(player, (int) distance);
+
+        while (blocks.hasNext()) {
+            if (!TRANSPARENT_BLOCKS.contains(blocks.next().getType())) {
+                withinView = false;
+                break;
+            }
+        }
+
+        return withinView;
     }
 
     public static void removeItemInHand(Player player)
