@@ -19,18 +19,14 @@
  */
 package com.edwardhand.mobrider.goals;
 
-import java.lang.reflect.Method;
-
 import net.minecraft.server.v1_7_R1.EntityCreature;
-import net.minecraft.server.v1_7_R1.Navigation;
+import net.minecraft.server.v1_7_R1.EntityEnderCrystal;
+import net.minecraft.server.v1_7_R1.EntityGhast;
+import net.minecraft.server.v1_7_R1.EntitySlime;
 import net.minecraft.server.v1_7_R1.PathEntity;
 import net.minecraft.server.v1_7_R1.PathPoint;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftCreature;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEnderDragon;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftGhast;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftSlime;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
 
@@ -105,48 +101,29 @@ public abstract class AbstractGoal implements Goal
     {
         LivingEntity ride = rider.getRide();
 
-        if (ride instanceof CraftCreature) {
-            CraftCreature creature = (CraftCreature) ride;
+        if (ride instanceof EntityCreature) {
+            EntityCreature creature = (EntityCreature) ride;
 
             if (EntityUtils.hasNewAI(ride)) {
                 Location interimLocation = getInterimLocation(ride, destination);
-                getNavigation(creature.getHandle()).a(interimLocation.getX(), interimLocation.getY(), interimLocation.getZ(), rider.getSpeed());
+                creature.getNavigation().a(interimLocation.getX(), interimLocation.getY(), interimLocation.getZ(), rider.getSpeed());
             }
             else {
-                creature.getHandle().setPathEntity(new PathEntity(new PathPoint[] { new PathPoint(destination.getBlockX(), destination.getBlockY(), destination.getBlockZ()) }));
+                creature.setPathEntity(new PathEntity(new PathPoint[] { new PathPoint(destination.getBlockX(), destination.getBlockY(), destination.getBlockZ()) }));
             }
         }
-        else if (ride instanceof CraftSlime) {
+        else if (ride instanceof EntitySlime) {
             // TODO: implement setPathEntity for slime
             LoggerUtil.getInstance().debug("setPathEntity not implemented for Slime");
         }
-        else if (ride instanceof CraftGhast) {
+        else if (ride instanceof EntityGhast) {
             // TODO: implement setPathEntity for ghast
             LoggerUtil.getInstance().debug("setPathEntity not implemented for Ghast");
         }
-        else if (ride instanceof CraftEnderDragon) {
+        else if (ride instanceof EntityEnderCrystal) {
             // TODO: implement setPathEntity for enderdragon
             LoggerUtil.getInstance().debug("setPathEntity not implemented for EnderDragon");
         }
-    }
-
-    private static Navigation getNavigation(EntityCreature entityCreature)
-    {
-        try {
-            Method m = EntityCreature.class.getMethod("getNavigation");
-            return (Navigation) m.invoke((Object) entityCreature);
-        }
-        catch (Exception e) {
-        }
-
-        try {
-            Method m = EntityCreature.class.getMethod("al");
-            return (Navigation) m.invoke((Object) entityCreature);
-        }
-        catch (Exception e) {
-        }
-
-        return null;
     }
 
     private static Location getInterimLocation(LivingEntity ride, Location destination)
