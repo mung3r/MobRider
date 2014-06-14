@@ -34,14 +34,15 @@ public final class EntityUtils
 {
     private static final EnumSet<Material> TRANSPARENT_BLOCKS = EnumSet.of(Material.AIR, Material.WATER);
 
-    private static final EnumSet<EntityType> NEW_AI_MOBS = EnumSet.of(EntityType.CHICKEN, EntityType.COW, EntityType.CREEPER, EntityType.IRON_GOLEM,
-            EntityType.MUSHROOM_COW, EntityType.OCELOT, EntityType.PIG, EntityType.SHEEP, EntityType.SKELETON, EntityType.SNOWMAN, EntityType.VILLAGER,
-            EntityType.WITCH, EntityType.WITHER, EntityType.WOLF, EntityType.ZOMBIE);
+    private static final EnumSet<EntityType> NEW_AI_MOBS = EnumSet.of(EntityType.CHICKEN, EntityType.COW, EntityType.CREEPER, EntityType.ENDER_DRAGON,
+            EntityType.ENDERMAN, EntityType.HORSE, EntityType.IRON_GOLEM, EntityType.MUSHROOM_COW, EntityType.OCELOT, EntityType.PIG, EntityType.PIG_ZOMBIE,
+            EntityType.SHEEP, EntityType.SKELETON, EntityType.SNOWMAN, EntityType.VILLAGER, EntityType.WITCH, EntityType.WITHER, EntityType.WITHER_SKULL,
+            EntityType.WOLF, EntityType.ZOMBIE);
 
     private static final EnumSet<EntityType> AGGRESSIVE_MOBS = EnumSet.of(EntityType.BLAZE, EntityType.CAVE_SPIDER, EntityType.ENDER_DRAGON,
             EntityType.ENDERMAN, EntityType.GHAST, EntityType.GIANT, EntityType.IRON_GOLEM, EntityType.MAGMA_CUBE, EntityType.OCELOT, EntityType.PIG_ZOMBIE,
             EntityType.SILVERFISH, EntityType.SKELETON, EntityType.SLIME, EntityType.SNOWMAN, EntityType.SPIDER, EntityType.WITCH, EntityType.WITHER,
-            EntityType.WOLF, EntityType.ZOMBIE);
+            EntityType.WITCH, EntityType.WOLF, EntityType.ZOMBIE);
 
     private EntityUtils()
     {

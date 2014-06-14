@@ -91,6 +91,11 @@ mobs:
         noise: 'MOOOOAAAN'
         chance: 100.0
         cost: 0.0
+    Horse:
+        speed: 0.6
+        noise: 'Neigh'
+        chance: 100.0
+        cost: 0.0
     LavaSlime:
         speed: 0.2
         noise: 'Glub'
