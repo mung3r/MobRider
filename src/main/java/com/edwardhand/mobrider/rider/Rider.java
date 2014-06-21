@@ -21,11 +21,11 @@ package com.edwardhand.mobrider.rider;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftCreature;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEnderDragon;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftGhast;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_7_R1.entity.CraftSlime;
+import org.bukkit.craftbukkit.v1_7_R3.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_7_R3.entity.CraftEnderDragon;
+import org.bukkit.craftbukkit.v1_7_R3.entity.CraftGhast;
+import org.bukkit.craftbukkit.v1_7_R3.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_7_R3.entity.CraftSlime;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;

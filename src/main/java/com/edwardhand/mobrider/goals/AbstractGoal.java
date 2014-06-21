@@ -19,12 +19,12 @@
  */
 package com.edwardhand.mobrider.goals;
 
-import net.minecraft.server.v1_7_R1.EntityCreature;
-import net.minecraft.server.v1_7_R1.EntityEnderCrystal;
-import net.minecraft.server.v1_7_R1.EntityGhast;
-import net.minecraft.server.v1_7_R1.EntitySlime;
-import net.minecraft.server.v1_7_R1.PathEntity;
-import net.minecraft.server.v1_7_R1.PathPoint;
+import net.minecraft.server.v1_7_R3.EntityCreature;
+import net.minecraft.server.v1_7_R3.EntityEnderCrystal;
+import net.minecraft.server.v1_7_R3.EntityGhast;
+import net.minecraft.server.v1_7_R3.EntitySlime;
+import net.minecraft.server.v1_7_R3.PathEntity;
+import net.minecraft.server.v1_7_R3.PathPoint;
 
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
