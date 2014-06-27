@@ -27,9 +27,9 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.Plugin;
 
 import com.edwardhand.mobrider.commons.LoggerUtil;
-import com.edwardhand.mobrider.mcstats.Metrics;
-import com.edwardhand.mobrider.mcstats.Metrics.Graph;
-import com.edwardhand.mobrider.mcstats.Metrics.Plotter;
+import org.mcstats.Metrics;
+import org.mcstats.Metrics.Graph;
+import org.mcstats.Metrics.Plotter;
 
 public class RideMetrics
 {
