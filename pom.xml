@@ -60,6 +60,10 @@
       <id>Plugin Metrics</id>
       <url>http://repo.mcstats.org/content/repositories/public</url>
     </repository>
+    <repository>
+      <id>citizens-repo</id>
+      <url>http://ci.citizensnpcs.co/plugin/repository/everything</url>
+    </repository>
   </repositories>
 
   <dependencies>
@@ -98,6 +102,12 @@
       <artifactId>metrics</artifactId>
       <version>R6</version>
     </dependency>
+    <dependency>
+      <groupId>net.citizensnpcs</groupId>
+      <artifactId>citizensapi</artifactId>
+      <version>2.0.13-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
 
     <dependency>
       <groupId>net.citizensnpcs.Citizens</groupId>
@@ -105,13 +115,6 @@
       <version>1.2</version>
       <scope>system</scope>
       <systemPath>${project.basedir}/lib/Citizens.jar</systemPath>
-    </dependency>
-    <dependency>
-      <groupId>net.citizensnpcs.Citizens</groupId>
-      <artifactId>Citizens2</artifactId>
-      <version>2.0-SNAPSHOT</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/citizens-2.0-SNAPSHOT.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>com.bekvon.bukkit.residence</groupId>
