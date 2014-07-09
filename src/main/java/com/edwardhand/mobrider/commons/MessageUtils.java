@@ -48,7 +48,7 @@ public final class MessageUtils
 
     private static String getHealthString(Rider rider)
     {
-        double percentHealth = (rider.getHealth() * 100) / (double) rider.getMaxHealth();
+        double percentHealth = (rider.getHealth() * 100) / rider.getMaxHealth();
 
         ChatColor barColor;
 

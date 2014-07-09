@@ -64,7 +64,7 @@ public class SpawnEggTask implements Runnable
                 ticks++;
             }
             else {
-                target.getWorld().dropItemNaturally(target.getLocation(), getSpawnEgg((LivingEntity) target));
+                target.getWorld().dropItemNaturally(target.getLocation(), getSpawnEgg(target));
                 target.remove();
                 Bukkit.getScheduler().cancelTask(taskId);
             }

@@ -5,7 +5,6 @@ MobRider - Finally a proper use for saddles!
 
 * Use saddles to ride any mob, animal and even players
 * Control mobs/animals by use of a whip (fishing rod - configurable)
-* Control mobs using arrows keys in Spoutcraft with Spout enabled servers
 * Command mobs to move, attack and stop using simple chat commands
 * Command mobs to goto the following destinations
     * Local players and mobs

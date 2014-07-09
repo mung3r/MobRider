@@ -148,7 +148,7 @@ public class RiderManager implements Runnable
         boolean hasSpawnEgg = false;
 
         if (entity instanceof LivingEntity) {
-            EntityType type = ((LivingEntity) entity).getType();
+            EntityType type = entity.getType();
             switch (type) {
                 case ENDER_DRAGON:
                 case GIANT:
@@ -253,7 +253,7 @@ public class RiderManager implements Runnable
 
     private static boolean isWinner(Player player, Entity entity)
     {
-        boolean isWinner = RideType.fromType(entity.getType()) != null ? random.nextDouble() * 100D < RideType.fromType(entity.getType()).getChance() : true;
+        boolean isWinner = RideType.fromType(entity.getType()) == null || random.nextDouble() * 100D < RideType.fromType(entity.getType()).getChance();
 
         if (!isWinner && player != null) {
             player.sendMessage("You have bad luck trying to ride that creature.");

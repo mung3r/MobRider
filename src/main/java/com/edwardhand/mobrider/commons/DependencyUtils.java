@@ -47,7 +47,6 @@ public final class DependencyUtils
     private static Towny townyPlugin;
     private static Plugin factionsPlugin;
     private static Citizens citizensPlugin;
-    private static Plugin spoutPlugin;
 
     private static Permission permission;
     private static Economy economy;
@@ -70,7 +69,6 @@ public final class DependencyUtils
         citizensPlugin = (Citizens) getPlugin("Citizens", "net.citizensnpcs.Citizens");
         townyPlugin = (Towny) getPlugin("Towny", "com.palmergames.bukkit.towny.Towny");
         factionsPlugin = getPlugin("Factions", "com.massivecraft.factions.P");
-        spoutPlugin = getPlugin("Spout", "org.getspout.spout.Spout");
 
         Plugin regiosPlugin = getPlugin("Regios", "net.jzx7.regiosapi.RegiosAPI");
         if (regiosPlugin != null) {
@@ -209,11 +207,6 @@ public final class DependencyUtils
     public static DestinationFactory getMVDestinationFactory()
     {
         return destinationFactory;
-    }
-
-    public static boolean hasSpout()
-    {
-        return spoutPlugin != null;
     }
 
     public static boolean hasTowny()
