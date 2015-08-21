@@ -24,7 +24,6 @@ import com.edwardhand.mobrider.goals.FactionGoal;
 import com.edwardhand.mobrider.rider.Rider;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
-import com.massivecraft.factions.entity.FactionColls;
 
 public class FactionSearchStrategy extends AbstractLocationSearchStrategy
 {
@@ -34,12 +33,10 @@ public class FactionSearchStrategy extends AbstractLocationSearchStrategy
         boolean foundFaction = false;
 
         if (DependencyUtils.hasFactions()) {
-            for (FactionColl coll : FactionColls.get().getColls()) {
-                Faction faction = coll.getByName(factionTag);
-                if (faction != null) {
-                    rider.setGoal(new FactionGoal(faction));
-                    foundFaction = true;
-                }
+            Faction faction = FactionColl.get().getByName(factionTag);
+            if (faction != null) {
+                rider.setGoal(new FactionGoal(faction));
+                foundFaction = true;
             }
         }
 
