@@ -1,7 +1,7 @@
 /*
  * This file is part of MobRider.
  *
- * Copyright (c) 2011-2013, R. Ramos <http://github.com/mung3r/>
+ * Copyright (c) 2011-2015, R. Ramos <http://github.com/mung3r/>
  * MobRider is licensed under the GNU Lesser General Public License.
  *
  * MobRider is free software: you can redistribute it and/or modify
