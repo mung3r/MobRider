@@ -44,6 +44,10 @@
       <id>public</id>
       <url>http://nexus.bighatchet.com/content/groups/public/</url>
     </repository>
+    <repository>	
+      <id>citizens-repo</id>
+      <url>http://ci.citizensnpcs.co/plugin/repository/everything</url>
+    </repository>
   </repositories>
 
   <distributionManagement>
