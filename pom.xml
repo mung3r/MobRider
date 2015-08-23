@@ -19,7 +19,7 @@
     <currentYear>2015</currentYear>
     <bukkit.version>1.7.9-R0.2</bukkit.version>
     <vault.version>1.4.1</vault.version>
-    <worldguard.version>6.0.0-SNAPSHOT</worldguard.version>
+    <worldguard.version>6.0.0-beta-02</worldguard.version>
     <multiverse.version>2.5</multiverse.version>
   </properties>
 
@@ -95,7 +95,7 @@
     <dependency>
       <groupId>org.mcstats</groupId>
       <artifactId>metrics</artifactId>
-      <version>R6</version>
+      <version>1.2-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>net.citizensnpcs</groupId>
