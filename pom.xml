@@ -18,8 +18,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <currentYear>2015</currentYear>
     <bukkit.version>1.7.9-R0.2</bukkit.version>
-    <vault.version>1.4.1</vault.version>
-    <worldguard.version>6.0.0-beta-02</worldguard.version>
+    <vault.version>1.5</vault.version>
+    <worldguard.version>6.0.0-SNAPSHOT</worldguard.version>
     <multiverse.version>2.5</multiverse.version>
   </properties>
 
@@ -36,13 +36,13 @@
 
   <ciManagement>
     <system>jenkins</system>
-    <url>http://ci.bighatchet.com/job/MobRider/</url>
+    <url>https://ci.bighatchet.com/job/MobRider/</url>
   </ciManagement>
 
   <repositories>
     <repository>
       <id>public</id>
-      <url>http://nexus.bighatchet.com/content/groups/public/</url>
+      <url>https://nexus.bighatchet.com/content/groups/public/</url>
     </repository>
     <repository>	
       <id>citizens-repo</id>
@@ -53,11 +53,11 @@
   <distributionManagement>
     <repository>
       <id>releases</id>
-      <url>http://nexus.bighatchet.com/content/repositories/releases/</url>
+      <url>https://nexus.bighatchet.com/content/repositories/releases/</url>
     </repository>
     <snapshotRepository>
       <id>snapshots</id>
-      <url>http://nexus.bighatchet.com/content/repositories/snapshots/</url>
+      <url>https://nexus.bighatchet.com/content/repositories/snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
 
