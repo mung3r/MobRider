@@ -42,7 +42,7 @@
   <repositories>
     <repository>
       <id>public</id>
-      <url>https://nexus.bighatchet.com/content/groups/public/</url>
+      <url>http://nexus.bighatchet.com/content/groups/public/</url>
     </repository>
     <repository>	
       <id>citizens-repo</id>
@@ -95,7 +95,13 @@
     <dependency>
       <groupId>org.mcstats</groupId>
       <artifactId>metrics</artifactId>
-      <version>1.2-SNAPSHOT</version>
+      <version>R6</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.bukkit</groupId>
+          <artifactId>bukkit</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>net.citizensnpcs</groupId>
